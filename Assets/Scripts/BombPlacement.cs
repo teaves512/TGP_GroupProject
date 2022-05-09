@@ -5,8 +5,8 @@ using UnityEngine;
 public class BombPlacement : MonoBehaviour
 {
     //Variables
-    [SerializeField] [Range(0.0f, 10.0f)] private float m_rayDistance;
-    [SerializeField] [Range(-1.0f, 1.0f)] private float m_bombOffset;
+    [SerializeField] [Range(0.0f, 10.0f)] private float m_rayDistance = 1.25f;
+    [SerializeField] [Range(-1.0f, 1.0f)] private float m_bombOffset =0.02f;
     [SerializeField] private GameObject m_bomb;
     [SerializeField] private string m_bombKey;
     private GameObject m_player;

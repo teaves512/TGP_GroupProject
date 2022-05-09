@@ -31,18 +31,20 @@ public class BasicBombBehaviour : MonoBehaviour
         Debug.Log("boom");
         //check if this is destructable
         RaycastHit hit;
+        m_ExplosionParticleEffect.Play();
+        m_BombVisual.SetActive(false);
+
         Debug.DrawRay(transform.position, transform.forward, Color.red);
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ~m_LayerMask))
         {
             Debug.DrawRay(hit.transform.position, transform.forward, Color.red);
-
-            m_ExplosionParticleEffect.Play();
-            m_BombVisual.SetActive(false);
             yield return new WaitForSeconds(m_DestroyDelay);
             Destroy(hit.collider.gameObject);
-            yield return new WaitForSeconds(m_SelfDestroyDelay);
-            Destroy(m_BombPrefab);
+
         }
+
+        yield return new WaitForSeconds(m_SelfDestroyDelay);
+        Destroy(m_BombPrefab);
         yield return null;
     }
   
