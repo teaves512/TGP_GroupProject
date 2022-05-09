@@ -117,6 +117,7 @@ MonoBehaviour:
   m_LayerMask: 0
   m_DestroyDelay: 0
   m_SelfDestroyDelay: 0
+  m_Damage: 10
 --- !u!1 &2524501161325765489
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +199,7 @@ MonoBehaviour:
   m_LayerMask: 6
   m_DestroyDelay: 0.3
   m_SelfDestroyDelay: 0.6
+  m_Damage: 5
 --- !u!1001 &8211392702769427959
 PrefabInstance:
   m_ObjectHideFlags: 0

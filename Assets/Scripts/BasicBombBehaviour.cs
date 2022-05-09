@@ -11,6 +11,7 @@ public class BasicBombBehaviour : MonoBehaviour
     [SerializeField] private int m_LayerMask;
     [SerializeField][Range(0f,1f)] private float m_DestroyDelay;
     [SerializeField] [Range(0f, 1f)] private float m_SelfDestroyDelay;
+    [SerializeField] private float m_Damage = 10.0f;
 
 
     void Start()
@@ -39,7 +40,8 @@ public class BasicBombBehaviour : MonoBehaviour
         {
             Debug.DrawRay(hit.transform.position, transform.forward, Color.red);
             yield return new WaitForSeconds(m_DestroyDelay);
-            Destroy(hit.collider.gameObject);
+            hit.collider.gameObject.GetComponent<Destructable>().TakeDamage(m_Damage);
+            hit.collider.tag = "Placeable";
 
         }
 
