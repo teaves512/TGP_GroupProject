@@ -30,7 +30,7 @@ public class TremorBombBehaviour : MonoBehaviour
 
     void Explode()
 	{
-		hitColliders = Physics.OverlapBox(transform.position, gameObject.GetComponent<Collider>().transform.localScale*2 , transform.localRotation);
+		hitColliders = Physics.OverlapBox(transform.position,new Vector3 (gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z) , transform.localRotation);
 
 		foreach (Collider nearbyOject in hitColliders)
 		{
@@ -49,7 +49,7 @@ public class TremorBombBehaviour : MonoBehaviour
     {
 		if (m_Started)
 		{
-			Gizmos.DrawWireCube(transform.position, gameObject.GetComponent<Collider>().transform.localScale*4);
+			Gizmos.DrawWireCube(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 4, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z));
 		}
     }
 }
