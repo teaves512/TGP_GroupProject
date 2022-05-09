@@ -5,13 +5,16 @@ using UnityEngine;
 public class BasicBombBehaviour : MonoBehaviour
 {
 
-    private GameObject m_BombPrefab;
+    [SerializeField]private GameObject m_BombPrefab;
+    [SerializeField] private GameObject m_BombVisual;
     [SerializeField] private ParticleSystem m_ExplosionParticleEffect;
+    [SerializeField] private int m_LayerMask;
+    [SerializeField][Range(0f,1f)] private float m_DestroyDelay;
+    [SerializeField] [Range(0f, 1f)] private float m_SelfDestroyDelay;
 
 
     void Start()
     {
-        m_BombPrefab = gameObject; 
     }
 
 
@@ -19,21 +22,28 @@ public class BasicBombBehaviour : MonoBehaviour
     {
         if(Input.GetKeyDown("k"))
         {
-            Explode();
+            StartCoroutine(Explode());
         }
     }
 
-    private void Explode()
+    IEnumerator Explode()
     {
         Debug.Log("boom");
         //check if this is destructable
         RaycastHit hit;
-        if(Physics.Raycast(transform.position,-transform.forward,out hit, 2.0f,6))
+        Debug.DrawRay(transform.position, transform.forward, Color.red);
+        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity, ~m_LayerMask))
         {
-            Debug.DrawRay(hit.transform.position, -transform.forward,Color.red);
+            Debug.DrawRay(hit.transform.position, transform.forward, Color.red);
+
+            m_ExplosionParticleEffect.Play();
+            m_BombVisual.SetActive(false);
+            yield return new WaitForSeconds(m_DestroyDelay);
             Destroy(hit.collider.gameObject);
+            yield return new WaitForSeconds(m_SelfDestroyDelay);
+            Destroy(m_BombPrefab);
         }
-        //play default explosion particle effect
-        m_ExplosionParticleEffect.Play();
+        yield return null;
     }
+  
 }
