@@ -190,7 +190,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh100852
+  m_Name: pb_Mesh92096
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -425,6 +425,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1469453410559330, guid: 8c1c8144052b2094fb8fc5150fe867f5, type: 3}
+      propertyPath: m_TagString
+      value: Placeable
+      objectReference: {fileID: 0}
     - target: {fileID: 4029257239358684, guid: 8c1c8144052b2094fb8fc5150fe867f5, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -475,6 +479,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4029257239358684, guid: 8c1c8144052b2094fb8fc5150fe867f5, type: 3}
   m_PrefabInstance: {fileID: 936245735}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1116313906 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5344994851480803743, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
+  m_PrefabInstance: {fileID: 143143013781294253}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1126062021
 GameObject:
@@ -565,6 +574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1594141862}
   - component: {fileID: 1594141863}
+  - component: {fileID: 1594141864}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -608,6 +618,22 @@ MonoBehaviour:
   m_RotationLeft: {x: 0, y: 270, z: 0}
   m_RotationRight: {x: 0, y: 90, z: 0}
   m_Model: {fileID: 2140024755}
+--- !u!114 &1594141864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594141861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6317533a4dbc99246ab810717316f0f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_rayDistance: 0.3
+  m_bombOffset: -0
+  m_bomb: {fileID: 1116313906}
+  m_bombKey: space
 --- !u!1001 &1717876796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -629,11 +655,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8719733447199153881, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.209697
+      value: -215.6
       objectReference: {fileID: 0}
     - target: {fileID: 8719733447199153881, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2243456
+      value: 1008.4
       objectReference: {fileID: 0}
     - target: {fileID: 8719733447199153881, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
       propertyPath: m_LocalRotation.w
