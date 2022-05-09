@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563c43d888a827e45a70d460d3b9641c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Damage: 0
+  m_Damage: 5
   m_DamageDropOff: 0
   hitColliders: []
   m_LayerMask: 6
@@ -209,7 +209,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12, y: 0.2, z: 0.5}
+  m_Size: {x: 6, y: 6, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &8211392702769427959
 PrefabInstance:

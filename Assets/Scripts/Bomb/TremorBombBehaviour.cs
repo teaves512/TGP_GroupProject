@@ -1,3 +1,5 @@
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +11,11 @@ public class TremorBombBehaviour : MonoBehaviour
 	[SerializeField] private float m_DamageDropOff;
 	[SerializeField] private Collider[] hitColliders ;
 	[SerializeField] private int m_LayerMask;
+	private bool m_Started;
 	// Start is called before the first frame update
 	void Start()
     {
-        
+		m_Started = true;
     }
 
     // Update is called once per frame
@@ -22,22 +25,15 @@ public class TremorBombBehaviour : MonoBehaviour
 		{
 			Explode();
 		}
+
     }
-	private void OnTriggerStay(Collider other)
+
+    void Explode()
 	{
-		//if(!m_Colliders.Contains(other))
-		//{
-		//	m_Colliders.Add(other);
-		//}
-	}
-	
-	void Explode()
-	{
-		hitColliders = Physics.OverlapBox(transform.position, transform.localScale , transform.localRotation);
+		hitColliders = Physics.OverlapBox(transform.position, gameObject.GetComponent<Collider>().transform.localScale*2 , transform.localRotation);
 
 		foreach (Collider nearbyOject in hitColliders)
 		{
-
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
 			
@@ -46,6 +42,14 @@ public class TremorBombBehaviour : MonoBehaviour
 
 	private float GetDamage(float distanceTo)
 	{
-		return 1 / distanceTo;
+		return m_Damage / distanceTo;
 	}
+
+    private void OnDrawGizmos()
+    {
+		if (m_Started)
+		{
+			Gizmos.DrawWireCube(transform.position, gameObject.GetComponent<Collider>().transform.localScale*4);
+		}
+    }
 }
