@@ -5,13 +5,13 @@ using UnityEngine;
 public class BasicBombBehaviour : MonoBehaviour
 {
 
-    [SerializeField] private GameObject m_BombPrefab;
+    private GameObject m_BombPrefab;
     [SerializeField] private ParticleSystem m_ExplosionParticleEffect;
 
 
     void Start()
     {
-        
+        m_BombPrefab = gameObject; 
     }
 
 
@@ -25,7 +25,7 @@ public class BasicBombBehaviour : MonoBehaviour
 
     private void Explode()
     {
-
+        Debug.Log("boom");
         //check if this is destructable
         RaycastHit hit;
         if(Physics.Raycast(transform.position,-transform.forward,out hit, 2.0f,6))
