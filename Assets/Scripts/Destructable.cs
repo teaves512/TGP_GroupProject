@@ -4,38 +4,48 @@ using UnityEngine;
 
 public class Destructable : MonoBehaviour
 {
-    [SerializeField] private float m_Health = 10.0f;
-    [SerializeField] private Texture m_MainTexture;
-    private Material m_mat;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private float m_MaxHealth = 10.0f;
+	[SerializeField] private float m_Health;
+    [SerializeField] private Material m_Material;
+    [SerializeField] private ParticleSystem m_DeathEffect;
+	[SerializeField] private float m_DamageTime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	//check here later -> https://thomasmountainborn.com/2016/05/25/materialpropertyblocks/
 
-    public void TakeDamage(float damage)
+	private void Start()
+	{
+		m_Health = m_MaxHealth;
+		m_Material = GetComponent<Renderer>()?.material;
+	}
+
+	public void TakeDamage(float damage)
     {
         Debug.Log(gameObject.name + " says ouch");
-        m_Health -= damage;
 
-        //transform.GetComponent<Renderer>().material.SetColor("_BaseMap", Color.red);
-        m_mat = transform.GetComponent<Renderer>().material;
-        m_mat.SetColor("_BaseMap", Color.red);
-        transform.GetComponent<Renderer>().material = m_mat;
-        if (m_Health<=0)
+		m_Health -= damage;
+		StartCoroutine(ApplyDamageToMat(damage));
+
+		if (m_Health<=0)
         {
-            Death();
+            StartCoroutine(Death());
         }
     }
 
-    private void Death()
+	private IEnumerator ApplyDamageToMat(float damage)
+	{
+
+		m_Material?.SetFloat("DamageRatio", 1-(m_Health / m_MaxHealth));
+		
+		yield return null;
+	}
+    IEnumerator Death()
     {
+        if(m_DeathEffect!=null)
+            m_DeathEffect.Play();
+        yield return new WaitForSeconds(0.2f);
         Destroy(gameObject);
+        yield return null;
     }
+
+
 }
