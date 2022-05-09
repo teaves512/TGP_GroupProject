@@ -665,7 +665,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh103656
+  m_Name: pb_Mesh98170
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1098,6 +1098,7 @@ GameObject:
   - component: {fileID: 2042963255}
   - component: {fileID: 2042963254}
   - component: {fileID: 2042963256}
+  - component: {fileID: 2042963257}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1157,3 +1158,19 @@ MonoBehaviour:
   m_bombOffset: 0.02
   m_bomb: {fileID: 5344994851480803743, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
   m_bombKey: q
+--- !u!114 &2042963257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2042963253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: affccea43747802429d48dabdb22f3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_throwable: {fileID: 5344994851480803743, guid: beead9b144da68249b7ad46c93729c50, type: 3}
+  m_player: {fileID: 0}
+  m_maxForce: 1
+  m_thrust: 0
