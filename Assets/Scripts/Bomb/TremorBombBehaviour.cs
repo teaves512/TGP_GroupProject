@@ -4,31 +4,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TremorBombBehaviour : MonoBehaviour
+public class TremorBombBehaviour : MainBombBehaviour
 {
 	[Header("Damage")]
-	[SerializeField] private float m_Damage;
-	[SerializeField] private float m_DamageDropOff;
 	[SerializeField] private Collider[] hitColliders ;
-	[SerializeField] private int m_LayerMask;
 	private bool m_Started;
 	// Start is called before the first frame update
-	void Start()
+	protected override void Start()
     {
 		m_Started = true;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if(Input.GetKeyDown("l"))
 		{
-			Explode();
+			StartCoroutine(Explode());
 		}
 
     }
 
-    void Explode()
+    protected override IEnumerator Explode()
 	{
 		hitColliders = Physics.OverlapBox(transform.position,new Vector3 (gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z) , transform.localRotation);
 
@@ -36,8 +33,10 @@ public class TremorBombBehaviour : MonoBehaviour
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
-			
+			nearbyOject.tag = "Placeable";
 		}
+		StartCoroutine(base.Explode());
+		yield return null;
 	}
 
 	private float GetDamage(float distanceTo)
