@@ -38,11 +38,11 @@ public class Destructable : MonoBehaviour
 		
 		yield return null;
 	}
-    IEnumerator Death()
+    private IEnumerator Death()
     {
         if(m_DeathEffect!=null)
             m_DeathEffect.Play();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         Destroy(gameObject);
         yield return null;
     }
