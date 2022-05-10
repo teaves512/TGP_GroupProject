@@ -22,7 +22,7 @@ public class TremorBombBehaviour : MainBombBehaviour
 		{
 			StartCoroutine(Explode());
 		}
-		if (m_Timer < 0 && !m_Exploded)
+		if (m_Explode && !m_Exploded)
 		{
 
 			StartCoroutine(Explode());
