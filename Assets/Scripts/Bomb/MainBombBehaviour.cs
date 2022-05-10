@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainBombBehaviour : MonoBehaviour
 {
-    [SerializeField] protected float m_Damage;
+
     [Header("Self Info")]
     [SerializeField] protected GameObject m_BombPrefab;
     [SerializeField] protected GameObject m_BombVisual;
@@ -13,6 +13,11 @@ public class MainBombBehaviour : MonoBehaviour
     [SerializeField] protected int m_LayerMask;
     [SerializeField] [Range(0f, 1f)] protected float m_DestroyDelay;
     [SerializeField] [Range(0f, 1f)] protected float m_SelfDestroyDelay;
+    [Header("Bomb stats")]
+    [SerializeField] protected float m_Damage;
+    [SerializeField] protected bool m_TimerEnabled;
+    [HideInInspector] protected bool m_Exploded;
+    [SerializeField] protected float m_Timer;
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -22,7 +27,10 @@ public class MainBombBehaviour : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        
+        if(m_TimerEnabled)
+        {
+            Timer();
+        }
     }
 
     protected virtual IEnumerator Explode()
@@ -33,5 +41,10 @@ public class MainBombBehaviour : MonoBehaviour
         yield return new WaitForSeconds(m_SelfDestroyDelay);
         Destroy(m_BombPrefab);
         yield return null;
+    }
+
+    private void Timer()
+    {
+        m_Timer -= Time.deltaTime;
     }
 }

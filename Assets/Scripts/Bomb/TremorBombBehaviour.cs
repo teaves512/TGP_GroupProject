@@ -22,8 +22,14 @@ public class TremorBombBehaviour : MainBombBehaviour
 		{
 			StartCoroutine(Explode());
 		}
+		if (m_Timer < 0 && !m_Exploded)
+		{
 
-    }
+			StartCoroutine(Explode());
+		}
+
+		base.Update();
+	}
 
     protected override IEnumerator Explode()
 	{
