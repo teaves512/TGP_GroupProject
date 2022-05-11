@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -62,14 +63,15 @@ public class PlayerController : MonoBehaviour
     {
         m_CurrentMovementSpeed = 0.0f;
 
-        m_InIdle  = true;
-        m_Walking = false;
-        m_Running = false;
-        m_Dead    = false;
+        m_InIdle             = true;
+        m_Walking            = false;
+        m_Running            = false;
+        m_Dead               = false;
         m_PlacingBombOnFloor = false;
         m_PlacingBombOnWall  = false;
         m_ShootingGun        = false;
         m_ThrowingBomb       = false;
+        m_ClimbingLadder     = false;
     }
 
     // ------------------------------------------------------------------
@@ -77,72 +79,113 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    // ------------------------------------------------------------------
-
-    public void Move(Vector2 direction)
-    {
-        // Check which direction we are wanting to go and apply a force in that direction
+        // See if we are going to be climbing a ladder
         if(m_ClimbingLadder)
         {
-            // If climbing the ladder then check to see if the direction being pressed aligns with the ladder's position
 
         }
         else
         {
-            if(gameObject.GetComponent<Rigidbody>())
-                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(direction.x, 0.0f, direction.y) * Time.deltaTime * m_CurrentMovementSpeed, ForceMode.Force);
+            if (gameObject.GetComponent<Rigidbody>())
+            {
+                Vector2 movementForce = movementDirection * Time.deltaTime * m_CurrentMovementSpeed;
+                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movementForce.x, 0.0f, movementForce.y), ForceMode.Force);
+            }
+        }
+
+    }
+
+    // ------------------------------------------------------------------
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            movementDirection = context.ReadValue<Vector2>();
+
+            if (m_InIdle)
+            {
+                m_Walking              = true;
+                m_CurrentMovementSpeed = m_WalkMovementSpeed;
+            }
+        }
+        else if(context.phase == InputActionPhase.Canceled)
+        {
+            // Going back into idle
+            if (m_Walking)
+            {
+                m_CurrentMovementSpeed = 0.0f;
+                m_InIdle               = true;
+            }
+
+            movementDirection -= context.ReadValue<Vector2>();
         }
     }
 
     // ------------------------------------------------------------------
 
     // If active is true then we are shooting the gun, if false then we are going from shooting to not shooting
-    public void ShootGun(bool active)
+    public void ShootGun(InputAction.CallbackContext context)
     {
         if (m_ClimbingLadder)
             return;
 
-        m_ShootingGun = active;
+        if(context.phase == InputActionPhase.Performed)
+            m_ShootingGun = true;
+        else if(context.phase == InputActionPhase.Canceled)
+            m_ShootingGun = false; 
     }
 
     // ------------------------------------------------------------------
 
-    public void SetRunning(bool active)
+    public void SetRunning(InputAction.CallbackContext context)
     {
+        // Ignore if climbing ladder
         if (m_ClimbingLadder)
             return;
 
-        if(active)
+        if (context.phase == InputActionPhase.Performed)
         {
             m_Running              = true;
             m_Crouching            = false;
             m_CurrentMovementSpeed = m_RunMovementSpeed;
             m_InIdle               = false;
         }
-        else
+        else if(context.phase == InputActionPhase.Canceled)
         {
-            m_CurrentMovementSpeed = m_WalkMovementSpeed;
-            m_Running              = false;
+            if (m_Walking || m_Running)
+            {
+                m_CurrentMovementSpeed = m_WalkMovementSpeed;
+                m_Running              = false;
+            }
+            else
+            {
+                m_InIdle               = true;
+                m_CurrentMovementSpeed = 0.0f;
+            }
         }
     }
 
     // ------------------------------------------------------------------
 
-    public void SetCrouching(bool active)
+    public void SetCrouching(InputAction.CallbackContext context)
     {
         if (m_ClimbingLadder)
             return;
 
-        m_Crouching = active;
-
-        m_CurrentMovementSpeed = m_CrouchMovementSpeed;
-
-        m_Running = false;
-        m_Walking = false;
-        m_InIdle  = false;
+        if (context.phase == InputActionPhase.Performed)
+        {
+            m_Crouching = true;
+            m_CurrentMovementSpeed = m_CrouchMovementSpeed;
+            m_Running = false;
+            m_Walking = false;
+            m_InIdle = false;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            m_Crouching = false;
+            m_InIdle    = true;
+        }
     }
 
     // ------------------------------------------------------------------
