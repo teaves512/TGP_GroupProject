@@ -859,6 +859,14 @@ PrefabInstance:
       propertyPath: m_StartWaypoint
       value: 
       objectReference: {fileID: 1140004782}
+    - target: {fileID: 8752005653601954369, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
+      propertyPath: m_MaximumWaitTimeAtWaypoint
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752005653601954369, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
+      propertyPath: m_MinimumWaitTimeAtWaypoint
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
 --- !u!4 &73253119 stripped
@@ -9258,6 +9266,14 @@ PrefabInstance:
       propertyPath: m_StartWaypoint
       value: 
       objectReference: {fileID: 835347860}
+    - target: {fileID: 8752005653601954369, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
+      propertyPath: m_MaximumWaitTimeAtWaypoint
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752005653601954369, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
+      propertyPath: m_MinimumWaitTimeAtWaypoint
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
 --- !u!1001 &1027779767
