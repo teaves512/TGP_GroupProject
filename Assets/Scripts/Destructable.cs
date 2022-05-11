@@ -11,6 +11,9 @@ public class Destructable : MonoBehaviour
     [SerializeField] private float m_RegenRate = 0.01f;
     [SerializeField] private Material m_Material;
     [SerializeField] private ParticleSystem m_DeathEffect;
+    [SerializeField] private bool m_Explosive;
+	[HideInInspector] private bool m_Exploded = false;
+	[SerializeField] private float m_Damage;
 
 	//check here later -> https://thomasmountainborn.com/2016/05/25/materialpropertyblocks/
 
@@ -35,15 +38,16 @@ public class Destructable : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log(gameObject.name + " says ouch");
-
 		m_Health -= damage;
-		StartCoroutine(ApplyDamageToMat());
 
 		if (m_Health<=0)
         {
             StartCoroutine(Death());
         }
+		else
+        {
+			StartCoroutine(ApplyDamageToMat());
+		}
     }
 
 	private IEnumerator ApplyDamageToMat()
@@ -60,12 +64,42 @@ public class Destructable : MonoBehaviour
     }
     private IEnumerator Death()
     {
-        if(m_DeathEffect!=null)
-            m_DeathEffect.Play();
-        yield return new WaitForSeconds(0.3f);
+		if(m_Explosive)
+        {
+			if(!m_Exploded)
+				Explode();
+        }
+		if (m_DeathEffect != null)
+			m_DeathEffect.Play();
+		yield return new WaitForSeconds(0.3f);
         Destroy(gameObject);
         yield return null;
     }
 
+	private void Explode() //same as area effect
+	{
+		m_Exploded = true;
+		Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z * 2), transform.localRotation);
+
+		foreach (Collider nearbyOject in hitColliders)
+		{
+			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
+			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			if (destructableScript != null)
+			{
+				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				nearbyOject.tag = "Placeable";
+			}
+			else if (enemyHealthScript != null)
+			{
+
+				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+			}
+		}
+	}
+	private float GetDamage(float distanceTo)
+	{
+		return m_Damage / distanceTo;
+	}
 
 }

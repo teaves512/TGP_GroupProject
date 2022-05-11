@@ -22,9 +22,8 @@ public class AreaBombBehaviour : MainBombBehaviour
 		{
 			StartCoroutine(Explode());
 		}
-		if (m_Explode && !m_Exploded)
+		if (m_Timer < 0 && !m_Exploded)
 		{
-
 			StartCoroutine(Explode());
 		}
 
@@ -38,8 +37,17 @@ public class AreaBombBehaviour : MainBombBehaviour
 		foreach (Collider nearbyOject in hitColliders)
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
-			destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
-			nearbyOject.tag = "Placeable";
+			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			if (destructableScript!=null)
+            {
+				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				nearbyOject.tag = "Placeable";
+			}
+			else if(enemyHealthScript!=null)
+			{
+				
+				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+            }
 		}
 		StartCoroutine(base.Explode());
 		yield return null;

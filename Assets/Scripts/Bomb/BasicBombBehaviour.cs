@@ -10,10 +10,8 @@ public class BasicBombBehaviour : MainBombBehaviour
         {
             StartCoroutine(Explode());
         }
-  
         if(m_Timer<0 && !m_Exploded)
-        {
-
+        { 
             StartCoroutine(Explode());
         }
         

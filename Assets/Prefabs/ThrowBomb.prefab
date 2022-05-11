@@ -115,7 +115,7 @@ MonoBehaviour:
   m_BombVisual: {fileID: 0}
   m_ExplosionParticleEffect: {fileID: 198349147568493502, guid: 585a1ef8c48a0cf4f97332139e4344de, type: 3}
   m_RedFlash: {fileID: 0}
-  m_RedFlashRate: 0
+  m_MaxRedFlashRate: 0
   m_LayerMask: 0
   m_DestroyDelay: 0
   m_SelfDestroyDelay: 0
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_BombVisual: {fileID: 142247124656941645}
   m_ExplosionParticleEffect: {fileID: 8301607879076417041}
   m_RedFlash: {fileID: 3465436921756107773}
-  m_RedFlashRate: 1
+  m_MaxRedFlashRate: 0.8
   m_LayerMask: 6
   m_DestroyDelay: 0.3
   m_SelfDestroyDelay: 0.6

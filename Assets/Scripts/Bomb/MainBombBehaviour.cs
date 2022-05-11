@@ -10,8 +10,8 @@ public class MainBombBehaviour : MonoBehaviour
     [SerializeField] protected GameObject m_BombVisual;
     [SerializeField] protected ParticleSystem m_ExplosionParticleEffect;
     [SerializeField] private Light m_RedFlash;
-    [SerializeField] private float m_RedFlashRate;
-    [HideInInspector] private float m_MaxRedFlashRate;
+    [HideInInspector] private float m_RedFlashRate;
+    [SerializeField] private float m_MaxRedFlashRate;
     [HideInInspector] private bool m_RedFlashActive = true;
     [Header("Stats")]
     [SerializeField] protected int m_LayerMask;
@@ -26,7 +26,7 @@ public class MainBombBehaviour : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        m_MaxRedFlashRate = m_RedFlashRate;
+        m_RedFlashRate= m_MaxRedFlashRate;
     }
 
     // Update is called once per frame
