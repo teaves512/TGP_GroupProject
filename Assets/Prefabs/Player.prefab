@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5753731683390942850}
   - component: {fileID: 2773132340909210731}
   - component: {fileID: 3896333310194825800}
+  - component: {fileID: 1736103260279123461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -78,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3610cb668027fb3409f51309396390f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkMovementSpeed: 50
+  m_WalkMovementSpeed: 1000
   m_RunMovementSpeed: 2
   m_CrouchMovementSpeed: 0.5
   m_ClimbSpeed: 1
@@ -96,7 +97,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &2773132340909210731
 MonoBehaviour:
@@ -122,10 +123,74 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8765204135169871489}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f3fefc5e-430a-42d7-ad6d-dfdc5f5767b9
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8765204135169871489}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: SetCrouching
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f0c5b26a-57d5-40d9-b29c-c7fa3626ff10
+    m_ActionName: Player/Crouch[/Keyboard/ctrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8765204135169871489}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: SetRunning
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 06d8360b-db80-4721-b0dc-07d63142cfb2
+    m_ActionName: Player/Run[/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8765204135169871489}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ShootGun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f84403dc-4e21-4f6e-890c-08232cf734df
+    m_ActionName: Player/Shoot[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultControlScheme: Keyboard+Mouse
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!65 &3896333310194825800
@@ -141,6 +206,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7847843, y: 1.7509933, z: 0.6464691}
   m_Center: {x: 0.00578022, y: 0.9128635, z: 0.031686783}
+--- !u!114 &1736103260279123461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8765204135169871488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6317533a4dbc99246ab810717316f0f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_rayDistance: 1.25
+  m_bombOffset: 0.02
+  m_bomb: {fileID: 5344994851480803743, guid: f4e6f01ac35fc2d48b76db0596ec0c89, type: 3}
+  m_bombKey: L
 --- !u!1001 &8765204136986205955
 PrefabInstance:
   m_ObjectHideFlags: 0
