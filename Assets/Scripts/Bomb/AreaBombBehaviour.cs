@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TremorBombBehaviour : MainBombBehaviour
+public class AreaBombBehaviour : MainBombBehaviour
 {
 	[Header("Damage")]
 	[SerializeField] private Collider[] hitColliders ;
