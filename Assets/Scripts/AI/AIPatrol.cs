@@ -33,17 +33,11 @@ public class FSMBaseState
 
 public class PatrolState : FSMBaseState
 {
-    private float m_DecisionTimer = 0.0f;
+    private float m_DecisionTimer = 1.0f;
 
-    private float m_MinimumWaitTimeAtWaypoint;
-    private float m_MaximumWaitTimeAtWaypoint;
-
-    public PatrolState(float minimumWaitTime, float maximumWaitTime)
+    public PatrolState()
     {
         m_InternalState = PatrolFSMState.PATROL;
-
-        m_MinimumWaitTimeAtWaypoint = minimumWaitTime;
-        m_MaximumWaitTimeAtWaypoint = maximumWaitTime;
     }
 
     public override PatrolFSMState HandleTransition() 
@@ -63,22 +57,12 @@ public class PatrolState : FSMBaseState
 
     public override void Update(float deltaTime, GameObject player) 
     {
-        // See if we are at the next waypoint position, if so choose a direction to go from here
-        if ((player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude < 0.5f)
-        {
-            m_DecisionTimer -= Time.deltaTime;
+        m_DecisionTimer -= Time.deltaTime;
 
-            if (m_DecisionTimer <= 0.0f)
-            {
-                // Choose a random time to wait for the next waypoint
-                m_DecisionTimer = Random.Range(m_MinimumWaitTimeAtWaypoint, m_MaximumWaitTimeAtWaypoint);
-            }
-            else
-            {
-                // Currently waiting
-                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.transform);
-                return;
-            }
+        // See if we are at the next waypoint position, if so choose a direction to go from here
+        if (m_DecisionTimer <= 0.0f && (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude < 0.5f)
+        {
+            m_DecisionTimer = 1.0f;
 
             // Choose a new waypoint to go to
             int waypointLength = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints.Length;
@@ -220,12 +204,6 @@ public class AIPatrol : MonoBehaviour
 
     private PatrolFSM m_PatrolFSM;
 
-    [SerializeField]
-    private float m_MinimumWaitTimeAtWaypoint = 0.0f;
-
-    [SerializeField]
-    private float m_MaximumWaitTimeAtWaypoint = 1.0f;
-
     // ----------------------------------------------------------------------------
 
     public PatrolWaypoint GetCurrentWaypoint()                    { return m_CurrentWaypoint; }
@@ -246,7 +224,7 @@ public class AIPatrol : MonoBehaviour
 
         m_PatrolFSM = new PatrolFSM();
 
-        m_PatrolFSM.m_FSMStack.Push(new PatrolState(m_MinimumWaitTimeAtWaypoint, m_MaximumWaitTimeAtWaypoint));
+        m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
         m_PatrolFSM.m_FSMStack.Peek().OnEnter();
     }
@@ -264,7 +242,7 @@ public class AIPatrol : MonoBehaviour
             {
                 m_PatrolFSM.m_FSMStack.Peek().OnExit();
 
-                    m_PatrolFSM.m_FSMStack.Push(new PatrolState(m_MinimumWaitTimeAtWaypoint, m_MaximumWaitTimeAtWaypoint));
+                    m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
                 m_PatrolFSM.m_FSMStack.Peek().OnEnter();
             }
