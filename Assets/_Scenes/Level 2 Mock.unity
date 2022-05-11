@@ -6989,18 +6989,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 803915412}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd54a3232328dd4285393896560de9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3610cb668027fb3409f51309396390f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GridCellSize: 2
-  m_GridMovementAllowance: 0.01
-  m_MoveSpeed: 10
-  m_bAllowMovementQueueing: 1
-  m_RotationForward: {x: 0, y: 0, z: 0}
-  m_RotationBackward: {x: 0, y: 180, z: 0}
-  m_RotationLeft: {x: 0, y: 270, z: 0}
-  m_RotationRight: {x: 0, y: 90, z: 0}
-  m_Model: {fileID: 557242640}
+  m_WalkMovementSpeed: 1
+  m_RunMovementSpeed: 2
+  m_CrouchMovementSpeed: 0.5
+  m_ClimbSpeed: 1
 --- !u!4 &803915414
 Transform:
   m_ObjectHideFlags: 0
