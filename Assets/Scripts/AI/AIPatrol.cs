@@ -67,9 +67,16 @@ public class PatrolState : FSMBaseState
             // Choose a new waypoint to go to
             int waypointLength = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints.Length;
 
-            if (waypointLength == 1 || waypointLength == 0)
+            if (waypointLength == 0)
                 return;
 
+            if(waypointLength == 1)
+            {
+                player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
+                player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[0]);
+                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
+                return;
+            }
             
             int cameFromID = 0;
 
@@ -93,9 +100,8 @@ public class PatrolState : FSMBaseState
             player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
             player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[chosenID]);
 
+            player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
         }
-
-        player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
     }
 
     public override void OnEnter() 

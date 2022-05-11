@@ -32,6 +32,8 @@ public class AIPatrolMovement : MonoBehaviour
         Vector3 moveDirection               = (m_TargetPosition.position - m_ThisGameObject.transform.position).normalized;
 
         m_ThisGameObject.transform.position += moveDirection * Time.deltaTime * c_MovementSpeed;
+
+        m_ThisGameObject.transform.LookAt(new Vector3(m_TargetPosition.position.x, m_ThisGameObject.transform.position.y, m_TargetPosition.position.z), Vector3.up);
     }
 
     // -----------------------------------------------------------------
