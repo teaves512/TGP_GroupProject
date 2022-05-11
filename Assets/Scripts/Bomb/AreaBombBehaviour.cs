@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TremorBombBehaviour : MainBombBehaviour
+public class AreaBombBehaviour : MainBombBehaviour
 {
 	[Header("Damage")]
 	[SerializeField] private Collider[] hitColliders ;
@@ -22,8 +22,13 @@ public class TremorBombBehaviour : MainBombBehaviour
 		{
 			StartCoroutine(Explode());
 		}
+		if (m_Timer < 0 && !m_Exploded)
+		{
+			StartCoroutine(Explode());
+		}
 
-    }
+		base.Update();
+	}
 
     protected override IEnumerator Explode()
 	{
@@ -32,8 +37,17 @@ public class TremorBombBehaviour : MainBombBehaviour
 		foreach (Collider nearbyOject in hitColliders)
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
-			destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
-			nearbyOject.tag = "Placeable";
+			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			if (destructableScript!=null)
+            {
+				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				nearbyOject.tag = "Placeable";
+			}
+			else if(enemyHealthScript!=null)
+			{
+				
+				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+            }
 		}
 		StartCoroutine(base.Explode());
 		yield return null;
