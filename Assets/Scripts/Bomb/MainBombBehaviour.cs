@@ -54,20 +54,23 @@ public class MainBombBehaviour : MonoBehaviour
             }
             Timer();
         }
-        m_RedFlashRate -= Time.deltaTime;
-        if(m_RedFlashRate<=0)
-        {
-            if (m_RedFlashActive)
-            {
-                m_RedFlashActive = false;
-            }
-            else
-            {
-                m_RedFlashActive = true;
-            }
-            m_RedFlash.gameObject.SetActive(m_RedFlashActive);
-            m_RedFlashRate = m_MaxRedFlashRate;
-        }
+		if (m_RedFlash != null)
+		{
+			m_RedFlashRate -= Time.deltaTime;
+			if (m_RedFlashRate <= 0)
+			{
+				if (m_RedFlashActive)
+				{
+					m_RedFlashActive = false;
+				}
+				else
+				{
+					m_RedFlashActive = true;
+				}
+				m_RedFlash.gameObject.SetActive(m_RedFlashActive);
+				m_RedFlashRate = m_MaxRedFlashRate;
+			}
+		}
     }
 
     protected virtual IEnumerator Explode()
