@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_DeathEffect: {fileID: 1459216630}
   m_Explosive: 1
-  m_Damage: 5
+  m_Damage: 600
 --- !u!1001 &1473713162
 PrefabInstance:
   m_ObjectHideFlags: 0

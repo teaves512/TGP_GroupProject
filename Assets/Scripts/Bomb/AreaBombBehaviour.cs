@@ -32,6 +32,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 
     protected override IEnumerator Explode()
 	{
+		m_Exploded = true;
 		hitColliders = Physics.OverlapBox(transform.position,new Vector3 (gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z) , transform.localRotation);
 
 		foreach (Collider nearbyOject in hitColliders)
@@ -49,7 +50,9 @@ public class AreaBombBehaviour : MainBombBehaviour
 				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
             }
 		}
+		//yield return new WaitForSeconds(m_DestroyDelay);
 		StartCoroutine(base.Explode());
+
 		yield return null;
 	}
 
