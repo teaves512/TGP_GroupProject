@@ -20,6 +20,13 @@ public class CameraShifting : MonoBehaviour
 
     // -------------------------------------------------------------------
 
+    private void Start()
+    {
+        m_CameraTransform = GetComponent<Transform>();
+    }
+
+    // -------------------------------------------------------------------
+
     // Update is called once per frame
     void Update()
     {
