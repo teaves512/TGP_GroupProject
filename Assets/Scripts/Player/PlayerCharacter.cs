@@ -19,6 +19,7 @@ public enum AnimState
     DEAD
 }
 
+[RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacter : MonoBehaviour
 {
@@ -28,16 +29,22 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float m_SprintSpeed = 15.0f;
     [SerializeField] private float m_CrouchSpeed = 5.0f;
     [SerializeField] private float m_ClimbSpeed = 5.0f;
+    [SerializeField] private float m_Gravity = 100.0f;
     [SerializeField] private float m_Dampening = 10.0f;
+
+    private Vector3 m_ClimbDirection;
 
     private Vector2 m_AxisInput;
 
+    private Collider m_Coll;
     private Rigidbody m_RB;
 
     private bool m_bSprinting;
     private bool m_bCrouching;
     private bool m_bClimbing;
     private bool m_bShooting;
+
+    private Ladder m_Ladder;
 
     private void Start()
     {
@@ -46,6 +53,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Init()
     {
+        m_Coll = GetComponent<Collider>();
         m_RB = GetComponent<Rigidbody>();
 
         m_AnimState = AnimState.IDLE;
@@ -72,10 +80,30 @@ public class PlayerCharacter : MonoBehaviour
         else if (m_bCrouching) { speed = m_CrouchSpeed; }
         else if (m_bSprinting) { speed = m_SprintSpeed; }
 
-        //generate target velocity, based off direction player wants to move and current speed
-        Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y).normalized;
-        Vector3 velocity = direction * speed;
-        velocity.y = m_RB.velocity.y;
+        Vector3 velocity = Vector3.zero;
+
+        if (m_bClimbing)
+        {
+            velocity = m_ClimbDirection * m_AxisInput.y * speed;
+
+            float height = transform.position.y;
+
+            if (height > m_Ladder.GetTopPos().y)
+            {
+                if (m_AxisInput.y > 0) { AttachToLadder(m_Ladder); }
+            }
+            if (height < m_Ladder.GetBotPos().y)
+            {
+                if (m_AxisInput.y < 0) { AttachToLadder(m_Ladder); }
+            }
+        }
+        else
+        {
+            //generate target velocity, based off direction player wants to move and current speed
+            Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y).normalized;
+            velocity = direction * speed;
+            velocity.y = m_RB.velocity.y - m_Gravity * Time.fixedDeltaTime;
+        }
 
         //interpolate towards the target velocity, from the current velocity
         m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
@@ -162,6 +190,15 @@ public class PlayerCharacter : MonoBehaviour
                 m_bCrouching = false;
                 break;
         }
+    }
+
+    public void AttachToLadder(Ladder ladder)
+    {
+        m_Ladder = ladder;
+        m_ClimbDirection = m_Ladder.GetClimbDirection();
+        m_RB.velocity = Vector3.zero;
+        m_bClimbing = !m_bClimbing;
+        m_Coll.enabled = !m_bClimbing;
     }
 
     public AnimState GetAnimState() { return m_AnimState; }
