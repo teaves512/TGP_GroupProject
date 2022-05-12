@@ -256,7 +256,10 @@ MonoBehaviour:
   m_rayDistance: 1.25
   m_bombOffset: 0.02
   m_bomb: {fileID: 5344994851480803743, guid: f4e6f01ac35fc2d48b76db0596ec0c89, type: 3}
-  m_bombKey: l
+  m_bombKey: q
+  m_layerMask:
+    serializedVersion: 2
+    m_Bits: 4
 --- !u!114 &8918348043679762238
 MonoBehaviour:
   m_ObjectHideFlags: 0

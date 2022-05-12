@@ -16,7 +16,7 @@ public class WalkBombBehaviour : MainBombBehaviour
 		{
 			StartCoroutine(Explode());
 		}
-		transform.position += transform.forward * Time.deltaTime * m_WalkSpeed;
+		transform.position += Vector3.forward * Time.deltaTime * m_WalkSpeed;
 		if (m_Timer < 0 && !m_Exploded)
 		{
 			StartCoroutine(Explode());

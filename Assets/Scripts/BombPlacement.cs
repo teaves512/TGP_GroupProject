@@ -25,7 +25,7 @@ public class BombPlacement : MonoBehaviour
         RaycastHit m_hit = new RaycastHit();
 
         Debug.DrawRay(transform.position, transform.forward, Color.red);
-        if (Physics.Raycast(transform.position, transform.forward, out m_hit, m_rayDistance, ~m_layerMask) && Input.GetKeyDown(m_bombKey))
+        if (Physics.Raycast(new Vector3( transform.position.x, transform.position.y+0.3f, transform.position.z), transform.forward, out m_hit, m_rayDistance, ~m_layerMask) && Input.GetKeyDown(m_bombKey))
         {
             //Check to see if the object can have bombs placed on it
             if (m_hit.collider.gameObject.tag == "Placeable")
