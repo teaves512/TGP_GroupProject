@@ -6,9 +6,10 @@ public class BombPlacement : MonoBehaviour
 {
     //Variables
     [SerializeField] [Range(0.0f, 10.0f)] private float m_rayDistance = 1.25f;
-    [SerializeField] [Range(-1.0f, 1.0f)] private float m_bombOffset =0.02f;
+    [SerializeField] [Range(-1.0f, 1.0f)] private float m_bombOffset = 0.02f;
     [SerializeField] private GameObject m_bomb;
     [SerializeField] private string m_bombKey;
+    [SerializeField] private LayerMask m_layerMask;
     private GameObject m_player;
 
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class BombPlacement : MonoBehaviour
         RaycastHit m_hit = new RaycastHit();
 
         Debug.DrawRay(transform.position, transform.forward, Color.red);
-        if (Physics.Raycast(transform.position, transform.TransformDirection(transform.forward), out m_hit, m_rayDistance) && Input.GetKeyDown(m_bombKey))
+        if (Physics.Raycast(transform.position, transform.forward, out m_hit, m_rayDistance, m_layerMask) && Input.GetKeyDown(m_bombKey))
         {
             //Check to see if the object can have bombs placed on it
             if (m_hit.collider.gameObject.tag == "Placeable")
@@ -36,9 +37,21 @@ public class BombPlacement : MonoBehaviour
                 //Place bomb
                 //Calc new pos for bomb
                 Vector3 m_newPos = new Vector3();
-                m_newPos.x = m_hit.point.x;
                 m_newPos.y = m_hit.point.y + 1.0f;
-                m_newPos.z = m_hit.point.z;
+
+                if (transform.forward.x == -1)
+                    m_newPos.x = m_hit.point.x + m_bombOffset;
+                else if (transform.forward.x == 1)
+                    m_newPos.x = m_hit.point.x - m_bombOffset;
+                else
+                    m_newPos.x = m_hit.point.x;
+
+                if (transform.forward.z == -1)
+                    m_newPos.z = m_hit.point.z + m_bombOffset;
+                else if (transform.forward.z == 1)
+                    m_newPos.z = m_hit.point.z - m_bombOffset;
+                else
+                    m_newPos.z = m_hit.point.z;
 
                 Object.Instantiate(m_bomb, m_newPos, transform.rotation);
             }
