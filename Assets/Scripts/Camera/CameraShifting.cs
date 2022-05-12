@@ -40,9 +40,9 @@ public class CameraShifting : MonoBehaviour
                 return;
             }
 
-            float            direction = m_CameraShiftPositionTriggers[m_PositionIndexToMoveTo].m_PositionToMoveCameraTo.position.x - m_CameraTransform.position.x;
+            Vector3            direction = m_CameraShiftPositionTriggers[m_PositionIndexToMoveTo].m_PositionToMoveCameraTo.position - m_CameraTransform.position;
 
-            m_CameraTransform.position = new Vector3(m_CameraTransform.position.x + direction * Time.deltaTime * m_CameraShiftSpeed, m_CameraTransform.position.y, m_CameraTransform.position.z);
+            m_CameraTransform.position = m_CameraTransform.position + direction * Time.deltaTime * m_CameraShiftSpeed;
         }
     }
 
