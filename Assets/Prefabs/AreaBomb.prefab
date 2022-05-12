@@ -278,7 +278,7 @@ MonoBehaviour:
   m_SelfDestroyDelay: 0.6
   m_Damage: 5
   m_TimerEnabled: 0
-  m_Timer: 5
+  m_Timer: 3
   hitColliders: []
 --- !u!65 &-2643251414280801444
 BoxCollider:

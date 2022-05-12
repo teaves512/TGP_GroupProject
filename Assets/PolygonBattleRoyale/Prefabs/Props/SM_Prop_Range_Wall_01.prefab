@@ -117,3 +117,5 @@ MonoBehaviour:
   m_RegenRate: 0.01
   m_Material: {fileID: 0}
   m_DeathEffect: {fileID: 0}
+  m_Explosive: 0
+  m_Damage: 0
