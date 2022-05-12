@@ -182,9 +182,16 @@ MonoBehaviour:
   m_LayerMask: 6
   m_DestroyDelay: 0.3
   m_SelfDestroyDelay: 0.6
-  m_Damage: 5
   m_TimerEnabled: 1
+  m_ClusterEnabled: 0
+  m_Damage: 5
   m_Timer: 5
+  m_ClusterDamage: 0
+  m_ClusterBomb: {fileID: 0}
+  m_ForceValue: 0
+  m_ShakeMagnitude: 0.5
+  m_ShakeTime: 0.1
+  m_ShakeLength: 0.5
 --- !u!1 &7387436586335280413
 GameObject:
   m_ObjectHideFlags: 0

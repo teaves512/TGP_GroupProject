@@ -5,18 +5,35 @@ using UnityEngine;
 public class WalkBombBehaviour : MainBombBehaviour
 {
 	[Header("Walk stats")]
+	[HideInInspector] private bool m_Walk = true;
 	[SerializeField] private float m_WalkSpeed;
+	[SerializeField] private float m_Dampening = 10.0f;
 	[SerializeField] private Collider[] hitColliders;
+	[SerializeField] private GameObject m_Player;
+	[HideInInspector] private Vector3 m_PlayerForward;
+	[HideInInspector] private Rigidbody m_RB; 
 
+	private void Start()
+	{
+		m_RB = GetComponent<Rigidbody>();
+		m_Player = GameObject.FindGameObjectWithTag("Player");
+		transform.eulerAngles = new Vector3 (transform.rotation.eulerAngles.x, m_Player.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+		m_PlayerForward = m_Player.transform.forward;
 
-	// Update is called once per frame
+		transform.position = new Vector3(transform.position.x, transform.position.y+0.4f, transform.position.z)+m_PlayerForward;
+	}
+
+	private void FixedUpdate()
+	{
+		Walk();
+	}
+	// Update is called once per framed
 	protected override void Update()
 	{
 		if (Input.GetKeyDown("l"))
 		{
 			StartCoroutine(Explode());
 		}
-		transform.position += Vector3.forward * Time.deltaTime * m_WalkSpeed;
 		if (m_Timer < 0 && !m_Exploded)
 		{
 			StartCoroutine(Explode());
@@ -24,11 +41,19 @@ public class WalkBombBehaviour : MainBombBehaviour
 
 		base.Update();
 	}
+	private void Walk()
+	{
+		Vector3 direction = m_PlayerForward.normalized;
+		Vector3 velocity = direction * m_WalkSpeed;
+		velocity.y = m_RB.velocity.y;
 
+		//interpolate towards the target velocity, from the current velocity
+		m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
+	}
 	protected override IEnumerator Explode()
 	{
 		m_Exploded = true;
-		hitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z), transform.localRotation);
+		hitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y * 2, gameObject.GetComponent<Collider>().transform.localScale.z * 2), transform.localRotation);
 
 		foreach (Collider nearbyOject in hitColliders)
 		{
@@ -52,5 +77,9 @@ public class WalkBombBehaviour : MainBombBehaviour
 	private float GetDamage(float distanceTo)
 	{
 		return m_Damage / distanceTo;
+	}
+	private void OnTriggerEnter(Collider other)
+	{
+		
 	}
 }

@@ -44,8 +44,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2847556718044287464}
-  - component: {fileID: 8287031277243610621}
   - component: {fileID: 8423840352818491411}
+  - component: {fileID: 8220561745226511726}
+  - component: {fileID: 2612610687343280616}
   m_Layer: 0
   m_Name: Bomb-omb Cool
   m_TagString: Untagged
@@ -69,19 +70,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8287031277243610621
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2847556718044287465}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6242497, y: 0.4973022, z: 0.74934775}
-  m_Center: {x: 0.017455935, y: 0.0059666485, z: -0.32900846}
 --- !u!114 &8423840352818491411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +101,38 @@ MonoBehaviour:
   m_ShakeTime: 0.1
   m_ShakeLength: 0.5
   m_WalkSpeed: 3
+  m_Dampening: 10
   hitColliders: []
+  m_Player: {fileID: 0}
+--- !u!65 &8220561745226511726
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2847556718044287465}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &2612610687343280616
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2847556718044287465}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &6282531520596980007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,6 +2175,7 @@ GameObject:
   - component: {fileID: 6279897689162029734}
   - component: {fileID: 6287397478404322904}
   - component: {fileID: 6297147814856105864}
+  - component: {fileID: 5775182390825187045}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -2171,7 +2191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6284064947266066498}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.4932837, y: 3.4932833, z: 3.4932837}
   m_Children:
   - {fileID: 5358453564676520477}
@@ -2228,6 +2248,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5775182390825187045
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6284064947266066498}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.086260565, y: 0.19812903, z: 0.08626121}
+  m_Center: {x: -0.000000025593963, y: -0.025749605, z: 6.5315875e-17}
 --- !u!1001 &4681212914222781572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2249,11 +2282,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: 198308581884401260, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: playOnAwake
