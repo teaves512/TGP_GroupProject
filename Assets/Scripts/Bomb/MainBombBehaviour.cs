@@ -28,6 +28,10 @@ public class MainBombBehaviour : MonoBehaviour
 	[SerializeField] protected float m_ClusterDamage;
 	[SerializeField] protected GameObject m_ClusterBomb;
 	[SerializeField][Range(0.0f,1.0f)] protected float m_ForceValue;
+    [Header("Screen shake")]
+    [SerializeField] protected float m_ShakeMagnitude = 0.5f;
+    [SerializeField] protected float m_ShakeTime = 0.1f;
+    [SerializeField] protected float m_ShakeLength = 0.5f;
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -72,6 +76,7 @@ public class MainBombBehaviour : MonoBehaviour
         m_BombVisual.SetActive(false);
 		if(m_ClusterEnabled)
 			SpawnCluster();
+        Camera.main.GetComponent<CameraShake>()?.Shake(m_ShakeMagnitude, m_ShakeTime, m_ShakeLength);
         yield return new WaitForSeconds(m_SelfDestroyDelay);
         Destroy(m_BombPrefab);
         yield return null;
