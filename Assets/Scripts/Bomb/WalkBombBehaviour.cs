@@ -5,7 +5,6 @@ using UnityEngine;
 public class WalkBombBehaviour : MainBombBehaviour
 {
 	[Header("Walk stats")]
-	[HideInInspector] private bool m_Walk = true;
 	[SerializeField] private float m_WalkSpeed;
 	[SerializeField] private float m_Dampening = 10.0f;
 	[SerializeField] private Collider[] hitColliders;
