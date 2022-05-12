@@ -30,7 +30,7 @@ public class Throwables : MonoBehaviour
             
         //    GameObject newObject = Object.Instantiate(m_throwable, m_startPos, transform.rotation);
         //    newObject.transform.forward = transform.forward;
-        //    newObject.GetComponent<Rigidbody>().AddForce(transform.forward * m_thrust, ForceMode.Impulse);
+        //    newObject.m_Rigidbody.AddForce(transform.forward * m_thrust, ForceMode.Impulse);
         //}
 
         if(Input.GetMouseButton(1))
@@ -69,7 +69,7 @@ public class Throwables : MonoBehaviour
         //    Vector3 m_startPos = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
         //    Object.Instantiate(m_throwable, m_startPos, transform.rotation);
 
-        //    m_throwable.GetComponent<Rigidbody>().AddForce(transform.forward * m_thrust);
+        //    m_throwable.m_Rigidbody.AddForce(transform.forward * m_thrust);
         //    m_thrust = 0.0f;
         //}
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     // ------------------------------------------------------------------
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private float m_ClimbSpeed;
 
     private Vector2 movementDirection;
+
+    private Rigidbody m_Rigidbody;
 
     // ------------------------------------------------------------------
 
@@ -62,6 +65,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_CurrentMovementSpeed = 0.0f;
+        m_Rigidbody = GetComponent<Rigidbody>();
 
         m_InIdle             = true;
         m_Walking            = false;
@@ -86,14 +90,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (gameObject.GetComponent<Rigidbody>())
+            if (m_Rigidbody)
             {
                 Vector3 dir = new Vector3(movementDirection.x, 0, movementDirection.y);
                 Vector3 velocity = dir * m_CurrentMovementSpeed;
-                velocity.y = GetComponent<Rigidbody>().velocity.y;
-                //gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movementForce.x, 0.0f, movementForce.y), ForceMode.Force);
+                velocity.y = m_Rigidbody.velocity.y;
+                //gameObject.m_Rigidbody.AddForce(new Vector3(movementForce.x, 0.0f, movementForce.y), ForceMode.Force);
 
-                GetComponent<Rigidbody>().velocity = Vector3.Lerp(GetComponent<Rigidbody>().velocity, velocity, 20.0f * Time.deltaTime);
+                m_Rigidbody.velocity = Vector3.Lerp(m_Rigidbody.velocity, velocity, 20.0f * Time.deltaTime);
+
+                Debug.Log(movementDirection);
             }
         }
 
