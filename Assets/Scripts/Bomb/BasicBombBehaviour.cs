@@ -6,7 +6,7 @@ public class BasicBombBehaviour : MainBombBehaviour
 {
     protected override void Update()
     {
-        if (Input.GetKeyDown("k"))
+        if (Input.GetKeyDown("l"))
         {
             StartCoroutine(Explode());
         }

@@ -9,7 +9,7 @@ public class MainBombBehaviour : MonoBehaviour
     [SerializeField] protected GameObject m_BombPrefab;
     [SerializeField] protected GameObject m_BombVisual;
     [SerializeField] protected ParticleSystem m_ExplosionParticleEffect;
-    [SerializeField] private Light m_RedFlash;
+    [SerializeField] private GameObject m_RedFlash;
     [HideInInspector] private float m_RedFlashRate;
     [SerializeField] private float m_MaxRedFlashRate;
     [HideInInspector] private bool m_RedFlashActive = true;
