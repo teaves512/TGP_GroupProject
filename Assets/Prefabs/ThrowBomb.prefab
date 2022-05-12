@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 110674280327358065}
   - component: {fileID: 121397875596496237}
   - component: {fileID: 79240375432968033}
-  - component: {fileID: 142247124656941644}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bomb_C4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,29 +98,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43464570101726276, guid: bcd8d29541a650c49bd9a6c3ef3200b1, type: 2}
---- !u!114 &142247124656941644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142247124656941645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2c6e3bda1783443b501299280c730b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BombPrefab: {fileID: 0}
-  m_BombVisual: {fileID: 0}
-  m_ExplosionParticleEffect: {fileID: 198349147568493502, guid: 585a1ef8c48a0cf4f97332139e4344de, type: 3}
-  m_RedFlash: {fileID: 0}
-  m_MaxRedFlashRate: 0
-  m_LayerMask: 0
-  m_DestroyDelay: 0
-  m_SelfDestroyDelay: 0
-  m_Damage: 0
-  m_TimerEnabled: 0
-  m_Timer: 0
 --- !u!1 &2524501161325765489
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2861717732163537956}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,10 +137,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8719733447199153881}
-  - component: {fileID: 6948661923053501550}
   - component: {fileID: 198416364509422663}
   - component: {fileID: -8216179980557809766}
-  m_Layer: 0
+  - component: {fileID: 3641522718456022787}
+  m_Layer: 7
   m_Name: ThrowBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,29 +164,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6948661923053501550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5344994851480803743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c2c6e3bda1783443b501299280c730b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BombPrefab: {fileID: 5344994851480803743}
-  m_BombVisual: {fileID: 142247124656941645}
-  m_ExplosionParticleEffect: {fileID: 8301607879076417041}
-  m_RedFlash: {fileID: 3465436921756107773}
-  m_MaxRedFlashRate: 0.8
-  m_LayerMask: 6
-  m_DestroyDelay: 0.3
-  m_SelfDestroyDelay: 0.6
-  m_Damage: 5
-  m_TimerEnabled: 1
-  m_Timer: 1
 --- !u!54 &198416364509422663
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -235,11 +188,39 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5344994851480803743}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.32631922, y: 0.19193166, z: 0.085608095}
   m_Center: {x: 0.0057111382, y: -0.003970284, z: -0.030676275}
+--- !u!114 &3641522718456022787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344994851480803743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563c43d888a827e45a70d460d3b9641c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BombPrefab: {fileID: 5344994851480803743}
+  m_BombVisual: {fileID: 142247124656941645}
+  m_ExplosionParticleEffect: {fileID: 8301607879076417041}
+  m_RedFlash: {fileID: 7664766195606748543}
+  m_MaxRedFlashRate: 0.8
+  m_LayerMask: 6
+  m_DestroyDelay: 0.3
+  m_SelfDestroyDelay: 0.6
+  m_TimerEnabled: 1
+  m_ClusterEnabled: 0
+  m_Damage: 5
+  m_Timer: 1
+  m_ClusterDamage: 0
+  m_ClusterBomb: {fileID: 0}
+  m_ForceValue: 0
+  hitColliders: []
 --- !u!1 &7664766195606748543
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1828718836163507713}
   - component: {fileID: 3465436921756107773}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,9 +321,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8719733447199153881}
     m_Modifications:
+    - target: {fileID: 1215674975388074, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222100866993886, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1549373087677006, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_Name
       value: ExplosionPE
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549373087677006, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807180175690766, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4539239561676894, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalScale.z
