@@ -30,15 +30,15 @@ public class Collectable : MonoBehaviour
             {
                 case c_level1Bomb:
                     m_text.text = "Level 1 Bomb Collected!";
-                    yield return new WaitForSeconds(1);
+                    m_collectable.transform.position = new Vector3(1000, 0, 10000);
+                    yield return new WaitForSeconds(0.75f);
                     m_text.text = "";                    
-                    m_collectable.SetActive(false);
                     break;
                 case c_level2Bomb:
                     m_text.text = "Level 2 Bomb Collected!";
-                    yield return new WaitForSeconds(1);
+                    m_collectable.transform.position = new Vector3(1000, 0, 10000);
+                    yield return new WaitForSeconds(0.75f);
                     m_text.text = "";
-                    m_collectable.SetActive(false);
                     break;
                 default:
                     break;
