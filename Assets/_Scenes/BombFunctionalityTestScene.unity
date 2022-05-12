@@ -1258,7 +1258,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh64570
+  m_Name: pb_Mesh25584
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3717,7 +3717,7 @@ PrefabInstance:
     - target: {fileID: 1907261541453227962, guid: e15c43b653bbe1b43bb544f84bed0208, type: 3}
       propertyPath: m_bomb
       value: 
-      objectReference: {fileID: 2847556718044287465, guid: c99f76b78131b6e4a9b944d263e7ea80, type: 3}
+      objectReference: {fileID: 5344994851480803743, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
     - target: {fileID: 1907261541453227962, guid: e15c43b653bbe1b43bb544f84bed0208, type: 3}
       propertyPath: m_rayDistance
       value: 1.5

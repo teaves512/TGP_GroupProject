@@ -13,6 +13,7 @@ public class MainBombBehaviour : MonoBehaviour
     [HideInInspector] private float m_RedFlashRate;
     [SerializeField] private float m_MaxRedFlashRate = 0.8f;
     [HideInInspector] private bool m_RedFlashActive = true;
+	[HideInInspector] private bool m_RedFlashExists = false;
     [Header("Stats")]
     [SerializeField] protected int m_LayerMask = 6;
     [SerializeField] [Range(0f, 1f)] protected float m_DestroyDelay=0.3f;
@@ -32,15 +33,20 @@ public class MainBombBehaviour : MonoBehaviour
     [SerializeField] protected float m_ShakeMagnitude = 0.5f;
     [SerializeField] protected float m_ShakeTime = 0.1f;
     [SerializeField] protected float m_ShakeLength = 0.5f;
-    // Start is called before the first frame update
-    protected virtual void Start()
-    {
-        m_RedFlashRate= m_MaxRedFlashRate;
-		if(m_ClusterEnabled)
+	// Start is called before the first frame update
+	protected virtual void Start()
+	{
+		m_RedFlashRate = m_MaxRedFlashRate;
+		if (m_ClusterEnabled)
 		{
 			m_Damage = m_ClusterDamage;
 		}
-    }
+
+		if (m_RedFlash != null)
+		{
+			m_RedFlashExists = true;
+		}
+	}
 
     // Update is called once per frame
     protected virtual void Update()
@@ -54,7 +60,7 @@ public class MainBombBehaviour : MonoBehaviour
             }
             Timer();
         }
-		if (m_RedFlash != null)
+		if (m_RedFlashExists)
 		{
 			m_RedFlashRate -= Time.deltaTime;
 			if (m_RedFlashRate <= 0)
