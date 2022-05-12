@@ -10,13 +10,6 @@ public class BombPlacement : MonoBehaviour
     [SerializeField] private GameObject m_bomb;
     [SerializeField] private string m_bombKey;
     [SerializeField] private LayerMask m_layerMask;
-    private GameObject m_player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_player = gameObject;
-    }
 
     // Update is called once per frame
     void Update()

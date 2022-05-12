@@ -39,15 +39,12 @@ public class Destructable : MonoBehaviour
     public void TakeDamage(float damage)
     {
 		m_Health -= damage;
-
+		StartCoroutine(ApplyDamageToMat());
 		if (m_Health<=0)
         {
             StartCoroutine(Death());
         }
-		else
-        {
-			StartCoroutine(ApplyDamageToMat());
-		}
+	
     }
 
 	private IEnumerator ApplyDamageToMat()
