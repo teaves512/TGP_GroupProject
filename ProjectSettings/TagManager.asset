@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Placeable
   - Placed
+  - Level 1 Bomb
+  - Level 2 Bomb
   layers:
   - Default
   - TransparentFX
