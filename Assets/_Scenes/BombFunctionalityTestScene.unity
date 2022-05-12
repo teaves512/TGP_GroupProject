@@ -210,6 +210,14 @@ PrefabInstance:
       propertyPath: m_bombKey
       value: q
       objectReference: {fileID: 0}
+    - target: {fileID: 1736103260279123461, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
+      propertyPath: m_bombOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1736103260279123461, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
+      propertyPath: m_layerMask.m_Bits
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2773132340909210731, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -222,9 +230,21 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8764444686510185471, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765204134997119259, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8765204135169871488, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8765204135169871488, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8765204135169871489, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
       propertyPath: m_Enabled
@@ -1013,7 +1033,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh217374
+  m_Name: pb_Mesh271852
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
