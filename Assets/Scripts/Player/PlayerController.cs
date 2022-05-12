@@ -88,8 +88,12 @@ public class PlayerController : MonoBehaviour
         {
             if (gameObject.GetComponent<Rigidbody>())
             {
-                Vector2 movementForce = movementDirection * Time.deltaTime * m_CurrentMovementSpeed;
-                gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movementForce.x, 0.0f, movementForce.y), ForceMode.Force);
+                Vector3 dir = new Vector3(movementDirection.x, 0, movementDirection.y);
+                Vector3 velocity = dir * m_CurrentMovementSpeed;
+                velocity.y = GetComponent<Rigidbody>().velocity.y;
+                //gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(movementForce.x, 0.0f, movementForce.y), ForceMode.Force);
+
+                GetComponent<Rigidbody>().velocity = Vector3.Lerp(GetComponent<Rigidbody>().velocity, velocity, 20.0f * Time.deltaTime);
             }
         }
 
