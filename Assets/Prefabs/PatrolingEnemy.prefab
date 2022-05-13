@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5651263695024924360}
   - component: {fileID: 8752005653601954369}
+  - component: {fileID: -7676239352383682122}
+  - component: {fileID: 2886058609553346342}
+  - component: {fileID: 5188904874328559168}
   m_Layer: 0
   m_Name: PatrolingEnemy
   m_TagString: Untagged
@@ -44,7 +47,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3761202acf859ba48920f22c180932d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_StartWaypoint: {fileID: 0}
   m_ThisObject: {fileID: 5713881872183009461}
+--- !u!114 &-7676239352383682122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713881872183009461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba7ed62792b947b4ea768da0ff7763c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2886058609553346342
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713881872183009461}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.582757, y: 1.7510734, z: 1}
+  m_Center: {x: 0.006351948, y: 0.86573195, z: 0}
+--- !u!54 &5188904874328559168
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713881872183009461}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1001 &184577091468870260
 PrefabInstance:
   m_ObjectHideFlags: 0

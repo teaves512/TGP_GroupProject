@@ -128,6 +128,50 @@ Transform:
   m_Father: {fileID: 140192333178780281}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3250515417927469176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7120877919649475717}
+  - component: {fileID: 2255828455071751897}
+  m_Layer: 0
+  m_Name: ExplosionAudioRange
+  m_TagString: BombAudio
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &7120877919649475717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250515417927469176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8719733447199153881}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2255828455071751897
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250515417927469176}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5344994851480803743
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +203,7 @@ Transform:
   - {fileID: 8207164016355080703}
   - {fileID: 140192333178780281}
   - {fileID: 6794436515140474590}
+  - {fileID: 7120877919649475717}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -192,6 +237,7 @@ MonoBehaviour:
   m_ShakeMagnitude: 0.5
   m_ShakeTime: 0.1
   m_ShakeLength: 0.5
+  m_BombSoundRadius: {fileID: 3250515417927469176}
 --- !u!1 &7387436586335280413
 GameObject:
   m_ObjectHideFlags: 0

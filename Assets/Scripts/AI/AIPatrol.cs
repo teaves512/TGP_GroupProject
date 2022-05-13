@@ -34,6 +34,7 @@ public class FSMBaseState
 public class PatrolState : FSMBaseState
 {
     private float m_DecisionTimer = 1.0f;
+    private bool  m_HeardBomb     = false;
 
     public PatrolState()
     {
@@ -48,8 +49,8 @@ public class PatrolState : FSMBaseState
           //  return PatrolFSMState.ATTACK_PLAYER;
 
         // if the player is heard then go into invertigate
-        //if ()
-          //  return PatrolFSMState.INVESTIGATE;
+        if (m_HeardBomb)
+            return PatrolFSMState.INVESTIGATE;
 
         // Otherwise just stay in this state
         return PatrolFSMState.SAME; 
@@ -106,12 +107,19 @@ public class PatrolState : FSMBaseState
 
     public override void OnEnter() 
     {
-    
+        m_HeardBomb     = false;
+        m_DecisionTimer = 1.0f;
     }
 
     public override void OnExit() 
     {
-    
+        m_HeardBomb     = false;
+        m_DecisionTimer = 1.0f;
+    }
+
+    public void SetHeardBomb(bool state)
+    {
+        m_HeardBomb = state;
     }
 }
 
@@ -206,10 +214,10 @@ public class AIPatrol : MonoBehaviour
 
     // ----------------------------------------------------------------------------
 
-    public PatrolWaypoint GetCurrentWaypoint()                    { return m_CurrentWaypoint; }
+    public PatrolWaypoint GetCurrentWaypoint()                           { return m_CurrentWaypoint; }
     public void           SetCurrentWaypoint(PatrolWaypoint newWaypoint) { m_CurrentWaypoint = newWaypoint; }
 
-    public PatrolWaypoint GetPriorWaypoint() { return m_PriorWaypoint; }
+    public PatrolWaypoint GetPriorWaypoint()                 { return m_PriorWaypoint; }
     public void SetPriorWaypoint(PatrolWaypoint newWaypoint) { m_PriorWaypoint = newWaypoint; }
 
     // ----------------------------------------------------------------------------
@@ -222,7 +230,7 @@ public class AIPatrol : MonoBehaviour
 
         transform.position = m_StartWaypoint.m_ThisPosition.position;
 
-        m_PatrolFSM = new PatrolFSM();
+        m_PatrolFSM        = new PatrolFSM();
 
         m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
@@ -283,7 +291,19 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    // ----------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+
+    public void SetHeardBomb(Vector3 position)
+    {
+        // In here if a bomb goes off in range of the enemy
+        if(m_PatrolFSM.m_FSMStack.Peek().m_InternalState == PatrolFSMState.PATROL)
+        {
+            PatrolState state = (PatrolState)m_PatrolFSM.m_FSMStack.Peek();
+            state.SetHeardBomb(true);
+        }
+    }
+
+    // ---------------------------------------------------------------------------
 }
 
 // ----------------------------------------------------------------------
