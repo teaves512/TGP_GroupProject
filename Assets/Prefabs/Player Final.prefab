@@ -958,10 +958,11 @@ GameObject:
   - component: {fileID: 6036450473051151669}
   - component: {fileID: 5944846949908100303}
   - component: {fileID: 6914953056585209108}
-  - component: {fileID: 7344533550741571978}
   - component: {fileID: 5218162490718675992}
   - component: {fileID: 4947108637355612067}
   - component: {fileID: 6772445818904346745}
+  - component: {fileID: 191838068892218035}
+  - component: {fileID: 1780213636}
   m_Layer: 0
   m_Name: Player Final
   m_TagString: Untagged
@@ -1023,22 +1024,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7344533550741571978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6039812660162372791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3610cb668027fb3409f51309396390f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_WalkMovementSpeed: 2
-  m_RunMovementSpeed: 4
-  m_CrouchMovementSpeed: 1
-  m_ClimbSpeed: 2
 --- !u!114 &5218162490718675992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,8 +1051,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7344533550741571978}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+      - m_Target: {fileID: 191838068892218035}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
         m_Arguments:
@@ -1082,9 +1067,9 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7344533550741571978}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SetCrouching
+      - m_Target: {fileID: 191838068892218035}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: Crouch
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1098,9 +1083,9 @@ MonoBehaviour:
     m_ActionName: Player/Crouch[/Keyboard/ctrl]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7344533550741571978}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SetRunning
+      - m_Target: {fileID: 191838068892218035}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: Sprint
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1114,9 +1099,9 @@ MonoBehaviour:
     m_ActionName: Player/Run[/Keyboard/shift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7344533550741571978}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ShootGun
+      - m_Target: {fileID: 191838068892218035}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: Shoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1165,6 +1150,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.41394615, y: 1.6165155, z: 0.37429488}
   m_Center: {x: 0.0029363632, y: 0.8456246, z: -0.021220863}
+--- !u!114 &191838068892218035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4923104482fb79845bd176a5a1512774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_WalkSpeed: 3
+  m_SprintSpeed: 5
+  m_CrouchSpeed: 2
+  m_ClimbSpeed: 4
+  m_Dampening: 10
+--- !u!114 &1780213636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c609d9da8c5b9db4bb0aedc76d0e3efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6039815946147368087
 GameObject:
   m_ObjectHideFlags: 0
