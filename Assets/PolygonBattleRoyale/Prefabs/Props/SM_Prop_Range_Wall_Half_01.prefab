@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4369105061303159934}
   m_Layer: 0
   m_Name: SM_Prop_Range_Wall_Half_01
-  m_TagString: Untagged
+  m_TagString: Placeable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

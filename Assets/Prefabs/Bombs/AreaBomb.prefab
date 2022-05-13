@@ -323,7 +323,7 @@ MonoBehaviour:
   m_SelfDestroyDelay: 0.6
   m_TimerEnabled: 1
   m_ClusterEnabled: 1
-  m_Damage: 5
+  m_Damage: 30
   m_Timer: 3
   m_ClusterDamage: 1
   m_ClusterBomb: {fileID: 5344994851480803743, guid: beead9b144da68249b7ad46c93729c50, type: 3}
