@@ -98,6 +98,50 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43464570101726276, guid: bcd8d29541a650c49bd9a6c3ef3200b1, type: 2}
+--- !u!1 &1929585386755645710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6561522868984847092}
+  - component: {fileID: 5731787713206271200}
+  m_Layer: 0
+  m_Name: ExplosionAudioRange
+  m_TagString: BombAudio
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6561522868984847092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929585386755645710}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8719733447199153881}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5731787713206271200
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929585386755645710}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2524501161325765489
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +186,7 @@ GameObject:
   - component: {fileID: 3641522718456022787}
   m_Layer: 7
   m_Name: ThrowBomb
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,6 +205,7 @@ Transform:
   - {fileID: 8207164016355080703}
   - {fileID: 140192333178780281}
   - {fileID: 1828718836163507713}
+  - {fileID: 6561522868984847092}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -215,7 +260,7 @@ MonoBehaviour:
   m_SelfDestroyDelay: 0.6
   m_TimerEnabled: 1
   m_ClusterEnabled: 0
-  m_Damage: 5
+  m_Damage: 30
   m_Timer: 1
   m_ClusterDamage: 0
   m_ClusterBomb: {fileID: 0}
@@ -223,6 +268,7 @@ MonoBehaviour:
   m_ShakeMagnitude: 0.5
   m_ShakeTime: 0.1
   m_ShakeLength: 0.5
+  m_BombSoundRadius: {fileID: 1929585386755645710}
   hitColliders: []
 --- !u!1 &7664766195606748543
 GameObject:

@@ -8,6 +8,8 @@ TagManager:
   - Placed
   - Level 1 Bomb
   - Level 2 Bomb
+  - Bomb
+  - BombAudio
   layers:
   - Default
   - TransparentFX

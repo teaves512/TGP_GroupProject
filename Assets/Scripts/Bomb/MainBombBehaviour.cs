@@ -33,6 +33,11 @@ public class MainBombBehaviour : MonoBehaviour
     [SerializeField] protected float m_ShakeMagnitude = 0.5f;
     [SerializeField] protected float m_ShakeTime = 0.1f;
     [SerializeField] protected float m_ShakeLength = 0.5f;
+
+	[Header("Bomb Sound Radius")]
+	[SerializeField] protected GameObject m_BombSoundRadius;
+
+
 	// Start is called before the first frame update
 	protected virtual void Start()
 	{
@@ -81,7 +86,10 @@ public class MainBombBehaviour : MonoBehaviour
 
     protected virtual IEnumerator Explode()
     {
-        m_ExplosionParticleEffect.Play();
+		if(m_BombSoundRadius)
+			m_BombSoundRadius.SetActive(true);
+
+		m_ExplosionParticleEffect.Play();
         m_BombVisual.SetActive(false);
 		if(m_ClusterEnabled)
 			SpawnCluster();

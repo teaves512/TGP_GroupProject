@@ -103,6 +103,7 @@ public class PlayerCharacter : MonoBehaviour
                 if (m_bClimbing) { m_AnimState = AnimState.CLIMBING; }
                 else if (m_bCrouching) { m_AnimState = AnimState.CROUCHING; }
                 else if (m_bSprinting) { m_AnimState = AnimState.SPRINTING; }
+                else { m_AnimState = AnimState.WALKING; }
 
                 break;
 
