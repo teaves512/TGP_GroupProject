@@ -10,6 +10,7 @@ TagManager:
   - Level 2 Bomb
   - Bomb
   - BombAudio
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class FireTickBehaviour : MonoBehaviour
 {
+    [Header("Componenent to damage")]
     [SerializeField] private Destructable m_DestructableScript;
     [SerializeField] private HealthComponent m_HealthCompScript;
+    [Header("Stats from bomb")]
     [SerializeField] public float m_FireDamage;
     [SerializeField] public float m_MaxTimeOnFire;
     [SerializeField] private float m_TimeOnFire;
+    [Header("Self stats")]
     [SerializeField] private float m_FleshMultiplier;
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,23 @@ public class FireTickBehaviour : MonoBehaviour
         else
         {
             DestroySelf();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+
+        Vector3 direction = (transform.position - other.transform.position).normalized;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, direction, out hit,Mathf.Infinity))
+        {
+            Debug.DrawRay(transform.position, -direction, Color.red);
+            if (other.tag == "Enemy")
+            {
+                Debug.Log(other.name);
+                other.gameObject.GetComponent<HealthComponent>().TakeDamage(m_FireDamage);
+            }
+
         }
     }
     private void DestroySelf()

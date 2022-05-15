@@ -8,7 +8,7 @@ public class FireBombBehaviour : AreaBombBehaviour
     [SerializeField] private GameObject m_FireParticleObject;
     [Header("FireRelatedStats")]
     [SerializeField] private float m_FireDamage;
-    [SerializeField] private float m_TimeOnFire;
+    [SerializeField] private float m_TimeOnFire ;
 
 
     protected override void Start()
@@ -20,6 +20,7 @@ public class FireBombBehaviour : AreaBombBehaviour
     protected override void Update()
     {
         base.Update();
+        
     }
 
     protected override IEnumerator Explode()
@@ -31,7 +32,8 @@ public class FireBombBehaviour : AreaBombBehaviour
         {
             Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
             HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
-            GameObject fireParticle = Instantiate(m_FireParticleObject, nearbyOject.transform);
+            Vector3 firePos = new Vector3(nearbyOject.transform.position.x, transform.position.y, nearbyOject.transform.position.z);
+            GameObject fireParticle = Instantiate(m_FireParticleObject, firePos, nearbyOject.transform.rotation,nearbyOject.transform);
             fireParticle.GetComponent<ParticleSystem>().Play();
             fireParticle.GetComponent<FireTickBehaviour>().m_FireDamage = m_FireDamage;
             fireParticle.GetComponent<FireTickBehaviour>().m_MaxTimeOnFire = m_TimeOnFire;

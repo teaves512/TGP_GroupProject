@@ -10,9 +10,9 @@ public class WalkBombBehaviour : MainBombBehaviour
 	[SerializeField] private Collider[] hitColliders;
 	[SerializeField] private GameObject m_Player;
 	[HideInInspector] private Vector3 m_PlayerForward;
-	[HideInInspector] private Rigidbody m_RB; 
+	[HideInInspector] private Rigidbody m_RB;
 
-	private void Start()
+	protected override void Start()
 	{
 		m_RB = GetComponent<Rigidbody>();
 		m_Player = GameObject.FindGameObjectWithTag("Player");
