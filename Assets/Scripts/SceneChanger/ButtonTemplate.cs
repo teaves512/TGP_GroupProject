@@ -8,7 +8,13 @@ public abstract class ButtonTemplate : MonoBehaviour
 
     protected virtual void Awake()
     {
-        m_ButtonAction = GetComponent<Button>();       
-        m_ButtonAction.onClick.AddListener(ButtonAction);
+        m_ButtonAction = GetComponent<Button>();
+        if (m_ButtonAction == null)
+            m_ButtonAction = GetComponentInChildren<Button>();
+
+        if (m_ButtonAction == null)
+            Debug.LogError("No button found");
+        else
+            m_ButtonAction.onClick.AddListener(ButtonAction);
     }
 }
