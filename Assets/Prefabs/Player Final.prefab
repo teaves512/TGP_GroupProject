@@ -963,6 +963,7 @@ GameObject:
   - component: {fileID: 191838068892218035}
   - component: {fileID: 1780213636}
   - component: {fileID: 8849336474243438818}
+  - component: {fileID: 557195679744361931}
   m_Layer: 0
   m_Name: Player Final
   m_TagString: Player
@@ -1181,7 +1182,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BulletPrefab: {fileID: 3174522518588142183, guid: 31ccac811b9a22b4c900c45ab16352f8, type: 3}
-  m_TimeDelayForBulletSpawn: 0.25
+  m_TimeDelayForBulletSpawn_FirstPress: 0
+  m_TimeDelayForBulletSpawn_HeldDown: 0
+--- !u!136 &557195679744361931
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6039815946147368087
 GameObject:
   m_ObjectHideFlags: 0
