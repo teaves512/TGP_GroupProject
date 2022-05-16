@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5747636956338614235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5747636956338614234}
+  - component: {fileID: 5747636956338614233}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5747636956338614234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747636956338614235}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5747636956338614233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747636956338614235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f37336eff71e8c45a91529a51cc7d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Sounds:
+  - m_Name: Pew
+    m_Clip: {fileID: 8300000, guid: 9fc73f22471661647b535cef3a434117, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: Boom
+    m_Clip: {fileID: 8300000, guid: edb33a5bb86aa9243a459884cada02a6, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0

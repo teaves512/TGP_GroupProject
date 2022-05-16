@@ -32,7 +32,12 @@ public class PlayerCharacter : MonoBehaviour
 
     private AnimState m_AnimState;
 
+    private GunControl m_PlayerWeapons;
+
     private float     m_CurrentSpeed;
+
+    [SerializeField]
+    private Vector3 m_PlayerHandPositionOffset;
 
     // ------------------------------------------------------------------ 
 
@@ -99,9 +104,19 @@ public class PlayerCharacter : MonoBehaviour
 
         m_CurrentSpeed        = 0.0f;
         m_MovementKeysPressedConcurrently = 0;
+
+        m_PlayerWeapons = GetComponent<GunControl>();
     }
 
     // ------------------------------------------------------------------ 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AudioManager.Play("Boom");
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -220,6 +235,10 @@ public class PlayerCharacter : MonoBehaviour
 
         switch (context.phase)
         {
+            case InputActionPhase.Started:
+                m_PlayerWeapons.FireBullet(this.transform.position + m_PlayerHandPositionOffset, transform.forward);
+            break;
+
             case InputActionPhase.Performed:
 
                 if (m_bSprinting)
@@ -252,6 +271,8 @@ public class PlayerCharacter : MonoBehaviour
                     m_CurrentSpeed = 0.0f;
                     m_AnimState    = AnimState.IDLE;
                 }
+
+                m_PlayerWeapons.StopSpawningBullets();
             break;
         }
     }
