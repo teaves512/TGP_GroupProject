@@ -9,6 +9,8 @@ public class Ladder : MonoBehaviour
 
     private Vector3 m_ClimbDirection;
 
+    private Coroutine m_cDettach;
+
     private void Start()
     {
         m_ClimbDirection = (m_TopConnect.transform.position - m_BotConnect.transform.position).normalized;
@@ -28,5 +30,22 @@ public class Ladder : MonoBehaviour
 
         Gizmos.DrawSphere(m_TopConnect.transform.position, 0.1f);
         Gizmos.DrawSphere(m_BotConnect.transform.position, 0.1f);
+    }
+
+    public void DettachFromLadder()
+    {
+        if (m_cDettach != null) { StopCoroutine(m_cDettach); }
+        m_cDettach = StartCoroutine(C_Dettach());
+    }
+
+    private IEnumerator C_Dettach()
+    {
+        m_TopConnect.GetComponent<Collider>().enabled = false;
+        m_BotConnect.GetComponent<Collider>().enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        m_TopConnect.GetComponent<Collider>().enabled = true;
+        m_BotConnect.GetComponent<Collider>().enabled = true;
     }
 }

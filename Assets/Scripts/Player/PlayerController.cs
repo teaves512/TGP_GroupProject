@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
                 m_Rigidbody.velocity = Vector3.Lerp(m_Rigidbody.velocity, velocity, 20.0f * Time.deltaTime);
 
-                Debug.Log(movementDirection);
+                //Debug.Log(movementDirection);
             }
         }
 

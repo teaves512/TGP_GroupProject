@@ -13,8 +13,8 @@ public class LadderConnect : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            //other.transform.parent.GetComponent<PlayerCharacter>().AttachToLadder(m_Ladder);
-            other.transform.parent.position = transform.position;
+            other.GetComponent<PlayerCharacter>().AttachToLadder(m_Ladder);
+            other.transform.position = transform.position;
         }
     }
 }
