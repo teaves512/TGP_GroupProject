@@ -12,6 +12,7 @@ TagManager:
   - Fire Bomb
   - Area Bomb
   - Walking Bomb
+  - Enemy
   layers:
   - Default
   - TransparentFX
