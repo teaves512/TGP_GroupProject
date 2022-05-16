@@ -14,19 +14,14 @@ public class ChangeSceneButton : ButtonTemplate
     {
         if (!SceneManager.GetSceneByName(c_PersistentSceneName).isLoaded)
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
+
+        text.text = level.levelName;
+        image.sprite = level.previewImage;
     }
 
     protected override void ButtonAction()
     {
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         SceneManager.LoadSceneAsync(level.scene, LoadSceneMode.Additive);
-    }
-
-    public void Initialise(Level level)
-    {
-        this.level = level;
-
-        text.text = level.levelName;
-        image.sprite = level.previewImage;
     }
 }
