@@ -55,7 +55,7 @@ public class BombPlacement : MonoBehaviour
         else if(Input.GetKeyDown(m_bombKey))
         {
             //Place bomb at the players feet
-            Object.Instantiate(m_bomb, transform.position, Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
+            Object.Instantiate(m_bomb, transform.position, Quaternion.Euler(new Vector3(90.0f, transform.eulerAngles.y, 0.0f)));
         }
     }
 }

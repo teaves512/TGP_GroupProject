@@ -13,6 +13,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 	protected override void Start()
     {
 		m_Started = true;
+		base.Start();
     }
 
     // Update is called once per frame
