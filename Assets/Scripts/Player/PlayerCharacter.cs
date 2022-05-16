@@ -99,6 +99,14 @@ public class PlayerCharacter : MonoBehaviour
 
     // ------------------------------------------------------------------ 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AudioManager.Play("Boom");
+        }
+    }
+
     private void FixedUpdate()
     {
         Movement();
