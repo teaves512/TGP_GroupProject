@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// ------------------------------------------------------------------ 
+
 public enum AnimState
 {
     IDLE,
@@ -19,42 +21,78 @@ public enum AnimState
     DEAD
 }
 
+// ------------------------------------------------------------------ 
+
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerCharacter : MonoBehaviour
 {
+    // ------------------------------------------------------------------ 
+
     private AnimState m_AnimState;
 
-    [SerializeField] private float m_WalkSpeed = 10.0f;
+    private float     m_CurrentSpeed;
+
+    // ------------------------------------------------------------------ 
+
+    [SerializeField] private float m_WalkSpeed   = 10.0f;
     [SerializeField] private float m_SprintSpeed = 15.0f;
     [SerializeField] private float m_CrouchSpeed = 5.0f;
-    [SerializeField] private float m_ClimbSpeed = 5.0f;
-    [SerializeField] private float m_Dampening = 10.0f;
+    [SerializeField] private float m_ClimbSpeed  = 5.0f;
+    [SerializeField] private float m_Dampening   = 10.0f;
 
-    private Vector2 m_AxisInput;
+    // ------------------------------------------------------------------ 
+
+    private Vector2   m_AxisInput;
 
     private Rigidbody m_RB;
 
-    private bool m_bSprinting;
-    private bool m_bCrouching;
-    private bool m_bClimbing;
-    private bool m_bShooting;
+    // ------------------------------------------------------------------ 
+
+    private bool      m_bWalking;
+    private bool      m_bSprinting;
+
+    private bool      m_bCrouching;
+
+    private bool      m_bClimbing;
+    private bool      m_bShooting;
+
+    private bool      m_bPlacingBombOnWall;
+    private bool      m_bPlacingBombOnFloor;
+    private bool      m_bThrowingBomb;
+
+    private bool      m_bDead;
+
+
+
+    // ------------------------------------------------------------------ 
 
     private void Start()
     {
         Init();
     }
 
+    // ------------------------------------------------------------------ 
+
     private void Init()
     {
-        m_RB = GetComponent<Rigidbody>();
+        m_RB         = GetComponent<Rigidbody>();
 
-        m_AnimState = AnimState.IDLE;
+        m_AnimState  = AnimState.IDLE;
 
         m_bSprinting = false;
         m_bCrouching = false;
-        m_bClimbing = false;
-        m_bShooting = false;
+        m_bClimbing  = false;
+        m_bShooting  = false;
+        m_bWalking   = false;
+        m_bDead      = false;
+        m_bPlacingBombOnFloor = false;
+        m_bPlacingBombOnWall  = false;
+        m_bThrowingBomb       = false;
+
+        m_CurrentSpeed = 0.0f;
     }
+
+    // ------------------------------------------------------------------ 
 
     private void FixedUpdate()
     {
@@ -62,35 +100,31 @@ public class PlayerCharacter : MonoBehaviour
         Rotate();
     }
 
+    // ------------------------------------------------------------------ 
+
     private void Movement()
     {
-        //set default speed
-        float speed = m_WalkSpeed;
-
-        //adjust speed, if necessary
-        if (m_bClimbing) { speed = m_ClimbSpeed; }
-        else if (m_bCrouching) { speed = m_CrouchSpeed; }
-        else if (m_bSprinting) { speed = m_SprintSpeed; }
-
-        //generate target velocity, based off direction player wants to move and current speed
+        // Generate target velocity, based off direction player wants to move and current speed
         Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y).normalized;
-        Vector3 velocity = direction * speed;
-        velocity.y = m_RB.velocity.y;
+        Vector3 velocity  = direction * m_CurrentSpeed;
+        velocity.y        = m_RB.velocity.y;
 
         //interpolate towards the target velocity, from the current velocity
-        m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
+        m_RB.velocity     = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
     }
 
     private void Rotate()
     {
         if (Vector2.SqrMagnitude(m_AxisInput) > 0.0f)
         {
-            Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y);
-            Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+            Vector3    direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y);
+            Quaternion rotation  = Quaternion.LookRotation(direction, Vector3.up);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, m_Dampening * Time.fixedDeltaTime);
+            transform.rotation   = Quaternion.Lerp(transform.rotation, rotation, m_Dampening * Time.fixedDeltaTime);
         }
     }
+
+    // ------------------------------------------------------------------ 
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -100,71 +134,159 @@ public class PlayerCharacter : MonoBehaviour
             case InputActionPhase.Performed:
                 m_AxisInput = context.ReadValue<Vector2>();
 
-                if (m_bClimbing) { m_AnimState = AnimState.CLIMBING; }
-                else if (m_bCrouching) { m_AnimState = AnimState.CROUCHING; }
-                else if (m_bSprinting) { m_AnimState = AnimState.SPRINTING; }
-                else { m_AnimState = AnimState.WALKING; }
+                if (m_bClimbing) 
+                { 
+                    m_AnimState    = AnimState.CLIMBING;
+                    m_CurrentSpeed = m_ClimbSpeed;
+                }
+                else if (m_bCrouching) 
+                { 
+                    m_AnimState    = AnimState.CROUCHING;
+                    m_CurrentSpeed = m_CrouchSpeed;
+                }
+                else if (m_bSprinting) 
+                { 
+                    m_AnimState    = AnimState.SPRINTING;
+                    m_CurrentSpeed = m_SprintSpeed;
+                }
+                else 
+                { 
+                    m_AnimState    = AnimState.WALKING;
+                    m_CurrentSpeed = m_WalkSpeed;
+                    m_bWalking     = true;
+                }
 
-                break;
+            break;
 
             //in any other state, reset to idle
             default:
-                m_AxisInput = Vector2.zero;
+                m_AxisInput  = Vector2.zero;
 
-                m_AnimState = AnimState.IDLE;
-                break;
+                m_bWalking   = false;
+                m_bSprinting = false;
+
+                m_AnimState  = AnimState.IDLE;
+
+                m_CurrentSpeed = 0.0f;
+            break;
         }
     }
+
+    // ------------------------------------------------------------------ 
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) { return; }
+        if (m_bClimbing) 
+            return; 
 
         switch (context.phase)
         {
             case InputActionPhase.Performed:
-                m_bShooting = true;
+                m_bShooting    = true;
+                m_bWalking     = false;
+                m_bCrouching   = false;
 
                 m_AnimState = AnimState.SHOOT;
-                break;
+
+                m_CurrentSpeed = 0.0f;
+            break;
+
             default:
                 m_bShooting = false;
 
-                m_AnimState = AnimState.IDLE;
-                break;
+                if (m_bSprinting)
+                {
+                    m_CurrentSpeed = m_SprintSpeed;
+                    m_AnimState    = AnimState.SPRINTING;
+                }
+                else if (m_bWalking)
+                {
+                    m_CurrentSpeed = m_WalkSpeed;
+                    m_AnimState    = AnimState.WALKING;
+                }
+                else
+                {
+                    m_CurrentSpeed = 0.0f;
+                    m_AnimState    = AnimState.IDLE;
+                }
+            break;
         }
     }
+
+    // ------------------------------------------------------------------ 
 
     public void Sprint(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) { return; }
+        if (m_bClimbing) 
+            return; 
 
         switch (context.phase)
         {
             case InputActionPhase.Performed:
-                m_bSprinting = true;
-                break;
+                m_bSprinting   = true;
+                m_CurrentSpeed = m_SprintSpeed;
+
+                m_AnimState    = AnimState.SPRINTING;
+            break;
+
             default:
                 m_bSprinting = false;
-                break;
+
+                if (m_bWalking)
+                {
+                    m_CurrentSpeed = m_WalkSpeed;
+                    m_AnimState    = AnimState.WALKING;
+                }
+                else
+                {
+                    m_AnimState    = AnimState.IDLE;
+                    m_CurrentSpeed = 0.0f;
+                }
+            break;
         }
     }
+
+    // ------------------------------------------------------------------ 
 
     public void Crouch(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) { return; }
+        if (m_bClimbing) 
+            return; 
 
         switch (context.phase)
         {
             case InputActionPhase.Performed:
-                m_bCrouching = true;
-                break;
-            default:
+                m_bCrouching   = true;
+                m_AnimState    = AnimState.CROUCHING;
+                m_CurrentSpeed = m_CrouchSpeed;
+            break;
+
+            case InputActionPhase.Canceled:
                 m_bCrouching = false;
-                break;
+
+                if (m_bSprinting)
+                {
+                    m_CurrentSpeed = m_SprintSpeed;
+                    m_AnimState    = AnimState.SPRINTING;
+                }
+                else if (m_bWalking)
+                {
+                    m_CurrentSpeed = m_WalkSpeed;
+                    m_AnimState    = AnimState.WALKING;
+                }
+                else
+                {
+                    m_CurrentSpeed = 0.0f;
+                    m_AnimState    = AnimState.IDLE;
+                }
+            break;
         }
     }
 
+    // ------------------------------------------------------------------ 
+
     public AnimState GetAnimState() { return m_AnimState; }
-    public bool GetShooting() { return m_bShooting; }
+    public bool      GetShooting()  { return m_bShooting; }
+
+    // ------------------------------------------------------------------ 
 }

@@ -28,30 +28,44 @@ public class PlayerAnimationTriggers : MonoBehaviour
             switch(newState)
             {
                 case AnimState.IDLE:
-                    m_PlayerAnimator.SetBool("Walking", false);
-                    m_PlayerAnimator.SetBool("Running", false);
+                    m_PlayerAnimator.SetBool("Walking",         false);
+                    m_PlayerAnimator.SetBool("Running",         false);
+                    m_PlayerAnimator.SetBool("Crouching",       false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                 break;
 
                 case AnimState.WALKING:
-                    m_PlayerAnimator.SetBool("Walking", true);
-                    m_PlayerAnimator.SetBool("Running", false);
+                    m_PlayerAnimator.SetBool("Walking",         true);
+                    m_PlayerAnimator.SetBool("Running",         false);
+                    m_PlayerAnimator.SetBool("Crouching",       false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                 break;
 
                 case AnimState.SPRINTING:
-                    m_PlayerAnimator.SetBool("Walking", false);
-                    m_PlayerAnimator.SetBool("Running", true);
+                    m_PlayerAnimator.SetBool("Running",         true);
+                    m_PlayerAnimator.SetBool("Crouching",       false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                 break;
 
                 case AnimState.CROUCHING:
-                    m_PlayerAnimator.SetBool("Crouching", true);
-                    m_PlayerAnimator.SetBool("Running", false);
+                    m_PlayerAnimator.SetBool("Crouching",       true);
+                    m_PlayerAnimator.SetBool("Running",         false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                 break;
 
                 case AnimState.DEAD:
+                    m_PlayerAnimator.SetBool("Walking", false);
+                    m_PlayerAnimator.SetBool("Running", false);
+                    m_PlayerAnimator.SetBool("Crouching", false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Dead", true);
                 break;
 
                 case AnimState.THROW_BOMB:
+                    m_PlayerAnimator.SetBool("Walking", false);
+                    m_PlayerAnimator.SetBool("Running", false);
+                    m_PlayerAnimator.SetBool("Crouching", false);
+                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                 break;
 
                 case AnimState.CLIMBING:

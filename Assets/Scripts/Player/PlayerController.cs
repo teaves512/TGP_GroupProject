@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         m_CurrentMovementSpeed = 0.0f;
-        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody            = GetComponent<Rigidbody>();
 
         m_InIdle             = true;
         m_Walking            = false;
@@ -176,7 +176,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ------------------------------------------------------------------
+    // ------------------------------------------------------------------ 
 
     public void SetCrouching(InputAction.CallbackContext context)
     {
