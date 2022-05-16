@@ -7,6 +7,7 @@ public class Collectable : MonoBehaviour
 {
     [SerializeField] private Text m_text;
     [SerializeField] private Text m_inventoryText;
+    [SerializeField] private Text m_bombPointer;
     [SerializeField] private const float  c_textDelay   = 0.75f;
     [SerializeField] private const string c_basicBomb   = "Basic Bomb";
     [SerializeField] private const string c_fireBomb    = "Fire Bomb";
