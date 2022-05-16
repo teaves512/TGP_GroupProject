@@ -44,7 +44,9 @@ public class MainBombBehaviour : MonoBehaviour
 		m_RedFlashRate = m_MaxRedFlashRate;
 		if (m_ClusterEnabled)
 		{
+			Debug.Log(m_Damage);
 			m_Damage = m_ClusterDamage;
+			Debug.Log(m_Damage);
 		}
 
 		if (m_RedFlash != null)

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class FireBombBehaviour : AreaBombBehaviour
 {
-    [SerializeField] private Collider[] m_FirehitColliders;
+    [HideInInspector] private Collider[] m_FirehitColliders;
     [SerializeField] private GameObject m_FireParticleObject;
+	[SerializeField] private GameObject m_FireVisual;
     [Header("FireRelatedStats")]
     [SerializeField] private float m_FireDamage;
     [SerializeField] private float m_TimeOnFire ;
@@ -26,7 +27,7 @@ public class FireBombBehaviour : AreaBombBehaviour
     protected override IEnumerator Explode()
     {
         m_Exploded = true;
-        m_FirehitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z), transform.localRotation);
+        m_FirehitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y * 2, gameObject.GetComponent<Collider>().transform.localScale.z * 2), transform.localRotation);
 
         foreach (Collider nearbyOject in m_FirehitColliders)
         {
@@ -39,6 +40,13 @@ public class FireBombBehaviour : AreaBombBehaviour
             fireParticle.GetComponent<FireTickBehaviour>().m_MaxTimeOnFire = m_TimeOnFire;
 
         }
+		m_FireVisual.SetActive(true);
+		m_FireVisual.transform.eulerAngles = new Vector3(0f, m_FireVisual.transform.eulerAngles.y, 0f);
+		m_FireVisual.transform.position = new Vector3(m_FireVisual.transform.position.x, 0f, m_FireVisual.transform.position.z);
+		m_FireVisual.GetComponent<FireTickBehaviour>().m_FireDamage = m_FireDamage;
+		m_FireVisual.GetComponent<FireTickBehaviour>().m_MaxTimeOnFire = m_TimeOnFire;
+		m_FireVisual.transform.parent = null;
         return base.Explode();
     }
+
 }
