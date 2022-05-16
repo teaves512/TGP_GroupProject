@@ -17,6 +17,9 @@ public class GunControl : MonoBehaviour
     private float m_TimeDelayForBulletSpawn_FirstPress;
 
     [SerializeField]
+    private GameObject m_BulletParent;
+
+    [SerializeField]
     private float m_TimeDelayForBulletSpawn_HeldDown;
 
     private float m_TimeDelayRemainingForBulletSpawn;
@@ -79,7 +82,7 @@ public class GunControl : MonoBehaviour
 
     private void SpawnBullet()
     {
-        GameObject newBullet = Instantiate(m_BulletPrefab, m_PositionToSpawn, Quaternion.Euler(m_DirectionToSpawn));
+        GameObject newBullet = Instantiate(m_BulletPrefab, m_PositionToSpawn, Quaternion.Euler(m_DirectionToSpawn), m_BulletParent.transform);
 
         m_Bullets.Add(newBullet);
     }
