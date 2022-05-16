@@ -170,6 +170,28 @@ public class PlayerCharacter : MonoBehaviour
 
     // ------------------------------------------------------------------ 
 
+    public void SwapBombs(InputAction.CallbackContext context)
+    {
+        if(context.control.name == "1")
+        {
+            gameObject.GetComponent<BombPlacement>().SetCurrentBomb("Basic Bomb");
+        }
+        if(context.control.name == "2")
+        {
+            gameObject.GetComponent<BombPlacement>().SetCurrentBomb("Fire Bomb");
+        }
+        if(context.control.name == "3")
+        {
+            gameObject.GetComponent<BombPlacement>().SetCurrentBomb("Area Bomb");
+        }
+        if(context.control.name == "4")
+        {
+            gameObject.GetComponent<BombPlacement>().SetCurrentBomb("Walking Bomb");
+        }
+    }
+
+    // ------------------------------------------------------------------ 
+
     public void Move(InputAction.CallbackContext context)
     {
         switch (context.phase)

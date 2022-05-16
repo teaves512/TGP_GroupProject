@@ -32,10 +32,16 @@ public class Inventory : MonoBehaviour
     public int GetAreaBombCount() { return m_areaBombHeld; }
     public int GetWalkingBombCount() { return m_walkingBombHeld; }
 
-    public int GetBasicBombMax() { return m_basicBombMax; }
-    public int GetFireBombMax() { return m_fireBombMax; }
-    public int GetAreaBombMax() { return m_areaBombMax; }
+    public int GetBasicBombMax()   { return m_basicBombMax; }
+    public int GetFireBombMax()    { return m_fireBombMax; }
+    public int GetAreaBombMax()    { return m_areaBombMax; }
     public int GetWalkingBombMax() { return m_walkingBombMax; }
+
+    //Set Methods
+    public void ReduceBasicBombCount()   { m_basicBombHeld--; }
+    public void ReduceFireBombCount()    { m_fireBombHeld--; }
+    public void ReduceAreaBombCount()    { m_areaBombHeld--; }
+    public void ReduceWalkingBombCount() { m_walkingBombHeld--; }
 
     // Start is called before the first frame update
     private void Start()
