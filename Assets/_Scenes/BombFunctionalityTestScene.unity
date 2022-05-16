@@ -332,35 +332,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PatrolingEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 5713881872183009461, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752005653601954369, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
---- !u!1 &263854728 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5713881872183009461, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-  m_PrefabInstance: {fileID: 263854727}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &263854729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 263854728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9bc80c7ae83c794ba46568434769675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 1000
-  m_Health: 0
 --- !u!1001 &331256885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2595,25 +2568,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4029257239358684, guid: 8c1c8144052b2094fb8fc5150fe867f5, type: 3}
   m_PrefabInstance: {fileID: 331256885}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1548022143 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6039812660162372791, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
-  m_PrefabInstance: {fileID: 1722092015}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1548022144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548022143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9bc80c7ae83c794ba46568434769675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 100
-  m_Health: 0
 --- !u!1001 &1586459890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2777,10 +2731,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4947108637355612067, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
-      propertyPath: m_bomb
-      value: 
-      objectReference: {fileID: 5344994851480803743, guid: bdeaa540abd479f44ab3b9d98c1831a9, type: 3}
     - target: {fileID: 6036450473051151669, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2828,10 +2778,6 @@ PrefabInstance:
     - target: {fileID: 6039812660162372791, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
       propertyPath: m_Name
       value: Player Final
-      objectReference: {fileID: 0}
-    - target: {fileID: 6039812660162372791, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
-      propertyPath: m_TagString
-      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
