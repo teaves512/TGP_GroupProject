@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BombPlacement : MonoBehaviour
 {
     //Variables
     [SerializeField] [Range(0.0f, 10.0f)] private float m_rayDistance = 1.25f;
     [SerializeField] [Range(-1.0f, 1.0f)] private float m_bombOffset = 0.02f;
-    //[SerializeField] private GameObject m_bomb;
     [SerializeField] private string m_bombKey;
     [SerializeField] private LayerMask m_layerMask;
 
@@ -17,6 +17,8 @@ public class BombPlacement : MonoBehaviour
     [SerializeField] private GameObject m_walkingBomb;
 
     [SerializeField] private string m_currentBomb;
+    [SerializeField] private GameObject m_canvas;
+    [SerializeField] private Text m_pointer;
     private Inventory m_inventory;
 
     public void SetCurrentBomb(string m_newBomb)
@@ -28,6 +30,8 @@ public class BombPlacement : MonoBehaviour
     {
         m_inventory = gameObject.GetComponent<Inventory>();
         m_currentBomb = "Basic Bomb";
+
+        m_pointer = m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -35,6 +39,23 @@ public class BombPlacement : MonoBehaviour
     {
         //Create raycast
         RaycastHit m_hit = new RaycastHit();
+
+        //move the bomb pointer to point at the equipped bomb
+        switch(m_currentBomb)
+        {
+            case "Basic Bomb":
+                m_pointer.text = "-->" + "\n" + "\n" + "\n";
+                break;
+            case "Fire Bomb":
+                m_pointer.text = "\n" + "-->" + "\n" + "\n";
+                break;
+            case "Area Bomb":
+                m_pointer.text = "\n" + "\n" + "-->" + "\n";
+                break;
+            case "Walking Bomb":
+                m_pointer.text = "\n" + "\n" + "\n" + "-->";
+                break;
+        }
 
         Debug.DrawRay(transform.position, transform.forward, Color.red);
         if (Physics.Raycast(new Vector3( transform.position.x, transform.position.y+0.3f, transform.position.z), transform.forward, out m_hit, m_rayDistance, ~m_layerMask) && Input.GetKeyDown(m_bombKey))
