@@ -23,7 +23,7 @@ TagManager:
   - Destructable
   - Bomb
   - Enemy
-  - 
+  - CameraTrigger
   - 
   - 
   - 

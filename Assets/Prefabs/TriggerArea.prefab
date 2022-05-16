@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4797187100860679594}
   - component: {fileID: 4797187100860679593}
   - component: {fileID: 2294777620951879419}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TriggerArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,3 +59,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BoxTriggerArea: {fileID: 4797187100860679593}
   m_PositionToMoveCameraTo: {fileID: 0}
+  m_CameraShifter: {fileID: 0}

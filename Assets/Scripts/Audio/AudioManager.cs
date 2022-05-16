@@ -37,7 +37,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public static void Play(string _name) { s_Instance.PlaySound(_name); }
+    public static void Play(string _name)
+    {
+        if (s_Instance != null) { s_Instance.PlaySound(_name); }
+        else { Debug.LogWarning("No instance of the AudioManager class exists."); }
+    }
 
     public void PlaySound(string _name)
     {
@@ -52,7 +56,7 @@ public class AudioManager : MonoBehaviour
         }
         if (soundToPlay == null)
         {
-            Debug.LogWarning("No sound with name: " + _name);
+            Debug.LogWarning("Cannot find sound with name: " + _name);
             return;
         }
         soundToPlay.m_Source.Play();
