@@ -260,9 +260,9 @@ MonoBehaviour:
   m_SelfDestroyDelay: 0.6
   m_TimerEnabled: 1
   m_ClusterEnabled: 0
-  m_Damage: 30
+  m_Damage: 5
   m_Timer: 1
-  m_ClusterDamage: 0
+  m_ClusterDamage: 2.5
   m_ClusterBomb: {fileID: 0}
   m_ForceValue: 0
   m_ShakeMagnitude: 0.5

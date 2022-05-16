@@ -26,6 +26,17 @@ public class Inventory : MonoBehaviour
     [SerializeField] private int m_areaBombPickup;
     [SerializeField] private int m_walkingBombPickup;
 
+    //Get Methods
+    public int GetBasicBombCount() { return m_basicBombHeld; }
+    public int GetFireBombCount() { return m_fireBombHeld; }
+    public int GetAreaBombCount() { return m_areaBombHeld; }
+    public int GetWalkingBombCount() { return m_walkingBombHeld; }
+
+    public int GetBasicBombMax() { return m_basicBombMax; }
+    public int GetFireBombMax() { return m_fireBombMax; }
+    public int GetAreaBombMax() { return m_areaBombMax; }
+    public int GetWalkingBombMax() { return m_walkingBombMax; }
+
     // Start is called before the first frame update
     private void Start()
     {

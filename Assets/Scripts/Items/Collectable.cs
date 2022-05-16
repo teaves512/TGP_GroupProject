@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Collectable : MonoBehaviour
 {
     [SerializeField] private Text m_text;
+    [SerializeField] private Text m_inventoryText;
     [SerializeField] private const float  c_textDelay   = 0.75f;
     [SerializeField] private const string c_basicBomb   = "Basic Bomb";
     [SerializeField] private const string c_fireBomb    = "Fire Bomb";
@@ -15,12 +16,21 @@ public class Collectable : MonoBehaviour
     void Start()
     {
         m_text.alignment = TextAnchor.MiddleCenter;
+        m_inventoryText.alignment = TextAnchor.LowerRight;
+
+        m_text.text = "";
+        m_inventoryText.text = "";
     }
 
     // Update is called once per frame
     void Update()
     {
+        Inventory m_inventory = gameObject.GetComponent<Inventory>();
 
+        m_inventoryText.text = c_basicBomb + ": " + m_inventory.GetBasicBombCount().ToString() + "/" + m_inventory.GetBasicBombMax().ToString() 
+                      + "\n" + c_fireBomb  + ": " + m_inventory.GetFireBombCount().ToString()  + "/" + m_inventory.GetFireBombMax().ToString()
+                      + "\n" + c_areaBomb + ": "  + m_inventory.GetAreaBombCount().ToString()  + "/" + m_inventory.GetAreaBombMax().ToString()
+                      + "\n" + c_walkingBomb + ": " + m_inventory.GetWalkingBombCount().ToString() + "/" + m_inventory.GetWalkingBombMax().ToString();
     }
 
     private IEnumerator OnTriggerEnter(Collider other)
