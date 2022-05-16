@@ -108,15 +108,7 @@ public class PlayerCharacter : MonoBehaviour
         m_PlayerWeapons = GetComponent<GunControl>();
     }
 
-    // ------------------------------------------------------------------ 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AudioManager.Play("Boom");
-        }
-    }
+    // ------------------------------------------------------------------
 
     private void FixedUpdate()
     {
