@@ -32,25 +32,29 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
-                break;
+                    m_PlayerAnimator.SetBool("Shooting",        false);
+                    break;
 
                 case AnimState.WALKING:
                     m_PlayerAnimator.SetBool("Walking",         true);
                     m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.SPRINTING:
                     m_PlayerAnimator.SetBool("Running",         true);
                     m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.CROUCHING:
                     m_PlayerAnimator.SetBool("Crouching",       true);
                     m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.DEAD:
@@ -59,6 +63,7 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Crouching", false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Dead", true);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.THROW_BOMB:
@@ -66,16 +71,27 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Running", false);
                     m_PlayerAnimator.SetBool("Crouching", false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.CLIMBING:
                     m_PlayerAnimator.SetBool("Climbing Ladder", true);
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.PLACE_BOMB_FLOOR:
+                    m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.PLACE_BOMB_WALL:
+                    m_PlayerAnimator.SetBool("Shooting",        false);
+                break;
+
+                case AnimState.SHOOT:
+                    m_PlayerAnimator.SetBool("Shooting",  true);
+                    m_PlayerAnimator.SetBool("Walking",   false);
+                    m_PlayerAnimator.SetBool("Running",   false);
+                    m_PlayerAnimator.SetBool("Crouching", false);
                 break;
 
                 default:

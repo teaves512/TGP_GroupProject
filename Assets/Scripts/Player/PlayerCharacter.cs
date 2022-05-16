@@ -18,7 +18,9 @@ public enum AnimState
     THROW_BOMB,
 
     SHOOT,
-    DEAD
+    DEAD,
+
+    MAX
 }
 
 // ------------------------------------------------------------------ 
@@ -67,6 +69,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private bool      m_bDead;
 
+    private int       m_MovementKeysPressedConcurrently;
     // ------------------------------------------------------------------ 
 
     private void Start()
@@ -94,7 +97,8 @@ public class PlayerCharacter : MonoBehaviour
         m_bPlacingBombOnWall  = false;
         m_bThrowingBomb       = false;
 
-        m_CurrentSpeed = 0.0f;
+        m_CurrentSpeed        = 0.0f;
+        m_MovementKeysPressedConcurrently = 0;
     }
 
     // ------------------------------------------------------------------ 
@@ -155,8 +159,16 @@ public class PlayerCharacter : MonoBehaviour
     {
         switch (context.phase)
         {
+            case InputActionPhase.Started:
+                m_MovementKeysPressedConcurrently++;
+            break;
+
             //ONLY if the analogue stick is being used, get its input
             case InputActionPhase.Performed:
+
+                if (m_MovementKeysPressedConcurrently > 1)
+                    return;
+
                 m_AxisInput = context.ReadValue<Vector2>();
 
                 if (m_bClimbing) 
@@ -184,15 +196,17 @@ public class PlayerCharacter : MonoBehaviour
             break;
 
             //in any other state, reset to idle
-            default:
-                m_AxisInput  = Vector2.zero;
+            case InputActionPhase.Canceled:
+                m_AxisInput    = Vector2.zero;
 
-                m_bWalking   = false;
-                m_bSprinting = false;
+                m_bWalking     = false;
+                m_bSprinting   = false;
 
-                m_AnimState  = AnimState.IDLE;
+                m_AnimState    = AnimState.IDLE;
 
                 m_CurrentSpeed = 0.0f;
+
+                m_MovementKeysPressedConcurrently--;
             break;
         }
     }
@@ -207,6 +221,10 @@ public class PlayerCharacter : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Performed:
+
+                if (m_bSprinting)
+                    return;
+
                 m_bShooting    = true;
                 m_bWalking     = false;
                 m_bCrouching   = false;
@@ -216,7 +234,7 @@ public class PlayerCharacter : MonoBehaviour
                 m_CurrentSpeed = 0.0f;
             break;
 
-            default:
+            case InputActionPhase.Canceled:
                 m_bShooting = false;
 
                 if (m_bSprinting)
@@ -254,7 +272,7 @@ public class PlayerCharacter : MonoBehaviour
                 m_AnimState    = AnimState.SPRINTING;
             break;
 
-            default:
+            case InputActionPhase.Canceled:
                 m_bSprinting = false;
 
                 if (m_bWalking)
