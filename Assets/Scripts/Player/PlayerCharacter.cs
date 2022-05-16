@@ -18,7 +18,9 @@ public enum AnimState
     THROW_BOMB,
 
     SHOOT,
-    DEAD
+    DEAD,
+
+    MAX
 }
 
 // ------------------------------------------------------------------ 

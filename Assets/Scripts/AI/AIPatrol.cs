@@ -20,11 +20,11 @@ public class FSMBaseState
 {
     public virtual PatrolFSMState HandleTransition() { return PatrolFSMState.SAME; }
 
-    public virtual void Update(float deltaTime, GameObject player) { }
+    public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState) { }
 
-    public virtual void OnEnter() { }
+    public virtual void OnEnter(ref AnimState animationState) { }
 
-    public virtual void OnExit() { }
+    public virtual void OnExit(ref AnimState animationState) { }
 
     public PatrolFSMState m_InternalState;
 }
@@ -56,20 +56,27 @@ public class PatrolState : FSMBaseState
         return PatrolFSMState.SAME; 
     }
 
-    public override void Update(float deltaTime, GameObject player) 
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState) 
     {
         m_DecisionTimer -= Time.deltaTime;
 
         // See if we are at the next waypoint position, if so choose a direction to go from here
-        if (m_DecisionTimer <= 0.0f && (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude < 0.5f)
+        double length = (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude;
+
+        if (m_DecisionTimer <= 0.0f && (length < 0.5f))
         {
             m_DecisionTimer = 1.0f;
+
+            animationState = AnimState.WALKING;
 
             // Choose a new waypoint to go to
             int waypointLength = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints.Length;
 
             if (waypointLength == 0)
+            {
+                animationState = AnimState.IDLE;
                 return;
+            }
 
             if(waypointLength == 1)
             {
@@ -103,18 +110,26 @@ public class PatrolState : FSMBaseState
 
             player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
         }
+        //else if(length > 15.0f)
+        //{
+        //    animationState = AnimState.SPRINTING;
+        //}
     }
 
-    public override void OnEnter() 
+    public override void OnEnter(ref AnimState animationState) 
     {
         m_HeardBomb     = false;
         m_DecisionTimer = 1.0f;
+
+        animationState = AnimState.IDLE;
     }
 
-    public override void OnExit() 
+    public override void OnExit(ref AnimState animationState) 
     {
         m_HeardBomb     = false;
         m_DecisionTimer = 1.0f;
+
+        animationState = AnimState.IDLE;
     }
 
     public void SetHeardBomb(bool state)
@@ -137,19 +152,19 @@ public class AttackPlayerState : FSMBaseState
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
     {
 
     }
 
-    public override void OnEnter()
+    public override void OnEnter(ref AnimState animationState)
     {
-
+        animationState = AnimState.SHOOT;
     }
 
-    public override void OnExit()
+    public override void OnExit(ref AnimState animationState)
     {
-
+        animationState = AnimState.SHOOT;
     }
 }
 
@@ -167,19 +182,19 @@ public class InvestigateState : FSMBaseState
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
     {
 
     }
 
-    public override void OnEnter()
+    public override void OnEnter(ref AnimState animationState)
     {
-
+        animationState = AnimState.IDLE;
     }
 
-    public override void OnExit()
+    public override void OnExit(ref AnimState animationState)
     {
-
+        animationState = AnimState.IDLE;
     }
 }
 
@@ -212,6 +227,10 @@ public class AIPatrol : MonoBehaviour
 
     private PatrolFSM m_PatrolFSM;
 
+    private AnimState m_CurrentState = AnimState.IDLE;
+
+    public AnimState GetCurrentAnimationState() { return m_CurrentState; }
+
     // ----------------------------------------------------------------------------
 
     public PatrolWaypoint GetCurrentWaypoint()                           { return m_CurrentWaypoint; }
@@ -225,6 +244,8 @@ public class AIPatrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_CurrentState = AnimState.IDLE;
+
         m_CurrentWaypoint  = m_StartWaypoint;
         m_PriorWaypoint    = m_CurrentWaypoint;
 
@@ -234,7 +255,7 @@ public class AIPatrol : MonoBehaviour
 
         m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-        m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+        m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
     }
 
     // ----------------------------------------------------------------------------
@@ -242,47 +263,49 @@ public class AIPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject);
+        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject, ref m_CurrentState);
 
         switch ((m_PatrolFSM.m_FSMStack.Peek().HandleTransition()))
         {
             case PatrolFSMState.PATROL:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.INVESTIGATE:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new InvestigateState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.ATTACK_PLAYER:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_CurrentState = AnimState.SHOOT;
+
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new AttackPlayerState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.Exit:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Pop();
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
