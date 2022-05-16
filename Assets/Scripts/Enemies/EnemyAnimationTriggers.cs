@@ -47,7 +47,6 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Walking",         false);
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
                 break;
 
@@ -55,21 +54,18 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Walking",         true);
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
             case AnimState.SPRINTING:
                 m_EnemyAnimator.SetBool("Running",         true);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
             case AnimState.CROUCHING:
                 m_EnemyAnimator.SetBool("Crouching",       true);
                 m_EnemyAnimator.SetBool("Running",         false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
@@ -77,7 +73,6 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Walking",         false);
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Dead",             true);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
@@ -86,12 +81,10 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Walking",         false);
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Climbing Ladder", false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
             case AnimState.CLIMBING:
-                m_EnemyAnimator.SetBool("Climbing Ladder", true);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 

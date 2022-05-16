@@ -633,6 +633,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_MissileStack_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1405612168663392, guid: 9c4cb834410d1b94391e4eaaac010b19, type: 3}
+      propertyPath: m_TagString
+      value: Area Bomb
+      objectReference: {fileID: 0}
     - target: {fileID: 4981948853031272, guid: 9c4cb834410d1b94391e4eaaac010b19, type: 3}
       propertyPath: m_RootOrder
       value: 31
@@ -705,7 +709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1323797541}
 --- !u!1001 &49733447
 PrefabInstance:
@@ -3056,7 +3059,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1507636620937791777, guid: 7097ba7ba649e1f41bba232312bdcbd8, type: 3}
       propertyPath: m_LocalScale.x
@@ -5934,6 +5937,43 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8765204135169871488, guid: 4c9ca800f666b63408fe03573a404694, type: 3}
   m_PrefabInstance: {fileID: 727815082}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &572936474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572936473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af6b62a4caaa8d4dbac008363ec3433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_basicBombHeld: 0
+  m_fireBombHeld: 0
+  m_areaBombHeld: 0
+  m_walkingBombHeld: 0
+  m_basicBombMax: 5
+  m_fireBombMax: 5
+  m_areaBombMax: 5
+  m_walkingBombMax: 5
+  m_basicBombPickup: 2
+  m_fireBombPickup: 2
+  m_areaBombPickup: 2
+  m_walkingBombPickup: 2
+--- !u!114 &572936475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572936473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_text: {fileID: 1323797541}
 --- !u!114 &572936479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13575,7 +13615,7 @@ Transform:
   - {fileID: 2141449597}
   - {fileID: 827952866}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1294009106
 PrefabInstance:
@@ -19035,7 +19075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423096165325760, guid: 00a13970af147ef4ebfcd56832d3a930, type: 3}
       propertyPath: m_TagString
-      value: Level 1 Bomb
+      value: Basic Bomb
       objectReference: {fileID: 0}
     - target: {fileID: 4635846456799096, guid: 00a13970af147ef4ebfcd56832d3a930, type: 3}
       propertyPath: m_RootOrder
@@ -19104,7 +19144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1323797541}
 --- !u!1001 &1799445179
 PrefabInstance:

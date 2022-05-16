@@ -6,10 +6,12 @@ TagManager:
   tags:
   - Placeable
   - Placed
-  - Level 1 Bomb
-  - Level 2 Bomb
   - Bomb
   - BombAudio
+  - Basic Bomb
+  - Fire Bomb
+  - Area Bomb
+  - Walking Bomb
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - UI
   - Destructable
   - Bomb
-  - 
+  - Enemy
   - 
   - 
   - 
