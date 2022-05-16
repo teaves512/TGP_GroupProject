@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FireTickBehaviour : MonoBehaviour
 {
+	private Transform m_AreaElevator;
     [Header("Componenent to damage")]
     [HideInInspector] private Destructable m_DestructableScript;
     [HideInInspector] private HealthComponent m_HealthCompScript;
@@ -21,17 +22,14 @@ public class FireTickBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_DestructableScript = GetComponentInParent<Destructable>();
+		m_AreaElevator = transform.Find("Area elevator");
+		m_DestructableScript = GetComponentInParent<Destructable>();
         m_HealthCompScript = GetComponentInParent<HealthComponent>();
 		if (!m_AreaSpread)
 		{
 			if (m_HealthCompScript == null && m_DestructableScript == null)
 			{
 				DestroySelf();
-			}
-			if (m_HealthCompScript)
-			{
-				m_FireDamage = m_FireDamage * m_FleshMultiplier;
 			}
 		}
         m_TimeOnFire = m_MaxTimeOnFire;
@@ -47,13 +45,13 @@ public class FireTickBehaviour : MonoBehaviour
             if(m_DestructableScript)
                 m_DestructableScript.TakeDamage(m_FireDamage);
             if(m_HealthCompScript)
-                m_HealthCompScript.TakeDamage(m_FireDamage);
+                m_HealthCompScript.TakeDamage(m_FleshDamage);
             m_TimeOnFire -= 1 * Time.deltaTime;
 
 			//move smoke down
 			if (m_SmokeObject)
 			{
-				gameObject.GetComponent<SmokeMovementBehaviour>().m_Move = true;
+				m_AreaElevator.GetComponent<SmokeMovementBehaviour>().m_Move = true;
 			}
 		}
         else if(m_FireObject && m_SmokeObject)
@@ -82,16 +80,12 @@ public class FireTickBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
-        Vector3 direction = (transform.position - other.transform.position).normalized;
-		if(other.tag == "Enemy")
+		if (m_TimeOnFire>1f && (other.tag == "Enemy" || other.tag == "Player"))
+		{
 			other.gameObject.GetComponent<HealthComponent>().TakeDamage(m_FleshDamage);
+		}
 	}
-	private void OnDrawGizmos()
-	{
-		Gizmos.DrawWireCube(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x*6, gameObject.GetComponent<Collider>().transform.localScale.y * 1, gameObject.GetComponent<Collider>().transform.localScale.z * 3f));
 
-	}
 	private void DestroySelf()
     {
         transform.parent = null;
