@@ -18,7 +18,9 @@ public enum AnimState
     THROW_BOMB,
 
     SHOOT,
-    DEAD
+    DEAD,
+
+    MAX
 }
 
 // ------------------------------------------------------------------ 
@@ -39,12 +41,17 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float m_CrouchSpeed = 5.0f;
     [SerializeField] private float m_ClimbSpeed  = 5.0f;
     [SerializeField] private float m_Dampening   = 10.0f;
+    [SerializeField] private float m_Gravity     = 10.0f;
 
     // ------------------------------------------------------------------ 
+
+    private Vector3 m_ClimbDirection;
+    private Ladder m_Ladder;
 
     private Vector2   m_AxisInput;
 
     private Rigidbody m_RB;
+    private Collider m_Coll;
 
     // ------------------------------------------------------------------ 
 
@@ -62,8 +69,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private bool      m_bDead;
 
-
-
+    private int       m_MovementKeysPressedConcurrently;
     // ------------------------------------------------------------------ 
 
     private void Start()
@@ -77,6 +83,8 @@ public class PlayerCharacter : MonoBehaviour
     {
         m_RB         = GetComponent<Rigidbody>();
 
+        m_Coll = GetComponent<Collider>();
+
         m_AnimState  = AnimState.IDLE;
 
         m_bSprinting = false;
@@ -89,7 +97,8 @@ public class PlayerCharacter : MonoBehaviour
         m_bPlacingBombOnWall  = false;
         m_bThrowingBomb       = false;
 
-        m_CurrentSpeed = 0.0f;
+        m_CurrentSpeed        = 0.0f;
+        m_MovementKeysPressedConcurrently = 0;
     }
 
     // ------------------------------------------------------------------ 
@@ -104,13 +113,33 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Movement()
     {
-        // Generate target velocity, based off direction player wants to move and current speed
-        Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y).normalized;
-        Vector3 velocity  = direction * m_CurrentSpeed;
-        velocity.y        = m_RB.velocity.y;
+        Vector3 velocity = Vector3.zero;
+
+        if (m_bClimbing)
+        {
+            velocity = m_ClimbDirection * m_AxisInput.y * m_ClimbSpeed;
+
+            float height = transform.position.y;
+
+            if (height > m_Ladder.GetTopPos().y)
+            {
+                if (m_AxisInput.y > 0) { AttachToLadder(m_Ladder); }
+            }
+            if (height < m_Ladder.GetBotPos().y)
+            {
+                if (m_AxisInput.y < 0) { AttachToLadder(m_Ladder); }
+            }
+        }
+        else
+        {
+            //generate target velocity, based off direction player wants to move and current speed
+            Vector3 direction = new Vector3(m_AxisInput.x, 0, m_AxisInput.y).normalized;
+            velocity = direction * m_CurrentSpeed;
+            velocity.y = m_RB.velocity.y - m_Gravity * Time.fixedDeltaTime;
+        }
 
         //interpolate towards the target velocity, from the current velocity
-        m_RB.velocity     = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
+        m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
     }
 
     private void Rotate()
@@ -130,8 +159,16 @@ public class PlayerCharacter : MonoBehaviour
     {
         switch (context.phase)
         {
+            case InputActionPhase.Started:
+                m_MovementKeysPressedConcurrently++;
+            break;
+
             //ONLY if the analogue stick is being used, get its input
             case InputActionPhase.Performed:
+
+                if (m_MovementKeysPressedConcurrently > 1)
+                    return;
+
                 m_AxisInput = context.ReadValue<Vector2>();
 
                 if (m_bClimbing) 
@@ -159,15 +196,17 @@ public class PlayerCharacter : MonoBehaviour
             break;
 
             //in any other state, reset to idle
-            default:
-                m_AxisInput  = Vector2.zero;
+            case InputActionPhase.Canceled:
+                m_AxisInput    = Vector2.zero;
 
-                m_bWalking   = false;
-                m_bSprinting = false;
+                m_bWalking     = false;
+                m_bSprinting   = false;
 
-                m_AnimState  = AnimState.IDLE;
+                m_AnimState    = AnimState.IDLE;
 
                 m_CurrentSpeed = 0.0f;
+
+                m_MovementKeysPressedConcurrently--;
             break;
         }
     }
@@ -182,6 +221,10 @@ public class PlayerCharacter : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Performed:
+
+                if (m_bSprinting)
+                    return;
+
                 m_bShooting    = true;
                 m_bWalking     = false;
                 m_bCrouching   = false;
@@ -191,7 +234,7 @@ public class PlayerCharacter : MonoBehaviour
                 m_CurrentSpeed = 0.0f;
             break;
 
-            default:
+            case InputActionPhase.Canceled:
                 m_bShooting = false;
 
                 if (m_bSprinting)
@@ -229,7 +272,7 @@ public class PlayerCharacter : MonoBehaviour
                 m_AnimState    = AnimState.SPRINTING;
             break;
 
-            default:
+            case InputActionPhase.Canceled:
                 m_bSprinting = false;
 
                 if (m_bWalking)
@@ -281,6 +324,19 @@ public class PlayerCharacter : MonoBehaviour
                 }
             break;
         }
+    }
+
+    public void AttachToLadder(Ladder ladder)
+    {
+        m_Ladder = ladder;
+        m_ClimbDirection = m_Ladder.GetClimbDirection();
+        m_RB.velocity = Vector3.zero;
+        m_bClimbing = !m_bClimbing;
+        m_Coll.enabled = !m_bClimbing;
+
+        if (m_bClimbing == false) { m_Ladder.DettachFromLadder(); }
+
+        Debug.Log(m_bClimbing ? "Attached." : "Detached.");
     }
 
     // ------------------------------------------------------------------ 
