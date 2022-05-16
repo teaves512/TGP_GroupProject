@@ -21,7 +21,7 @@ public class ChangeSceneButton : ButtonTemplate
 
     protected override void ButtonAction()
     {
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        SceneManager.UnloadSceneAsync(gameObject.scene);
         SceneManager.LoadSceneAsync(level.scene, LoadSceneMode.Additive);
     }
 
