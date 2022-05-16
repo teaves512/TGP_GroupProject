@@ -12,7 +12,7 @@ public class ChangeSceneButton : ButtonTemplate
 
     void Start()
     {
-        if (!SceneManager.GetSceneByName(c_PersistentSceneName).isLoaded)
+        if (!SceneLoaded(c_PersistentSceneName))
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
 
         text.text = level.levelName;
@@ -23,5 +23,19 @@ public class ChangeSceneButton : ButtonTemplate
     {
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         SceneManager.LoadSceneAsync(level.scene, LoadSceneMode.Additive);
+    }
+
+    bool SceneLoaded(string sceneName)
+    {
+        var scene = SceneManager.GetSceneByName(c_PersistentSceneName);
+
+        int count = SceneManager.sceneCount;
+        for(int i = 0; i < count; i++)
+        {
+            if (SceneManager.GetSceneAt(i) == scene)
+                return true;
+        }
+
+        return false;
     }
 }
