@@ -224,7 +224,7 @@ MonoBehaviour:
   m_FireObject: {fileID: 7871680375818449497}
   m_SmokeTime: 0
   m_SmokeObject: {fileID: 4913648649178186459}
-  m_FleshMultiplier: 500
+  m_FleshMultiplier: 80
 --- !u!65 &3201516504099374306
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_BombPrefab: {fileID: 5344994851480803743}
   m_BombVisual: {fileID: 142247124656941645}
   m_ExplosionParticleEffect: {fileID: 8301607879076417041}
-  m_RedFlash: {fileID: 0}
+  m_RedFlash: {fileID: 4411587707021402235}
   m_MaxRedFlashRate: 0.8
   m_LayerMask: 6
   m_DestroyDelay: 0.3
@@ -472,7 +472,7 @@ MonoBehaviour:
   hitColliders: []
   m_FireParticleObject: {fileID: 6041039555424434263, guid: b642d754017e4fa488b47bfe1bc61302, type: 3}
   m_FireVisual: {fileID: 2968888897620810689}
-  m_FireDamage: 0.001
+  m_FireDamage: 0.005
   m_TimeOnFire: 6
 --- !u!1 &7636820737636882848
 GameObject:

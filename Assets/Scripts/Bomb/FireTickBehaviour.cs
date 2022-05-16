@@ -23,8 +23,6 @@ public class FireTickBehaviour : MonoBehaviour
     void Start()
     {
 		m_AreaElevator = transform.Find("Area elevator");
-		m_DestructableScript = GetComponentInParent<Destructable>();
-        m_HealthCompScript = GetComponentInParent<HealthComponent>();
 		if (!m_AreaSpread)
 		{
 			if (m_HealthCompScript == null && m_DestructableScript == null)
@@ -80,9 +78,14 @@ public class FireTickBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-		if (m_TimeOnFire>1f && (other.tag == "Enemy" || other.tag == "Player"))
+		if (m_TimeOnFire>1f )
 		{
-			other.gameObject.GetComponent<HealthComponent>().TakeDamage(m_FleshDamage);
+			if(other.tag == "Enemy" || other.tag == "Player")
+				other.gameObject.GetComponent<HealthComponent>().TakeDamage(m_FleshDamage);
+			else if(other.gameObject.layer == 6)
+			{
+				m_DestructableScript=other.gameObject.GetComponent<Destructable>();
+			}
 		}
 	}
 
