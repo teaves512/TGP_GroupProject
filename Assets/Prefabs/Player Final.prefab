@@ -1008,6 +1008,8 @@ GameObject:
   - component: {fileID: 1780213636}
   - component: {fileID: 8849336474243438818}
   - component: {fileID: 557195679744361931}
+  - component: {fileID: 2108125746316347031}
+  - component: {fileID: 186836962985333785}
   m_Layer: 0
   m_Name: Player Final
   m_TagString: Player
@@ -1159,6 +1161,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f84403dc-4e21-4f6e-890c-08232cf734df
     m_ActionName: Player/Shoot[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 191838068892218035}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: SwapBombs
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 31771776-8dcd-4980-9c10-639414464760
+    m_ActionName: Player/Swap Bombs[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard+Mouse
   m_DefaultActionMap: Player
@@ -1178,11 +1196,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rayDistance: 1.25
   m_bombOffset: 0.02
-  m_bomb: {fileID: 5344994851480803743, guid: f4e6f01ac35fc2d48b76db0596ec0c89, type: 3}
   m_bombKey: q
   m_layerMask:
     serializedVersion: 2
     m_Bits: 0
+  m_basicBomb: {fileID: 5344994851480803743, guid: f78d1fffe9a340246a1c0d6d119b7cdc, type: 3}
+  m_fireBomb: {fileID: 5344994851480803743, guid: bdeaa540abd479f44ab3b9d98c1831a9, type: 3}
+  m_areaBomb: {fileID: 5344994851480803743, guid: f4e6f01ac35fc2d48b76db0596ec0c89, type: 3}
+  m_walkingBomb: {fileID: 6307672895546762008, guid: bc91b17c0e174184082fe28ab2b9da04, type: 3}
+  m_currentBomb: 
+  m_canvas: {fileID: 0}
+  m_pointer: {fileID: 0}
 --- !u!114 &191838068892218035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1195,7 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4923104482fb79845bd176a5a1512774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerHandPositionOffset: {x: 0, y: 1.34, z: 0.669}
+  m_PlayerHandPositionOffset: {x: 0, y: 1.34, z: 0.82}
   m_WalkSpeed: 6
   m_SprintSpeed: 9
   m_CrouchSpeed: 3
@@ -1227,8 +1251,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BulletPrefab: {fileID: 3174522518588142183, guid: 31ccac811b9a22b4c900c45ab16352f8, type: 3}
-  m_TimeDelayForBulletSpawn_FirstPress: 0
-  m_TimeDelayForBulletSpawn_HeldDown: 0
+  m_TimeDelayForBulletSpawn_FirstPress: 0.3
+  m_BulletParent: {fileID: 0}
+  m_TimeDelayForBulletSpawn_HeldDown: 1.2
 --- !u!136 &557195679744361931
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1243,6 +1268,45 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2108125746316347031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af6b62a4caaa8d4dbac008363ec3433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_basicBombHeld: 0
+  m_fireBombHeld: 0
+  m_areaBombHeld: 0
+  m_walkingBombHeld: 0
+  m_basicBombMax: 5
+  m_fireBombMax: 5
+  m_areaBombMax: 5
+  m_walkingBombMax: 5
+  m_basicBombPickup: 2
+  m_fireBombPickup: 2
+  m_areaBombPickup: 2
+  m_walkingBombPickup: 2
+--- !u!114 &186836962985333785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_text: {fileID: 0}
+  m_inventoryText: {fileID: 0}
+  m_bombPointer: {fileID: 0}
 --- !u!1 &6039815946147368087
 GameObject:
   m_ObjectHideFlags: 0

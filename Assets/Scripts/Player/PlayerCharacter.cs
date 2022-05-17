@@ -226,6 +226,11 @@ public class PlayerCharacter : MonoBehaviour
 
             //in any other state, reset to idle
             case InputActionPhase.Canceled:
+
+                // Dont want to exit out of climbing through just not pressing anything
+                if (m_bClimbing)
+                    return;
+
                 m_AxisInput    = Vector2.zero;
 
                 m_bWalking     = false;
@@ -363,13 +368,20 @@ public class PlayerCharacter : MonoBehaviour
 
     public void AttachToLadder(Ladder ladder)
     {
-        m_Ladder = ladder;
+        m_Ladder         = ladder;
         m_ClimbDirection = m_Ladder.GetClimbDirection();
-        m_RB.velocity = Vector3.zero;
-        m_bClimbing = !m_bClimbing;
-        m_Coll.enabled = !m_bClimbing;
+        m_RB.velocity    = Vector3.zero;
+        m_bClimbing      = !m_bClimbing;
+        m_Coll.enabled   = !m_bClimbing;
 
-        if (m_bClimbing == false) { m_Ladder.DettachFromLadder(); }
+        if (m_bClimbing == false) 
+        { 
+            m_Ladder.DettachFromLadder(); 
+        }
+        else 
+        {
+            m_AnimState = AnimState.CLIMBING;
+        }
 
         Debug.Log(m_bClimbing ? "Attached." : "Detached.");
     }

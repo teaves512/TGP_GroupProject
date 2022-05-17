@@ -28,10 +28,13 @@ public class BombPlacement : MonoBehaviour
 
     private void Start()
     {
-        m_inventory = gameObject.GetComponent<Inventory>();
+        if(GetComponent<Inventory>())
+            m_inventory = gameObject.GetComponent<Inventory>();
+
         m_currentBomb = "Basic Bomb";
 
-        m_pointer = m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>();
+        if(m_canvas && m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>())
+            m_pointer = m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -55,11 +58,17 @@ public class BombPlacement : MonoBehaviour
             case "Walking Bomb":
                 m_pointer.text = "\n" + "\n" + "\n" + "-->";
                 break;
+
+            default:
+                return;
         }
 
         Debug.DrawRay(transform.position, transform.forward, Color.red);
         if (Physics.Raycast(new Vector3( transform.position.x, transform.position.y+0.3f, transform.position.z), transform.forward, out m_hit, m_rayDistance, ~m_layerMask) && Input.GetKeyDown(m_bombKey))
         {
+            if (!m_inventory)
+                return;
+
             switch (m_currentBomb)
             {
                 case "Basic Bomb":
@@ -138,12 +147,19 @@ public class BombPlacement : MonoBehaviour
                         Debug.Log("Out of Walking Bombs");
                     }
                     break;
+
+
+                default:
+                    break;
             }    
         }
         else if(Input.GetKeyDown(m_bombKey))
         {
+            if (!m_inventory)
+                return;
+
             //Place bomb at the players feet
-            switch(m_currentBomb)
+            switch (m_currentBomb)
             {
                 case "Basic Bomb":
                     if (m_inventory.GetBasicBombCount() > 0)
@@ -173,6 +189,7 @@ public class BombPlacement : MonoBehaviour
                         m_inventory.ReduceWalkingBombCount();
                     }
                     break;
+
                 default:
                     break;
             }

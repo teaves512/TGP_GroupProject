@@ -82,6 +82,9 @@ public class GunControl : MonoBehaviour
 
     private void SpawnBullet()
     {
+        if (!m_BulletParent || !m_BulletPrefab)
+            return;
+
         GameObject newBullet = Instantiate(m_BulletPrefab, m_PositionToSpawn, Quaternion.Euler(m_DirectionToSpawn), m_BulletParent.transform);
 
         m_Bullets.Add(newBullet);

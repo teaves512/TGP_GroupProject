@@ -39,21 +39,18 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Walking",         true);
                     m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Crouching",       false);
-                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.SPRINTING:
                     m_PlayerAnimator.SetBool("Running",         true);
                     m_PlayerAnimator.SetBool("Crouching",       false);
-                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.CROUCHING:
                     m_PlayerAnimator.SetBool("Crouching",       true);
                     m_PlayerAnimator.SetBool("Running",         false);
-                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
@@ -70,7 +67,6 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Walking", false);
                     m_PlayerAnimator.SetBool("Running", false);
                     m_PlayerAnimator.SetBool("Crouching", false);
-                    m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
