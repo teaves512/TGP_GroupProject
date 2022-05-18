@@ -48,6 +48,8 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float m_Dampening   = 10.0f;
     [SerializeField] private float m_Gravity     = 10.0f;
 
+    [SerializeField] private PlayerAnimationTriggers m_AnimationTriggers;
+
     // ------------------------------------------------------------------ 
 
     private Vector3 m_ClimbDirection;
@@ -189,6 +191,14 @@ public class PlayerCharacter : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
+                if(m_bCrouching)
+                {
+                    if(m_AnimationTriggers)
+                        m_AnimationTriggers.SetCrouchWalking(true);
+
+                    m_bWalking = true;
+                }
+
                 m_MovementKeysPressedConcurrently++;
             break;
 
@@ -209,6 +219,7 @@ public class PlayerCharacter : MonoBehaviour
                 { 
                     m_AnimState    = AnimState.CROUCHING;
                     m_CurrentSpeed = m_CrouchSpeed;
+                    m_bWalking     = true;
                 }
                 else if (m_bSprinting) 
                 { 
@@ -236,7 +247,15 @@ public class PlayerCharacter : MonoBehaviour
                 m_bWalking     = false;
                 m_bSprinting   = false;
 
-                m_AnimState    = AnimState.IDLE;
+                if (!m_bCrouching)
+                    m_AnimState = AnimState.IDLE;
+                else
+                {
+                    if (m_AnimationTriggers)
+                        m_AnimationTriggers.SetCrouchWalking(false);
+
+                    m_AnimState = AnimState.CROUCHING;
+                }
 
                 m_CurrentSpeed = 0.0f;
 
