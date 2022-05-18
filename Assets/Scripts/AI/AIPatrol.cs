@@ -36,6 +36,9 @@ public class PatrolState : FSMBaseState
     private float m_DecisionTimer = 1.0f;
     private bool  m_HeardBomb     = false;
 
+    private GameObject mPlayer;
+    private Vector3 m_PlayerEyePosition;
+
     public PatrolState()
     {
         m_InternalState = PatrolFSMState.PATROL;
@@ -43,10 +46,14 @@ public class PatrolState : FSMBaseState
 
     public override PatrolFSMState HandleTransition() 
     {
-        // See if the player is in sight
-        // If so transition to attacking the player
-        //if()
-          //  return PatrolFSMState.ATTACK_PLAYER;
+        // Send a ray cast out of the enemy's eyes to see if they can see the player
+        RaycastHit hit;
+        Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
+
+        if(hit.collider.tag == "Player")
+        {
+            return PatrolFSMState.ATTACK_PLAYER;
+        }
 
         // if the player is heard then go into invertigate
         if (m_HeardBomb)
@@ -142,6 +149,11 @@ public class PatrolState : FSMBaseState
 
 public class AttackPlayerState : FSMBaseState
 {
+    private Vector3    m_PositionToInvestigate;
+
+    private GameObject mPlayer;
+    private Vector3    m_PlayerEyePosition;
+
     public AttackPlayerState()
     {
         m_InternalState = PatrolFSMState.ATTACK_PLAYER;
@@ -149,12 +161,21 @@ public class AttackPlayerState : FSMBaseState
 
     public override PatrolFSMState HandleTransition()
     {
+        // Send a ray cast out of the enemy's eyes to see if they can see the player
+        RaycastHit hit;
+        Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
+
+        if (hit.collider.tag == "Player")
+        {
+            return PatrolFSMState.ATTACK_PLAYER;
+        }
+
         return PatrolFSMState.SAME;
     }
 
     public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
     {
-
+        // Walk towards the position we want to investigate
     }
 
     public override void OnEnter(ref AnimState animationState)
