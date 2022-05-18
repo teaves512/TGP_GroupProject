@@ -13,10 +13,13 @@ enum State
 }
 public class BossBehaviour : MonoBehaviour
 {
-    [Header("Boss Body")]
+    [Header("Boss Self Stats")]
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
-    [SerializeField] private Vector3 m_RaycastOriginOffset;
+    [SerializeField] private Transform m_BulletSpawn;
+    [SerializeField] private GameObject m_Bullet;
+    [SerializeField] private float m_BulletDamage;
+    [SerializeField] private float m_BulletForce;
     [Header("State")]
     [SerializeField] private State m_CurrentState;
     [Header("Game Knowledge")]
@@ -52,6 +55,7 @@ public class BossBehaviour : MonoBehaviour
             }
             case State.FIRING:
             {
+                Attack();
                 break;
             }
        }
@@ -66,18 +70,17 @@ public class BossBehaviour : MonoBehaviour
             {
                 // is view of player blocked?
                 RaycastHit hit;
-                if(Physics.Raycast(transform.position+ m_RaycastOriginOffset, playerDirection, out hit,Mathf.Infinity))
+                if(Physics.Raycast(transform.position, playerDirection, out hit,Mathf.Infinity))
                 {
-                    Debug.Log("Player cone");
                     if(hit.collider.gameObject == m_Player)
                     {
-                        Debug.DrawRay(transform.position + m_RaycastOriginOffset, playerDirection, Color.green);
-                        Attack();
+                        Debug.DrawRay(transform.position, playerDirection, Color.green);
+                        m_CurrentState = State.FIRING;
                     }
                     else
                     {
                         Debug.Log("Player not visable");
-                        Debug.DrawRay(transform.position + m_RaycastOriginOffset, playerDirection, Color.red);
+                        Debug.DrawRay(transform.position, playerDirection, Color.red);
                     }
                 }
 
@@ -87,6 +90,11 @@ public class BossBehaviour : MonoBehaviour
     }
     private void Attack()
     {
+        Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
         Debug.Log("BOOM");
+        GameObject bullet = Instantiate(m_Bullet, m_BulletSpawn.position, m_BulletSpawn.rotation);
+        bullet.GetComponent<BossBulletBehaviour>().m_Damage = m_BulletDamage;
+        bullet.GetComponent<Rigidbody>().AddForce(m_BulletSpawn.forward * m_BulletForce, ForceMode.Impulse);
+        m_CurrentState = State.SEARCHING;
     }
 }
