@@ -29,6 +29,11 @@ public class AIPatrolMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float distance = (m_TargetPosition.position - m_ThisGameObject.transform.position).magnitude;
+
+        if (distance < 0.1f)
+            return;
+
         Vector3 moveDirection               = (m_TargetPosition.position - m_ThisGameObject.transform.position).normalized;
 
         m_ThisGameObject.transform.position += moveDirection * Time.deltaTime * c_MovementSpeed;
