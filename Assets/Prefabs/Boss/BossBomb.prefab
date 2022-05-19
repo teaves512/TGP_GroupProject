@@ -110,7 +110,7 @@ Transform:
   m_GameObject: {fileID: 7593936186827442628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 5391254231072964646}
   - {fileID: 3900522409441784014}
@@ -164,7 +164,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &6164305833120157764
 BoxCollider:
@@ -192,19 +192,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 198308581884401260, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: playOnAwake

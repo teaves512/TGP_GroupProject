@@ -34,12 +34,45 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
+	[Header("Shock Waves")]
+	[SerializeField] private GameObject m_FullShock;
+	[SerializeField] private GameObject m_HalfShock;
+	[SerializeField] private float m_ShockwaveInterval = 3.0f;
+	private bool m_bFullShock = true;
 
-    // Start is called before the first frame update
-    void Start()
+	private Coroutine m_cShockwaves = null;
+
+	// Start is called before the first frame update
+	void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
+
+		m_cShockwaves = null;
+		StartShockwaves();
     }
+
+	private void StartShockwaves()
+	{
+		if (m_cShockwaves != null) { StopCoroutine(m_cShockwaves); }
+		m_cShockwaves = StartCoroutine(C_Shockwaves());
+	}
+
+	private IEnumerator C_Shockwaves()
+	{
+		m_bFullShock = true;
+		while (true)
+		{
+			yield return new WaitForSeconds(m_ShockwaveInterval);
+
+			Vector3 rot = (m_Player.transform.position - transform.position).normalized;
+			Quaternion qRot = Quaternion.LookRotation(rot, Vector3.up);
+
+			Instantiate((m_bFullShock) ? m_FullShock : m_HalfShock, transform.position, qRot);
+			m_bFullShock = !m_bFullShock;
+		}
+
+		m_cShockwaves = null;
+	}
 
     // Update is called once per frame
     void Update()
