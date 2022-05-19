@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 2612610687343280616}
   m_Layer: 0
   m_Name: Bomb-omb Cool
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,6 +67,7 @@ Transform:
   m_Children:
   - {fileID: 6279897689162029734}
   - {fileID: 4676438797079042188}
+  - {fileID: 8674728767916303873}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -91,15 +92,16 @@ MonoBehaviour:
   m_DestroyDelay: 0.3
   m_SelfDestroyDelay: 0.6
   m_TimerEnabled: 1
-  m_ClusterEnabled: 1
-  m_Damage: 5
+  m_ClusterEnabled: 0
+  m_Damage: 10
   m_Timer: 4
-  m_ClusterDamage: 0
+  m_ClusterDamage: 5
   m_ClusterBomb: {fileID: 5344994851480803743, guid: beead9b144da68249b7ad46c93729c50, type: 3}
   m_ForceValue: 0.3
   m_ShakeMagnitude: 0.5
   m_ShakeTime: 0.1
   m_ShakeLength: 0.5
+  m_BombSoundRadius: {fileID: 6245343638296969734}
   m_WalkSpeed: 3
   m_Dampening: 10
   hitColliders: []
@@ -115,8 +117,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.30689132, y: 0.3968398, z: 0.6619688}
+  m_Center: {x: 0.018587023, y: 0.0043729246, z: 0.072520554}
 --- !u!54 &2612610687343280616
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,6 +135,50 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!1 &6245343638296969734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8674728767916303873}
+  - component: {fileID: 537891331231704138}
+  m_Layer: 0
+  m_Name: ExplosionAudioRange
+  m_TagString: BombAudio
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8674728767916303873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245343638296969734}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2847556718044287464}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &537891331231704138
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6245343638296969734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6282531520596980007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,7 +2221,6 @@ GameObject:
   - component: {fileID: 6279897689162029734}
   - component: {fileID: 6287397478404322904}
   - component: {fileID: 6297147814856105864}
-  - component: {fileID: 5775182390825187045}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -2248,19 +2293,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5775182390825187045
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6284064947266066498}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.086260565, y: 0.19812903, z: 0.08626121}
-  m_Center: {x: -0.000000025593963, y: -0.025749605, z: 6.5315875e-17}
 --- !u!1001 &4681212914222781572
 PrefabInstance:
   m_ObjectHideFlags: 0

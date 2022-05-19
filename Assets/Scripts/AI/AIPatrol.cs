@@ -20,11 +20,11 @@ public class FSMBaseState
 {
     public virtual PatrolFSMState HandleTransition() { return PatrolFSMState.SAME; }
 
-    public virtual void Update(float deltaTime, GameObject player) { }
+    public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState) { }
 
-    public virtual void OnEnter() { }
+    public virtual void OnEnter(ref AnimState animationState) { }
 
-    public virtual void OnExit() { }
+    public virtual void OnExit(ref AnimState animationState) { }
 
     public PatrolFSMState m_InternalState;
 }
@@ -33,85 +33,126 @@ public class FSMBaseState
 
 public class PatrolState : FSMBaseState
 {
-    private float m_DecisionTimer = 1.0f;
+    private float m_DecisionTimer;
+    private float m_DecisionTimerMax = 3.0f;
+    private bool  m_HeardBomb     = false;
+
+    private GameObject mPlayer;
+    private Vector3 m_PlayerEyePosition;
 
     public PatrolState()
     {
+        m_DecisionTimer = Random.Range(0.5f, m_DecisionTimerMax);
+
         m_InternalState = PatrolFSMState.PATROL;
     }
 
     public override PatrolFSMState HandleTransition() 
     {
-        // See if the player is in sight
-        // If so transition to attacking the player
-        //if()
-          //  return PatrolFSMState.ATTACK_PLAYER;
+        // Send a ray cast out of the enemy's eyes to see if they can see the player
+       // RaycastHit hit;
+      //  Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
+
+        //if(hit.collider.tag == "Player")
+        //{
+        //    return PatrolFSMState.ATTACK_PLAYER;
+        //}
 
         // if the player is heard then go into invertigate
-        //if ()
-          //  return PatrolFSMState.INVESTIGATE;
+        if (m_HeardBomb)
+            return PatrolFSMState.INVESTIGATE;
 
         // Otherwise just stay in this state
         return PatrolFSMState.SAME; 
     }
 
-    public override void Update(float deltaTime, GameObject player) 
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState) 
     {
-        m_DecisionTimer -= Time.deltaTime;
-
         // See if we are at the next waypoint position, if so choose a direction to go from here
-        if (m_DecisionTimer <= 0.0f && (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude < 0.5f)
+        double length = (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude;
+
+        // If hit the waypoint
+        if (length < 0.1f)
         {
-            m_DecisionTimer = 1.0f;
+            // Take time off the delay
+            m_DecisionTimer -= Time.deltaTime;
 
-            // Choose a new waypoint to go to
-            int waypointLength = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints.Length;
-
-            if (waypointLength == 0)
-                return;
-
-            if(waypointLength == 1)
+            // If the decision has been made
+            if (m_DecisionTimer <= 0.0f)
             {
-                player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
-                player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[0]);
-                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
-                return;
-            }
-            
-            int cameFromID = 0;
+                // Reset the timer
+                m_DecisionTimer = Random.Range(0.1f, m_DecisionTimerMax);
 
-            // Find the current ID of where we came from
-            for(int i = 0; i < waypointLength; i++)
-            {
-                if(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[i].transform.position == player.GetComponent<AIPatrol>().GetPriorWaypoint().transform.position)
+                // Set that they are walking
+                animationState = AnimState.WALKING;
+
+                // Choose a new waypoint to go to
+                int waypointLength = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints.Length;
+
+                if (waypointLength == 0)
                 {
-                    cameFromID = i;
-                    break;
+                    animationState = AnimState.IDLE;
+                    return;
                 }
-            }
 
-            // Choose a random ID that does not match the one we came from
-            int chosenID = Random.Range(0, waypointLength);
-            while (chosenID == cameFromID)
+                if (waypointLength == 1)
+                {
+                    player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
+                    player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[0]);
+                    player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
+                    return;
+                }
+
+                int cameFromID = 0;
+
+                // Find the current ID of where we came from
+                for (int i = 0; i < waypointLength; i++)
+                {
+                    if (player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[i].transform.position == player.GetComponent<AIPatrol>().GetPriorWaypoint().transform.position)
+                    {
+                        cameFromID = i;
+                        break;
+                    }
+                }
+
+                // Choose a random ID that does not match the one we came from
+                int chosenID = Random.Range(0, waypointLength);
+                while (chosenID == cameFromID)
+                {
+                    chosenID = Random.Range(0, waypointLength);
+                }
+
+                player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
+                player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[chosenID]);
+
+                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
+            }
+            else
             {
-                chosenID = Random.Range(0, waypointLength);
+                animationState = AnimState.IDLE;
             }
-
-            player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
-            player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[chosenID]);
-
-            player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
         }
     }
 
-    public override void OnEnter() 
+    public override void OnEnter(ref AnimState animationState) 
     {
-    
+        m_HeardBomb     = false;
+        m_DecisionTimer = 1.0f;
+
+        animationState = AnimState.IDLE;
     }
 
-    public override void OnExit() 
+    public override void OnExit(ref AnimState animationState) 
     {
-    
+        m_HeardBomb     = false;
+        m_DecisionTimer = 1.0f;
+
+        animationState = AnimState.IDLE;
+    }
+
+    public void SetHeardBomb(bool state)
+    {
+        m_HeardBomb = state;
     }
 }
 
@@ -119,6 +160,11 @@ public class PatrolState : FSMBaseState
 
 public class AttackPlayerState : FSMBaseState
 {
+    private Vector3    m_PositionToInvestigate;
+
+    private GameObject mPlayer;
+    private Vector3    m_PlayerEyePosition;
+
     public AttackPlayerState()
     {
         m_InternalState = PatrolFSMState.ATTACK_PLAYER;
@@ -126,22 +172,31 @@ public class AttackPlayerState : FSMBaseState
 
     public override PatrolFSMState HandleTransition()
     {
+        // Send a ray cast out of the enemy's eyes to see if they can see the player
+       // RaycastHit hit;
+       // Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
+
+       // if (hit.collider.tag == "Player")
+       // {
+       //     return PatrolFSMState.ATTACK_PLAYER;
+        //}
+
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
     {
-
+        // Walk towards the position we want to investigate
     }
 
-    public override void OnEnter()
+    public override void OnEnter(ref AnimState animationState)
     {
-
+        animationState = AnimState.SHOOT;
     }
 
-    public override void OnExit()
+    public override void OnExit(ref AnimState animationState)
     {
-
+        animationState = AnimState.SHOOT;
     }
 }
 
@@ -159,19 +214,19 @@ public class InvestigateState : FSMBaseState
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
     {
 
     }
 
-    public override void OnEnter()
+    public override void OnEnter(ref AnimState animationState)
     {
-
+        animationState = AnimState.IDLE;
     }
 
-    public override void OnExit()
+    public override void OnExit(ref AnimState animationState)
     {
-
+        animationState = AnimState.IDLE;
     }
 }
 
@@ -204,12 +259,16 @@ public class AIPatrol : MonoBehaviour
 
     private PatrolFSM m_PatrolFSM;
 
+    private AnimState m_CurrentState = AnimState.IDLE;
+
+    public AnimState GetCurrentAnimationState() { return m_CurrentState; }
+
     // ----------------------------------------------------------------------------
 
-    public PatrolWaypoint GetCurrentWaypoint()                    { return m_CurrentWaypoint; }
+    public PatrolWaypoint GetCurrentWaypoint()                           { return m_CurrentWaypoint; }
     public void           SetCurrentWaypoint(PatrolWaypoint newWaypoint) { m_CurrentWaypoint = newWaypoint; }
 
-    public PatrolWaypoint GetPriorWaypoint() { return m_PriorWaypoint; }
+    public PatrolWaypoint GetPriorWaypoint()                 { return m_PriorWaypoint; }
     public void SetPriorWaypoint(PatrolWaypoint newWaypoint) { m_PriorWaypoint = newWaypoint; }
 
     // ----------------------------------------------------------------------------
@@ -217,16 +276,18 @@ public class AIPatrol : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        m_CurrentState = AnimState.IDLE;
+
         m_CurrentWaypoint  = m_StartWaypoint;
         m_PriorWaypoint    = m_CurrentWaypoint;
 
         transform.position = m_StartWaypoint.m_ThisPosition.position;
 
-        m_PatrolFSM = new PatrolFSM();
+        m_PatrolFSM        = new PatrolFSM();
 
         m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-        m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+        m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
     }
 
     // ----------------------------------------------------------------------------
@@ -234,47 +295,49 @@ public class AIPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject);
+        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject, ref m_CurrentState);
 
         switch ((m_PatrolFSM.m_FSMStack.Peek().HandleTransition()))
         {
             case PatrolFSMState.PATROL:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.INVESTIGATE:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new InvestigateState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.ATTACK_PLAYER:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_CurrentState = AnimState.SHOOT;
+
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Push(new AttackPlayerState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
             case PatrolFSMState.Exit:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit();
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
 
                     m_PatrolFSM.m_FSMStack.Pop();
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter();
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
             }
             break;
 
@@ -283,7 +346,19 @@ public class AIPatrol : MonoBehaviour
         }
     }
 
-    // ----------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------
+
+    public void SetHeardBomb(Vector3 position)
+    {
+        // In here if a bomb goes off in range of the enemy
+        if(m_PatrolFSM.m_FSMStack.Peek().m_InternalState == PatrolFSMState.PATROL)
+        {
+            PatrolState state = (PatrolState)m_PatrolFSM.m_FSMStack.Peek();
+            state.SetHeardBomb(true);
+        }
+    }
+
+    // ---------------------------------------------------------------------------
 }
 
 // ----------------------------------------------------------------------
