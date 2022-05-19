@@ -3780,7 +3780,7 @@ GameObject:
   - component: {fileID: 1013260149}
   - component: {fileID: 1013260154}
   m_Layer: 0
-  m_Name: Bomber Geeza
+  m_Name: drop point locations
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
