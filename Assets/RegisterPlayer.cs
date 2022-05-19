@@ -10,11 +10,21 @@ public class RegisterPlayer : ButtonTemplate
     
     protected override void ButtonAction()
     {
-        if (m_PlayerName.text == null)
+        UserManager.Instance.Load();
+        if (UserManager.Instance.m_User.HasRegistered)
+        {
+            m_NextSceneName = "Scene2";
+            ChangeScene();
+            return;
+        }
+        if (m_PlayerName.text != null)
         {
             UserManager.Instance.UpdateUser(m_PlayerName.text);
+            ChangeScene();
         }
-        ChangeScene();
         
+        UserManager.Instance.m_User.PlayersAchievements.AddBombsDropped();
+
     }
+    
 }

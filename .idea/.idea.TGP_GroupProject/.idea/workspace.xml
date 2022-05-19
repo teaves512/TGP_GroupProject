@@ -11,9 +11,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/MainMenuButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/GameScenButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/StartGameButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/MainMenuButton.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -78,6 +78,8 @@
       <workItem from="1652909941574" duration="463000" />
       <workItem from="1652910421467" duration="48000" />
       <workItem from="1652910481241" duration="14900000" />
+      <workItem from="1652957684762" duration="1225000" />
+      <workItem from="1652958981863" duration="1326000" />
     </task>
     <servers />
   </component>
