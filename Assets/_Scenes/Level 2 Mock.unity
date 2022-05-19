@@ -19741,14 +19741,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_BaseWall_Broken_01 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 1279273032208474, guid: ba3e5aae0c91f3440810571444be825b, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1279273032208474, guid: ba3e5aae0c91f3440810571444be825b, type: 3}
-      propertyPath: m_TagString
-      value: Placeable
-      objectReference: {fileID: 0}
     - target: {fileID: 4189689255565714, guid: ba3e5aae0c91f3440810571444be825b, type: 3}
       propertyPath: m_RootOrder
       value: 13

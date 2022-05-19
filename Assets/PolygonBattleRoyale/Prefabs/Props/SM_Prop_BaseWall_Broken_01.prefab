@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 23593486308547406}
   - component: {fileID: 64749194984892626}
   - component: {fileID: 6709042236939590910}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SM_Prop_BaseWall_Broken_01
-  m_TagString: Untagged
+  m_TagString: Placeable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279273032208474}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
