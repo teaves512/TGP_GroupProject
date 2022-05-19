@@ -2,26 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossBulletBehaviour : MonoBehaviour
+public class BossBulletBehaviour : AreaBombBehaviour
 {
-    [SerializeField] public float m_Damage;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public float m_DamagePass;
+	protected override void Start()
+	{
+		m_Damage = m_DamagePass;
+		base.Start();
+	}
+
+
+	private void OnCollisionEnter(Collision collision)
     {
-    }
-
-
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            //deal damage
-        }
-
-        if(collision.gameObject.layer == 6)
-        {
-            collision.gameObject.GetComponent<Destructable>().TakeDamage(m_Damage);
-        }
+		GetComponent<Rigidbody>().velocity =new Vector3(0,0,0);
+		StartCoroutine(base.Explode());
     }
 }

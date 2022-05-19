@@ -19,6 +19,8 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_RotationSpeed;
     [SerializeField] private Vector3 m_TargetDirection;
     [SerializeField] private Quaternion m_LookRot;
+	[SerializeField] private float m_T = 0;
+	[HideInInspector] private bool m_CanSee;
     [Header("Bullet Stats")]
     [SerializeField] private Transform m_BulletSpawn;
     [SerializeField] private GameObject m_Bullet;
@@ -42,7 +44,8 @@ public class BossBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_AimDirection = m_Turret.transform.forward;
+		m_CanSee = RaycastCheck();
+		m_AimDirection = m_Turret.transform.forward;
        switch (m_CurrentState)
        {
             case State.IDLE:
@@ -68,21 +71,34 @@ public class BossBehaviour : MonoBehaviour
     }
     private void SearchForPlayer()
     {
-        //picking random angle
-        if (!m_Rotating)
-        {
-            m_TargetDirection = (new Vector3(0.0f, Random.Range(0.0f, 360.0f), 0.0f)) ;
-            m_LookRot = Quaternion.LookRotation( m_TargetDirection);
-        }
-        m_Rotating = true;
-        m_Turret.transform.rotation = Quaternion.RotateTowards(m_Turret.transform.rotation, m_LookRot,m_RotationSpeed * Time.deltaTime);
-        //if(Quaternion.Angle( m_Turret.transform.rotation , m_LookRot) < 0.01f)
-        //{
-        //    m_Rotating = false;
-        //    m_CurrentState = State.PLAYER_IN_SIGHT;
-        //}
+		//picking random angle
+		//if (!m_Rotating)
+		//{
+		//	m_TargetDirection = (new Vector3(0.0f, Random.Range(-180.0f, 180.0f), 0.0f));
+		//}
+		//m_Rotating = true;
+		//m_Turret.transform.Rotate(Vector3.up, m_RotationSpeed * Time.deltaTime, Space.Self);
 
-    }
+		//picking random angle
+		if(m_CanSee)
+		{
+			m_TargetDirection = (m_Player.transform.position - m_Turret.transform.position).normalized;
+			Vector3 angle = Quaternion.LookRotation(m_TargetDirection).eulerAngles;
+			angle.x = 0;
+			m_LookRot = Quaternion.Euler(angle);
+			m_T += Time.deltaTime;
+			m_Turret.transform.rotation = Quaternion.Lerp(m_Turret.transform.rotation, m_LookRot, m_T * m_RotationSpeed);
+
+			if (m_T > 1.0f)
+			{
+				//m_Rotating = false;
+				m_CurrentState = State.PLAYER_IN_SIGHT;
+				m_T = 0;
+			}
+		}
+
+
+	}
     private void CheckForPlayer()
     {
 
@@ -92,21 +108,17 @@ public class BossBehaviour : MonoBehaviour
             Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
             if (Vector3.Angle(m_AimDirection, playerDirection) < m_FOV / 2) // Vector3.Angle uses the middle so FOV/2 each side
             {
-                // is view of player blocked?
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity))
+
+                if (m_CanSee)
                 {
-                    if (hit.collider.gameObject == m_Player)
-                    {
-                        Debug.DrawRay(transform.position, playerDirection, Color.green);
-                        m_CurrentState = State.FIRING;
-                    }
-                    else
-                    {
-                        Debug.Log("Player not visable");
-                        Debug.DrawRay(transform.position, playerDirection, Color.red);
-                        m_CurrentState = State.SEARCHING;
-                    }
+                    Debug.DrawRay(transform.position, playerDirection, Color.green);
+                    m_CurrentState = State.FIRING;
+                }
+                else
+                {
+                    Debug.Log("Player not visable");
+                    Debug.DrawRay(transform.position, playerDirection, Color.red);
+                    m_CurrentState = State.SEARCHING;
                 }
 
             }
@@ -115,11 +127,28 @@ public class BossBehaviour : MonoBehaviour
     }
     private void Attack()
     {
-        Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
-        Debug.Log("BOOM");
         GameObject bullet = Instantiate(m_Bullet, m_BulletSpawn.position, m_BulletSpawn.rotation);
-        bullet.GetComponent<BossBulletBehaviour>().m_Damage = m_BulletDamage;
+        bullet.GetComponent<BossBulletBehaviour>().m_DamagePass = m_BulletDamage;
         bullet.GetComponent<Rigidbody>().AddForce(m_BulletSpawn.forward * m_BulletForce, ForceMode.Impulse);
         m_CurrentState = State.SEARCHING;
     }
+
+	private bool RaycastCheck()
+	{
+		bool canSee = false;
+		Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity))
+		{
+			if (hit.collider.gameObject == m_Player)
+			{
+				canSee = true;
+			}
+			else
+			{
+				canSee = false;
+			}
+		}
+		return canSee;
+	}
 }

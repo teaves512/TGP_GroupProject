@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 6695263151854929790}
   - component: {fileID: 6670886041933669876}
   - component: {fileID: 6680455881271821556}
-  - component: {fileID: 6629491005442181608}
   - component: {fileID: 3682337300668459011}
   - component: {fileID: 699112910057323241}
+  - component: {fileID: -3480812945078555607}
   m_Layer: 0
   m_Name: Boss Ammo
   m_TagString: Untagged
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6629491005442181608
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6692619613185864530}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43098415671269996, guid: a405442269e6f2c488a7d13251804cc9, type: 2}
 --- !u!54 &3682337300668459011
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,3 +114,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Damage: 0
+--- !u!65 &-3480812945078555607
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6692619613185864530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06151539, y: 0.063194476, z: 0.11110397}
+  m_Center: {x: 0, y: 0, z: 0}
