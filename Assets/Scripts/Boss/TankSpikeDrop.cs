@@ -7,7 +7,7 @@ public class TankSpikeDrop : MonoBehaviour
 	[Header("Asset breakdown")]
 	[SerializeField] private GameObject m_Prefab;
 	[SerializeField] private GameObject m_Parachute;
-	[SerializeField] private GameObject m_Spike;
+
 	[SerializeField] private float m_DestroyDelay = 2.0f;
 	[SerializeField] private float m_DistanceToGround;
 
