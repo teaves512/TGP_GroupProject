@@ -237,11 +237,6 @@ public class PlayerCharacter : MonoBehaviour
 
             //in any other state, reset to idle
             case InputActionPhase.Canceled:
-
-                // Dont want to exit out of climbing through just not pressing anything
-                if (m_bClimbing)
-                    return;
-
                 m_AxisInput    = Vector2.zero;
 
                 m_bWalking     = false;
@@ -325,10 +320,13 @@ public class PlayerCharacter : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Performed:
-                m_bSprinting   = true;
-                m_CurrentSpeed = m_SprintSpeed;
+                if (m_bWalking || m_bCrouching)
+                {
+                    m_bSprinting   = true;
+                    m_CurrentSpeed = m_SprintSpeed;
 
-                m_AnimState    = AnimState.SPRINTING;
+                    m_AnimState    = AnimState.SPRINTING;
+                }
             break;
 
             case InputActionPhase.Canceled:
