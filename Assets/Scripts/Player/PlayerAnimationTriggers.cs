@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAnimationTriggers : MonoBehaviour
 {
+    // ----------------------------------------------------------------------
+
     private PlayerCharacter m_Player;
 
     private Animator        m_PlayerAnimator;
@@ -18,6 +20,8 @@ public class PlayerAnimationTriggers : MonoBehaviour
         m_Player         = GetComponent<PlayerCharacter>();
     }
 
+    // ----------------------------------------------------------------------
+
     // Update is called once per frame
     void Update()
     {
@@ -28,17 +32,21 @@ public class PlayerAnimationTriggers : MonoBehaviour
             switch(newState)
             {
                 case AnimState.IDLE:
+                    if(m_CurrentState == AnimState.CROUCHING)
+                    {
+                        m_PlayerAnimator.SetBool("Crouching", false);
+                    }
+
                     m_PlayerAnimator.SetBool("Walking",         false);
                     m_PlayerAnimator.SetBool("Running",         false);
-                    m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
-                    break;
+                break;
 
                 case AnimState.WALKING:
                     m_PlayerAnimator.SetBool("Walking",         true);
-                    m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Crouching",       false);
+                    m_PlayerAnimator.SetBool("Running",         false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
@@ -55,18 +63,18 @@ public class PlayerAnimationTriggers : MonoBehaviour
                 break;
 
                 case AnimState.DEAD:
-                    m_PlayerAnimator.SetBool("Walking", false);
-                    m_PlayerAnimator.SetBool("Running", false);
-                    m_PlayerAnimator.SetBool("Crouching", false);
+                    m_PlayerAnimator.SetBool("Walking",         false);
+                    m_PlayerAnimator.SetBool("Running",         false);
+                    m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Climbing Ladder", false);
-                    m_PlayerAnimator.SetBool("Dead", true);
+                    m_PlayerAnimator.SetBool("Dead",            true);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
                 case AnimState.THROW_BOMB:
-                    m_PlayerAnimator.SetBool("Walking", false);
-                    m_PlayerAnimator.SetBool("Running", false);
-                    m_PlayerAnimator.SetBool("Crouching", false);
+                    m_PlayerAnimator.SetBool("Walking",         false);
+                    m_PlayerAnimator.SetBool("Running",         false);
+                    m_PlayerAnimator.SetBool("Crouching",       false);
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
@@ -95,6 +103,24 @@ public class PlayerAnimationTriggers : MonoBehaviour
             }
 
             m_CurrentState = newState;
+        }
+    }
+
+    // ----------------------------------------------------------------------
+
+    public void SetCrouchWalking(bool state)
+    {
+        if (state)
+        {
+            m_PlayerAnimator.SetBool("Walking", true);
+            m_PlayerAnimator.SetBool("Running", false);
+            m_PlayerAnimator.SetBool("Crouching", true);
+        }
+        else
+        {
+            m_PlayerAnimator.SetBool("Walking", false);
+            m_PlayerAnimator.SetBool("Running", false);
+            m_PlayerAnimator.SetBool("Crouching", true);
         }
     }
 

@@ -1226,6 +1226,7 @@ MonoBehaviour:
   m_ClimbSpeed: 4
   m_Dampening: 10
   m_Gravity: 80
+  m_AnimationTriggers: {fileID: 1780213636}
 --- !u!114 &1780213636
 MonoBehaviour:
   m_ObjectHideFlags: 0
