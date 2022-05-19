@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 6948661923053501550}
   m_Layer: 0
   m_Name: BasicBomb
-  m_TagString: Untagged
+  m_TagString: Bomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,6 +238,7 @@ MonoBehaviour:
   m_ShakeTime: 0.1
   m_ShakeLength: 0.5
   m_BombSoundRadius: {fileID: 3250515417927469176}
+  m_MoveBack: -1
 --- !u!1 &7387436586335280413
 GameObject:
   m_ObjectHideFlags: 0
