@@ -72,6 +72,8 @@ public class BombPlacement : MonoBehaviour
             switch (m_currentBomb)
             {
                 case "Basic Bomb":
+                    //Limited Basic Bombs
+                    /*
                     if (m_inventory.GetBasicBombCount() > 0)
                     {
                         if (m_hit.collider.gameObject.tag == "Placeable")
@@ -88,6 +90,18 @@ public class BombPlacement : MonoBehaviour
                     else
                     {
                         Debug.Log("Out of Basic Bombs");
+                    }
+                    */
+                    //Unlimited Basic Bombs
+                    if (m_hit.collider.gameObject.tag == "Placeable")
+                    {
+                        PlaceBomb(m_hit, m_basicBomb);
+                        m_inventory.ReduceBasicBombCount();
+                        Debug.Log("Bomb Placed on Wall");
+                    }
+                    else if (m_hit.collider.gameObject.tag == "Placed")
+                    {
+                        Debug.Log("Bomb already placed");
                     }
                     break;
                 case "Fire Bomb":
@@ -162,11 +176,17 @@ public class BombPlacement : MonoBehaviour
             switch (m_currentBomb)
             {
                 case "Basic Bomb":
+                    //Limited basic bombs
+                    /*
                     if (m_inventory.GetBasicBombCount() > 0)
                     {
                         PlaceBomb(gameObject.transform, m_basicBomb);
                         m_inventory.ReduceBasicBombCount();
                     }
+                    */
+                    //Unlimited Basic Bombs
+                    PlaceBomb(gameObject.transform, m_basicBomb);
+                    m_inventory.ReduceBasicBombCount();
                     break;
                 case "Fire Bomb":
                     if (m_inventory.GetFireBombCount() > 0)
