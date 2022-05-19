@@ -182,6 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8719733447199153881}
   - component: {fileID: 6948661923053501550}
+  - component: {fileID: 6378087483091473799}
   m_Layer: 0
   m_Name: BasicBomb
   m_TagString: Bomb
@@ -239,6 +240,20 @@ MonoBehaviour:
   m_ShakeLength: 0.5
   m_BombSoundRadius: {fileID: 3250515417927469176}
   m_MoveBack: -1
+  m_HitColliders: []
+--- !u!65 &6378087483091473799
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5344994851480803743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.46382874, y: 0.44628993, z: 0.5953248}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7387436586335280413
 GameObject:
   m_ObjectHideFlags: 0
