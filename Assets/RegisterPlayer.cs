@@ -22,9 +22,6 @@ public class RegisterPlayer : ButtonTemplate
             UserManager.Instance.UpdateUser(m_PlayerName.text);
             ChangeScene();
         }
-        
-        UserManager.Instance.m_User.PlayersAchievements.AddBombsDropped();
-
     }
     
 }
