@@ -16,14 +16,19 @@ public class BossBehaviour : MonoBehaviour
     [Header("Boss Self Stats")]
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
+    [SerializeField] private float m_RotationSpeed;
+    [SerializeField] private Vector3 m_TargetDirection;
+    [SerializeField] private Quaternion m_LookRot;
+    [Header("Bullet Stats")]
     [SerializeField] private Transform m_BulletSpawn;
     [SerializeField] private GameObject m_Bullet;
     [SerializeField] private float m_BulletDamage;
     [SerializeField] private float m_BulletForce;
     [Header("State")]
     [SerializeField] private State m_CurrentState;
+    [SerializeField] private bool m_Rotating = false;
     [Header("Game Knowledge")]
-    [SerializeField] private GameObject m_Player;
+    [HideInInspector] private GameObject m_Player;
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
@@ -51,6 +56,7 @@ public class BossBehaviour : MonoBehaviour
             }
             case State.PLAYER_IN_SIGHT:
             {
+                CheckForPlayer();
                 break;
             }
             case State.FIRING:
@@ -62,17 +68,35 @@ public class BossBehaviour : MonoBehaviour
     }
     private void SearchForPlayer()
     {
-        if(Vector3.Distance(transform.position, m_Player.transform.position) < m_ViewDistance)
+        //picking random angle
+        if (!m_Rotating)
+        {
+            m_TargetDirection = (new Vector3(0.0f, Random.Range(0.0f, 360.0f), 0.0f)) ;
+            m_LookRot = Quaternion.LookRotation( m_TargetDirection);
+        }
+        m_Rotating = true;
+        m_Turret.transform.rotation = Quaternion.RotateTowards(m_Turret.transform.rotation, m_LookRot,m_RotationSpeed * Time.deltaTime);
+        //if(Quaternion.Angle( m_Turret.transform.rotation , m_LookRot) < 0.01f)
+        //{
+        //    m_Rotating = false;
+        //    m_CurrentState = State.PLAYER_IN_SIGHT;
+        //}
+
+    }
+    private void CheckForPlayer()
+    {
+
+        if (Vector3.Distance(transform.position, m_Player.transform.position) < m_ViewDistance)
         {
             //check direction and angle 
             Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
-            if(Vector3.Angle(m_AimDirection,playerDirection) < m_FOV/2) // Vector3.Angle uses the middle so FOV/2 each side
+            if (Vector3.Angle(m_AimDirection, playerDirection) < m_FOV / 2) // Vector3.Angle uses the middle so FOV/2 each side
             {
                 // is view of player blocked?
                 RaycastHit hit;
-                if(Physics.Raycast(transform.position, playerDirection, out hit,Mathf.Infinity))
+                if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity))
                 {
-                    if(hit.collider.gameObject == m_Player)
+                    if (hit.collider.gameObject == m_Player)
                     {
                         Debug.DrawRay(transform.position, playerDirection, Color.green);
                         m_CurrentState = State.FIRING;
@@ -81,6 +105,7 @@ public class BossBehaviour : MonoBehaviour
                     {
                         Debug.Log("Player not visable");
                         Debug.DrawRay(transform.position, playerDirection, Color.red);
+                        m_CurrentState = State.SEARCHING;
                     }
                 }
 
