@@ -7,7 +7,7 @@ using UnityEngine;
 public class AreaBombBehaviour : MainBombBehaviour
 {
 	[Header("Damage")]
-	[SerializeField] private Collider[] hitColliders ;
+	[SerializeField] private Collider[] m_HitColliders ;
 	private bool m_Started;
 	// Start is called before the first frame update
 	protected override void Start()
@@ -34,9 +34,9 @@ public class AreaBombBehaviour : MainBombBehaviour
     protected override IEnumerator Explode()
 	{
 		m_Exploded = true;
-		hitColliders = Physics.OverlapBox(transform.position,new Vector3 (gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z) , transform.localRotation);
+		m_HitColliders = Physics.OverlapBox(transform.position,new Vector3 (gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z) , transform.localRotation);
 
-		foreach (Collider nearbyOject in hitColliders)
+		foreach (Collider nearbyOject in m_HitColliders)
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
