@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scripts/SceneChanger/TitleScene.unity
     guid: 4a835495dd531e5478b201044c1096af
+  - enabled: 1
+    path: Assets/_Scenes/Achievements/Scene1.unity
+    guid: ee6186ce32b8f0c4e9ca78e9886983e8
+  - enabled: 1
+    path: Assets/_Scenes/Achievements/Scene2.unity
+    guid: 6d54239bfc3ee4b4e88ad48b0f11c457
   m_configObjects: {}

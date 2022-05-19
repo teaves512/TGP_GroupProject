@@ -1,0 +1,1 @@
+for the sparks if you want it to be smaller in size just reduce the strt lifetime
