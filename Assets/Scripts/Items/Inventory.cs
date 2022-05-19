@@ -42,6 +42,10 @@ public class Inventory : MonoBehaviour
     public void ReduceFireBombCount()    { m_fireBombHeld--; }
     public void ReduceAreaBombCount()    { m_areaBombHeld--; }
     public void ReduceWalkingBombCount() { m_walkingBombHeld--; }
+    public void ZeroBasicBomb() { m_basicBombHeld = 0; }
+    public void ZeroFireBomb() { m_fireBombHeld = 0; }
+    public void ZeroAreaBomb() { m_areaBombHeld = 0; }
+    public void ZeroWalkingBomb() { m_walkingBombHeld = 0; }
 
     // Start is called before the first frame update
     private void Start()
