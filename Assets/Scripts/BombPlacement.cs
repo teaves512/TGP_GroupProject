@@ -215,7 +215,14 @@ public class BombPlacement : MonoBehaviour
             }
         }
 
-
+        if (m_inventory.GetBasicBombCount() < 0)
+            m_inventory.ZeroBasicBomb();
+        if (m_inventory.GetFireBombCount() < 0)
+            m_inventory.ZeroFireBomb();
+        if (m_inventory.GetAreaBombCount() < 0)
+            m_inventory.ZeroAreaBomb();
+        if (m_inventory.GetWalkingBombCount() < 0)
+            m_inventory.ZeroWalkingBomb();
     }
 
     private void PlaceBomb(Transform m_pos, GameObject m_bomb)
