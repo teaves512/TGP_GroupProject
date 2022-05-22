@@ -274,7 +274,11 @@ public class PlayerCharacter : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                m_PlayerWeapons.FireBullet(this.transform.position + m_PlayerHandPositionOffset, transform.forward);
+                Vector3 m_offset = new Vector3();
+                m_offset.y = 1.34f;
+                m_offset.x = 0.82f * transform.forward.x;
+                m_offset.z = 0.82f * transform.forward.z;
+                m_PlayerWeapons.FireBullet(this.transform.position + m_offset, transform.forward);
             break;
 
             case InputActionPhase.Performed:
