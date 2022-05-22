@@ -188,6 +188,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if(m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         switch (context.phase)
         {
             case InputActionPhase.Started:
@@ -263,7 +268,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) 
+        if (m_bClimbing || m_bWalking || m_bSprinting || m_bCrouching) 
             return; 
 
         switch (context.phase)
@@ -314,6 +319,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Sprint(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
@@ -350,6 +360,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
@@ -385,6 +400,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void AttachToLadder(Ladder ladder)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         m_Ladder         = ladder;
         m_ClimbDirection = m_Ladder.GetClimbDirection();
         m_RB.velocity    = Vector3.zero;
