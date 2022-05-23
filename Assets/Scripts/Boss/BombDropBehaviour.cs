@@ -18,12 +18,6 @@ public class BombDropBehaviour : MonoBehaviour
         m_CopyBombDropLocations = new List<GameObject>(m_TotalBombDropLocations);
 
         int UpperIndexOfBombs = numOfBombs + m_LastBombIndex;
-        if(UpperIndexOfBombs >= m_CopyBombDropLocations.Count)
-        {
-            m_LastBombIndex = 0;
-            // once cycle is complete fire full ring
-            GetComponent<BossBehaviour>().m_CycleComplete = true;
-        }
         for (int i = m_LastBombIndex; i< numOfBombs+m_LastBombIndex; i++)
         {
             //int rand = Random.Range(0, m_CopyBombDropLocations.Count);
@@ -31,7 +25,14 @@ public class BombDropBehaviour : MonoBehaviour
             m_CopyBombDropLocations.RemoveAt(i);
         }
         m_LastBombIndex += numOfBombs;
-    }
+
+		if (UpperIndexOfBombs >= m_CopyBombDropLocations.Count)
+		{
+			m_LastBombIndex = 0;
+			// once cycle is complete fire full ring
+			GetComponent<BossBehaviour>().m_CycleComplete = true;
+		}
+	}
 
 
 }

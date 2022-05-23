@@ -33,6 +33,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private bool m_Rotating = false;
     [Header("Game Knowledge")]
     [HideInInspector] private GameObject m_Player;
+	[HideInInspector] private Vector3 m_PlayerLastKnownPos;
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
@@ -147,9 +148,9 @@ public class BossBehaviour : MonoBehaviour
     }
     private void SearchForPlayer()
     {
-		if(m_CanSee)
-		{
-			m_TargetDirection = (m_Player.transform.position - m_Turret.transform.position).normalized;
+		//if(m_CanSee)
+		//{
+			m_TargetDirection = (m_PlayerLastKnownPos - m_Turret.transform.position).normalized;
 			Vector3 angle = Quaternion.LookRotation(m_TargetDirection).eulerAngles;
 			angle.x = 0;
 			m_LookRot = Quaternion.Euler(angle);
@@ -162,7 +163,7 @@ public class BossBehaviour : MonoBehaviour
 				m_CurrentState = State.PLAYER_IN_SIGHT;
 				m_T = 0;
 			}
-		}
+		//}
 
 
 	}
@@ -215,6 +216,7 @@ public class BossBehaviour : MonoBehaviour
 			if (hit.collider.gameObject == m_Player)
 			{
 				canSee = true;
+				m_PlayerLastKnownPos = m_Player.transform.position;
 			}
 			else
 			{
