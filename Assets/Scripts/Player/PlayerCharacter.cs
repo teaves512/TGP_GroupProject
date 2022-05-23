@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -398,7 +399,7 @@ public class PlayerCharacter : MonoBehaviour
                     m_CurrentSpeed = 0.0f;
                     m_AnimState    = AnimState.IDLE;
                 }
-            break;
+                break;
         }
     }
 
@@ -433,4 +434,12 @@ public class PlayerCharacter : MonoBehaviour
     public bool      GetShooting()  { return m_bShooting; }
 
     // ------------------------------------------------------------------ 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Destination"))
+        {
+            EventManager.OnGameOver();
+        }
+    }
 }
