@@ -188,6 +188,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if(m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         switch (context.phase)
         {
             case InputActionPhase.Started:
@@ -237,11 +242,6 @@ public class PlayerCharacter : MonoBehaviour
 
             //in any other state, reset to idle
             case InputActionPhase.Canceled:
-
-                // Dont want to exit out of climbing through just not pressing anything
-                if (m_bClimbing)
-                    return;
-
                 m_AxisInput    = Vector2.zero;
 
                 m_bWalking     = false;
@@ -268,13 +268,17 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) 
+        if (m_bClimbing || m_bWalking || m_bSprinting || m_bCrouching) 
             return; 
 
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                m_PlayerWeapons.FireBullet(this.transform.position + m_PlayerHandPositionOffset, transform.forward);
+                Vector3 m_offset = new Vector3();
+                m_offset.y = 1.34f;
+                m_offset.x = 0.82f * transform.forward.x;
+                m_offset.z = 0.82f * transform.forward.z;
+                m_PlayerWeapons.FireBullet(this.transform.position + m_offset, transform.forward);
             break;
 
             case InputActionPhase.Performed:
@@ -319,16 +323,24 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Sprint(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
         switch (context.phase)
         {
             case InputActionPhase.Performed:
-                m_bSprinting   = true;
-                m_CurrentSpeed = m_SprintSpeed;
+                if (m_bWalking || m_bCrouching)
+                {
+                    m_bSprinting   = true;
+                    m_CurrentSpeed = m_SprintSpeed;
 
-                m_AnimState    = AnimState.SPRINTING;
+                    m_AnimState    = AnimState.SPRINTING;
+                }
             break;
 
             case InputActionPhase.Canceled:
@@ -352,6 +364,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
@@ -387,6 +404,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void AttachToLadder(Ladder ladder)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         m_Ladder         = ladder;
         m_ClimbDirection = m_Ladder.GetClimbDirection();
         m_RB.velocity    = Vector3.zero;
