@@ -37,6 +37,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
+	[SerializeField] private LayerMask m_IgnoreLayer;
     [Header("Shock Waves")]
     [SerializeField] private GameObject m_FullShock;
     [SerializeField] private GameObject m_HalfShock;
@@ -209,7 +210,7 @@ public class BossBehaviour : MonoBehaviour
 		bool canSee = false;
 		Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity))
+		if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity,~m_IgnoreLayer))
 		{
 			if (hit.collider.gameObject == m_Player)
 			{
