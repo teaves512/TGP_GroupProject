@@ -20,7 +20,7 @@ public class FSMBaseState
 {
     protected bool m_CanSeePlayer = false;
 
-    public void SetCanSeePlayer(bool state)
+    public virtual void SetCanSeePlayer(bool state, Transform playerTransform)
     {
         m_CanSeePlayer = state;
     }
@@ -198,12 +198,11 @@ public class PatrolState : FSMBaseState
 
 public class AttackPlayerState : FSMBaseState
 {
-    private Vector3    m_PositionToInvestigate;
-
-    private GameObject mPlayer;
-    private Vector3    m_PlayerEyePosition;
+    private GameObject m_Agent;
 
     private bool m_NavmeshWasEnabled = false;
+
+    private Transform m_PlayerTransform;
 
     public AttackPlayerState()
     {
@@ -219,33 +218,40 @@ public class AttackPlayerState : FSMBaseState
             return PatrolFSMState.SAME;
         }
 
+        m_Agent.GetComponent<GunControl>().StopSpawningBullets();
+
         if (m_NavmeshWasEnabled)
             return PatrolFSMState.INVESTIGATE;
         else
             return PatrolFSMState.PATROL;
     }
 
-    public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
+    public override void Update(float deltaTime, GameObject agent, ref AnimState animationState, Vector3 pointOfInterest)
     {
         // Walk towards the position we want to investigate
-        if (!mPlayer)
-            mPlayer = player;
+        if (!m_Agent)
+            m_Agent = agent;
+
+        if(agent.GetComponent<GunControl>() && m_PlayerTransform)
+        {
+            agent.GetComponent<GunControl>().FireBullet(agent.transform.position, (m_PlayerTransform.position - agent.transform.position).normalized);
+        }
     }
 
     public override void OnEnter(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.SHOOT;
 
-        mPlayer = thisObject;
+        m_Agent = thisObject;
 
-        if (mPlayer)
+        if (m_Agent)
         {
-            mPlayer.GetComponent<AIPatrolMovement>().enabled = false;
+            m_Agent.GetComponent<AIPatrolMovement>().enabled = false;
 
-            if (mPlayer.GetComponent<NavMeshAgent>().enabled)
+            if (m_Agent.GetComponent<NavMeshAgent>().enabled)
                 m_NavmeshWasEnabled = true;
 
-            mPlayer.GetComponent<NavMeshAgent>().enabled = false;
+            m_Agent.GetComponent<NavMeshAgent>().enabled = false;
         }
     }
 
@@ -253,14 +259,20 @@ public class AttackPlayerState : FSMBaseState
     {
         animationState = AnimState.SHOOT;
 
-        mPlayer = thisObject;
+        m_Agent = thisObject;
 
-        if (mPlayer)
+        if (m_Agent)
         {
-            mPlayer.GetComponent<AIPatrolMovement>().enabled = true;
+            m_Agent.GetComponent<AIPatrolMovement>().enabled = true;
 
-            mPlayer.GetComponent<NavMeshAgent>().enabled = m_NavmeshWasEnabled;
+            m_Agent.GetComponent<NavMeshAgent>().enabled = m_NavmeshWasEnabled;
         }
+    }
+
+    public override void SetCanSeePlayer(bool state, Transform playerTransform)
+    {
+        m_CanSeePlayer    = state;
+        m_PlayerTransform = playerTransform;
     }
 }
 
@@ -558,9 +570,9 @@ public class AIPatrol : MonoBehaviour
 
     // ---------------------------------------------------------------------------
 
-    public void SetCanSeePlayer(bool state)
+    public void SetCanSeePlayer(bool state, Transform playerTransform)
     {
-        m_PatrolFSM.m_FSMState.SetCanSeePlayer(state);
+        m_PatrolFSM.m_FSMState.SetCanSeePlayer(state, playerTransform);
     }
 }
 

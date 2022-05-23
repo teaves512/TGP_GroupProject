@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerVisableTrigger : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.tag == "Player")
         {
@@ -13,7 +13,7 @@ public class PlayerVisableTrigger : MonoBehaviour
 
             if(Physics.Raycast(transform.position, other.transform.position - transform.position, out data))
             {
-                GetComponentInParent<AIPatrol>().SetCanSeePlayer(true);
+                GetComponentInParent<AIPatrol>().SetCanSeePlayer(true, other.transform);
             }
         }
     }
@@ -22,7 +22,7 @@ public class PlayerVisableTrigger : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GetComponentInParent<AIPatrol>().SetCanSeePlayer(false);
+            GetComponentInParent<AIPatrol>().SetCanSeePlayer(false, null);
         }
     }
 }

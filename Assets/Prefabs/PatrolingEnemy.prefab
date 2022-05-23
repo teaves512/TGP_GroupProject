@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6266575625468387803}
   - component: {fileID: 6044645000713171084}
   - component: {fileID: 4041510644851167837}
+  - component: {fileID: 2788477307462096278}
   m_Layer: 8
   m_Name: PatrolingEnemy
   m_TagString: Untagged
@@ -145,6 +146,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2788477307462096278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713881872183009461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d866a798b689749bcf0a0b9469622f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BulletPrefab: {fileID: 3174522518588142183, guid: 31ccac811b9a22b4c900c45ab16352f8, type: 3}
+  m_TimeDelayForBulletSpawn_FirstPress: 0.3
+  m_BulletParent: {fileID: 0}
+  m_TimeDelayForBulletSpawn_HeldDown: 1.2
 --- !u!1 &8035801835352048015
 GameObject:
   m_ObjectHideFlags: 0
