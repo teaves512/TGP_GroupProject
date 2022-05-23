@@ -227,7 +227,11 @@ public class BombPlacement : MonoBehaviour
 
     private void PlaceBomb(Transform m_pos, GameObject m_bomb)
     {
-        Object.Instantiate(m_bomb, m_pos.position, Quaternion.Euler(new Vector3(90.0f, transform.eulerAngles.y, 0.0f)));
+        Vector3 newPos = new Vector3();
+        newPos.x = transform.forward.x * 0.4f + transform.position.x;
+        newPos.z = transform.forward.z * 0.4f + transform.position.z;
+        newPos.y = transform.position.y;
+        Object.Instantiate(m_bomb, newPos, Quaternion.Euler(new Vector3(90.0f, transform.eulerAngles.y, 0.0f)));
     }
 
     private void PlaceBomb(RaycastHit hit, GameObject m_bomb)

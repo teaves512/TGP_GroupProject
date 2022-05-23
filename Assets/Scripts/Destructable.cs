@@ -70,9 +70,9 @@ public class Destructable : MonoBehaviour
         {
 			if(!m_ExplosiveScript.m_Exploded)
 				m_ExplosiveScript.Explode();
-			if (gameObject.name == "SM_Veh_Truck_01" || gameObject.name == "SM_Veh_Tank_Russia_01")
-				gameObject.SetActive(false);
-        }
+        }			
+		if (gameObject.name == "SM_Veh_Truck_01" || gameObject.name == "SM_Veh_Tank_Russia_01")
+			gameObject.SetActive(false);
 		if (m_DeathEffect != null)
 			m_DeathEffect.Play();
 		yield return new WaitForSeconds(0.3f);
