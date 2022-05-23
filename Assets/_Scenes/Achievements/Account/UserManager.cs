@@ -8,10 +8,9 @@ using UnityEngine;
 /// <summary>
 /// THIS CLASS HOLD THE ACTIONS THAT CAN BE DONT TO THE USER ACCOUNT AND ALSO INITIALIZES IT and Holds it
 /// </summary>
-public class UserManager : SingletonPersistence<UserManager>
+public class UserManager : MonoBehaviour
 {
-    public AccountDetails m_User;
-    private UserManager m_UserManager;
+    public AccountDetails m_User { get; private set; }
     private string m_Path;
     private string file;
 

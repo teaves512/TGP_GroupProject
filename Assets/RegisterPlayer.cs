@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class RegisterPlayer : ButtonTemplate
+public class RegisterPlayer : ChangeSceneButton
 {
-
     public TMP_InputField m_PlayerName;
-    
+
     protected override void ButtonAction()
     {
-        UserManager.Instance.Load();
-        if (UserManager.Instance.m_User.HasRegistered)
+        UserManager userManager = FindObjectOfType<UserManager>();
+
+        userManager.Load();
+        if (userManager.m_User.HasRegistered)
         {
-            m_NextSceneName = "Scene2";
-            ChangeScene();
+            LoadScene("Scene2");
             return;
         }
         if (m_PlayerName.text != null)
         {
-            UserManager.Instance.UpdateUser(m_PlayerName.text);
-            ChangeScene();
+            userManager.UpdateUser(m_PlayerName.text);
+            LoadScene("Scene2");
         }
     }
     

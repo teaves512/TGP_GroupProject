@@ -7,7 +7,6 @@ public class AchievementThreshold
 {
     public AchievementSO[] achievementSOs;
     public int currentAchievementValue = 0;
-    protected AccountDetails userPlayer = UserManager.Instance.m_User;
     public virtual void CheckAchievement()
     {
         

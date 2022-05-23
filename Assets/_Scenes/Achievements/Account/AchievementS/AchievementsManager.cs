@@ -12,6 +12,7 @@ public class AchievementsManager : MonoBehaviour
     [SerializeField]private AchievementThreshold WallDestroyedAchievements; 
     [SerializeField]private AchievementThreshold PlayersKilledAchievements;
     private List<AchievementThreshold> AchievmentThresholds = new List<AchievementThreshold>();
+    UserManager userManager;
 
     [Header("UI")] 
     [SerializeField] private GameObject ScrollPanel;
@@ -23,6 +24,8 @@ public class AchievementsManager : MonoBehaviour
 
     private void Start()
     {
+        userManager = FindObjectOfType<UserManager>();
+
         AddAchievementToList();
         foreach (var achievment in AchievmentThresholds)
         {
@@ -45,21 +48,21 @@ public class AchievementsManager : MonoBehaviour
 
     void AddAchievementToList()
     {
-        BombsAchievements.currentAchievementValue = UserManager.Instance.m_User.PlayersAchievements.Bombs;
+        BombsAchievements.currentAchievementValue = userManager.m_User.PlayersAchievements.Bombs;
         
         AchievmentThresholds.Add(BombsAchievements);
 
-        DistanceAchievements.currentAchievementValue = (int) UserManager.Instance.m_User.PlayersAchievements.Distance;
+        DistanceAchievements.currentAchievementValue = (int)userManager.m_User.PlayersAchievements.Distance;
         
         AchievmentThresholds.Add(DistanceAchievements);
 
         WallDestroyedAchievements.currentAchievementValue =
-            UserManager.Instance.m_User.PlayersAchievements.WallsDestroyed;
+            userManager.m_User.PlayersAchievements.WallsDestroyed;
         
         AchievmentThresholds.Add(WallDestroyedAchievements);
 
         PlayersKilledAchievements.currentAchievementValue =
-            UserManager.Instance.m_User.PlayersAchievements.PlayersSpliffed;
+            userManager.m_User.PlayersAchievements.PlayersSpliffed;
         
         AchievmentThresholds.Add(PlayersKilledAchievements);
     }

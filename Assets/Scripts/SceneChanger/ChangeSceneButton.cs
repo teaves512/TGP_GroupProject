@@ -15,14 +15,22 @@ public class ChangeSceneButton : ButtonTemplate
         if (!SceneLoaded(c_PersistentSceneName))
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
 
-        text.text = level.levelName;
-        image.sprite = level.previewImage;
+        if (text != null && image != null)
+        {
+            text.text = level.levelName;
+            image.sprite = level.previewImage;
+        }
     }
 
     protected override void ButtonAction()
     {
+        LoadScene(level.scene);
+    }
+
+    protected void LoadScene(string newSceneName)
+    {
         SceneManager.UnloadSceneAsync(gameObject.scene);
-        SceneManager.LoadSceneAsync(level.scene, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
     }
 
     bool SceneLoaded(string sceneName)
