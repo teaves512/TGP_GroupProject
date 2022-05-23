@@ -48,24 +48,12 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
-                break;
+            break;
 
             case AnimState.WALKING:
                 m_EnemyAnimator.SetBool("Walking",         true);
                 m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
-
-            case AnimState.SPRINTING:
-                m_EnemyAnimator.SetBool("Running",         true);
-                m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
-
-            case AnimState.CROUCHING:
-                m_EnemyAnimator.SetBool("Crouching",       true);
-                m_EnemyAnimator.SetBool("Running",         false);
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
@@ -77,24 +65,6 @@ public class EnemyAnimationTriggers : MonoBehaviour
                 m_EnemyAnimator.SetBool("Shooting",        false);
             break;
 
-            case AnimState.THROW_BOMB:
-                m_EnemyAnimator.SetBool("Walking",         false);
-                m_EnemyAnimator.SetBool("Running",         false);
-                m_EnemyAnimator.SetBool("Crouching",       false);
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
-
-            case AnimState.CLIMBING:
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
-
-            case AnimState.PLACE_BOMB_FLOOR:
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
-
-            case AnimState.PLACE_BOMB_WALL:
-                m_EnemyAnimator.SetBool("Shooting",        false);
-            break;
 
             case AnimState.SHOOT:
                 m_EnemyAnimator.SetBool("Shooting",  true);

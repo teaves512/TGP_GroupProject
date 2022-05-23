@@ -18,6 +18,13 @@ public enum PatrolFSMState
 
 public class FSMBaseState
 {
+    protected bool m_CanSeePlayer = false;
+
+    public void SetCanSeePlayer(bool state)
+    {
+        m_CanSeePlayer = state;
+    }
+    
     public virtual PatrolFSMState HandleTransition() { return PatrolFSMState.SAME; }
 
     public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest) { }
@@ -51,14 +58,10 @@ public class PatrolState : FSMBaseState
 
     public override PatrolFSMState HandleTransition() 
     {
-        // Send a ray cast out of the enemy's eyes to see if they can see the player
-       // RaycastHit hit;
-      //  Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
-
-        //if(hit.collider.tag == "Player")
-        //{
-        //    return PatrolFSMState.ATTACK_PLAYER;
-        //}
+        if(m_CanSeePlayer)
+        {
+            return PatrolFSMState.ATTACK_PLAYER;
+        }
 
         // if the player is heard then go into invertigate
         if (m_HeardBomb)
@@ -200,38 +203,64 @@ public class AttackPlayerState : FSMBaseState
     private GameObject mPlayer;
     private Vector3    m_PlayerEyePosition;
 
+    private bool m_NavmeshWasEnabled = false;
+
     public AttackPlayerState()
     {
+        m_CanSeePlayer = true;
+
         m_InternalState = PatrolFSMState.ATTACK_PLAYER;
     }
 
     public override PatrolFSMState HandleTransition()
     {
-        // Send a ray cast out of the enemy's eyes to see if they can see the player
-       // RaycastHit hit;
-       // Physics.Raycast(m_PlayerEyePosition, mPlayer.transform.forward, out hit, 300.0f);
+        if (m_CanSeePlayer)
+        {
+            return PatrolFSMState.SAME;
+        }
 
-       // if (hit.collider.tag == "Player")
-       // {
-       //     return PatrolFSMState.ATTACK_PLAYER;
-        //}
-
-        return PatrolFSMState.SAME;
+        if (m_NavmeshWasEnabled)
+            return PatrolFSMState.INVESTIGATE;
+        else
+            return PatrolFSMState.PATROL;
     }
 
     public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
     {
         // Walk towards the position we want to investigate
+        if (!mPlayer)
+            mPlayer = player;
     }
 
     public override void OnEnter(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.SHOOT;
+
+        mPlayer = thisObject;
+
+        if (mPlayer)
+        {
+            mPlayer.GetComponent<AIPatrolMovement>().enabled = false;
+
+            if (mPlayer.GetComponent<NavMeshAgent>().enabled)
+                m_NavmeshWasEnabled = true;
+
+            mPlayer.GetComponent<NavMeshAgent>().enabled = false;
+        }
     }
 
     public override void OnExit(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.SHOOT;
+
+        mPlayer = thisObject;
+
+        if (mPlayer)
+        {
+            mPlayer.GetComponent<AIPatrolMovement>().enabled = true;
+
+            mPlayer.GetComponent<NavMeshAgent>().enabled = m_NavmeshWasEnabled;
+        }
     }
 }
 
@@ -263,11 +292,13 @@ public class InvestigateState : FSMBaseState
 
     public override PatrolFSMState HandleTransition()
     {
-        // Check to see if we can see the player
-
+        if (m_CanSeePlayer)
+        {
+            return PatrolFSMState.ATTACK_PLAYER;
+        }
 
         // If we have finished moving back to the patrol path then swap back to the patrol path
-        if(m_MovingBackToWaypoint)
+        if (m_MovingBackToWaypoint)
         {
             Vector3 offset = new Vector3(m_AgentTransform.position.x - m_PositionToInvestigate.x, 0.0f, m_AgentTransform.position.z - m_PositionToInvestigate.z);
 
@@ -526,6 +557,11 @@ public class AIPatrol : MonoBehaviour
     }
 
     // ---------------------------------------------------------------------------
+
+    public void SetCanSeePlayer(bool state)
+    {
+        m_PatrolFSM.m_FSMState.SetCanSeePlayer(state);
+    }
 }
 
 // ----------------------------------------------------------------------
