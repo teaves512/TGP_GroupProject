@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -188,6 +189,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
+        if(m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         switch (context.phase)
         {
             case InputActionPhase.Started:
@@ -263,7 +269,7 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (m_bClimbing) 
+        if (m_bClimbing || m_bWalking || m_bSprinting || m_bCrouching) 
             return; 
 
         switch (context.phase)
@@ -318,6 +324,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Sprint(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
@@ -354,6 +365,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         if (m_bClimbing) 
             return; 
 
@@ -383,12 +399,17 @@ public class PlayerCharacter : MonoBehaviour
                     m_CurrentSpeed = 0.0f;
                     m_AnimState    = AnimState.IDLE;
                 }
-            break;
+                break;
         }
     }
 
     public void AttachToLadder(Ladder ladder)
     {
+        if (m_bShooting)
+        {
+            m_PlayerWeapons.StopSpawningBullets();
+        }
+
         m_Ladder         = ladder;
         m_ClimbDirection = m_Ladder.GetClimbDirection();
         m_RB.velocity    = Vector3.zero;
@@ -413,4 +434,12 @@ public class PlayerCharacter : MonoBehaviour
     public bool      GetShooting()  { return m_bShooting; }
 
     // ------------------------------------------------------------------ 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Destination"))
+        {
+            EventManager.OnGameOver();
+        }
+    }
 }

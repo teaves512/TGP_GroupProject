@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +28,7 @@ public class Collectable : MonoBehaviour
     {
         Inventory m_inventory = gameObject.GetComponent<Inventory>();
 
-        m_inventoryText.text = c_basicBomb + ": " + m_inventory.GetBasicBombCount().ToString() + "/" + m_inventory.GetBasicBombMax().ToString() 
+        m_inventoryText.text = c_basicBomb + ": " + "∞" 
                       + "\n" + c_fireBomb  + ": " + m_inventory.GetFireBombCount().ToString()  + "/" + m_inventory.GetFireBombMax().ToString()
                       + "\n" + c_areaBomb + ": "  + m_inventory.GetAreaBombCount().ToString()  + "/" + m_inventory.GetAreaBombMax().ToString()
                       + "\n" + c_walkingBomb + ": " + m_inventory.GetWalkingBombCount().ToString() + "/" + m_inventory.GetWalkingBombMax().ToString();
