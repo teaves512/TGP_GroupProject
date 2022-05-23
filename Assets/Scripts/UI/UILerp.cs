@@ -43,7 +43,7 @@ public class UILerp : MonoBehaviour
         {
             currentTime = Time.time - startTime;
 
-            m_UIToMove.anchoredPosition = new Vector2(Mathf.Lerp(initialX, targetX, currentTime / m_time), m_UIToMove.anchoredPosition.y);
+            m_UIToMove.anchoredPosition = new Vector2(Mathf.Lerp(m_UIToMove.anchoredPosition.x, targetX, 10.0f * Time.deltaTime), m_UIToMove.anchoredPosition.y);
             yield return null;
         }
 
