@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ChangeSceneButton : ButtonTemplate
 {
     private const string c_PersistentSceneName = "PersistentScene";
 
-    [SerializeField] Text text;
+    [SerializeField] TMP_Text text;
     [SerializeField] Image image;
     [SerializeField] Level level;
 
