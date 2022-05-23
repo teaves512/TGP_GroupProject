@@ -12,18 +12,18 @@ public class Destructable : MonoBehaviour
     [SerializeField] private Material m_Material;
     [SerializeField] private ParticleSystem m_DeathEffect;
 	[Header("Explosive")]
-    [SerializeField] private bool m_Explosive;
+    [HideInInspector] private bool m_Explosive;
 	[HideInInspector] private ExplosiveEnviro m_ExplosiveScript;
 
-	//check here later -> https://thomasmountainborn.com/2016/05/25/materialpropertyblocks/
 
 	private void Start()
 	{
 		m_Health = m_MaxHealth;
 		m_RegenTimer = m_MaxRegenTimer;
 		m_Material = GetComponent<Renderer>()?.material;
-		if(m_Explosive)
+		if(GetComponent<ExplosiveEnviro>())
 		{
+			m_Explosive = true;
 			m_ExplosiveScript = GetComponent<ExplosiveEnviro>();
 		}
 

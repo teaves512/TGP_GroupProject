@@ -80,7 +80,7 @@ public class BossBehaviour : MonoBehaviour
 			m_bFullShock = !m_bFullShock;
 		}
 
-		m_cShockwaves = null;
+		//m_cShockwaves = null;
 	}
     private void StartBombDrop()
     {
@@ -98,8 +98,6 @@ public class BossBehaviour : MonoBehaviour
             yield return new WaitForSeconds(m_ShockAttackInterval);
             StartCoroutine(C_ShockwaveAttack());
         }
-
-        m_cBombDrop = null;
     }
     private IEnumerator C_ShockwaveAttack()
     {
@@ -184,7 +182,7 @@ public class BossBehaviour : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Player not visable");
+                    //Debug.Log("Player not visable");
                     Debug.DrawRay(transform.position, playerDirection, Color.red);
                     m_CurrentState = State.SEARCHING;
                 }

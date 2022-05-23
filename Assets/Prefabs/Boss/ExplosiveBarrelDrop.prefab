@@ -14459,7 +14459,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -14917,7 +14917,6 @@ MonoBehaviour:
   m_RegenRate: 2.5
   m_Material: {fileID: 0}
   m_DeathEffect: {fileID: 121100089419691590}
-  m_Explosive: 1
 --- !u!114 &3075187571936249562
 MonoBehaviour:
   m_ObjectHideFlags: 0

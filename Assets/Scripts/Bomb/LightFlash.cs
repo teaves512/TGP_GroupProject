@@ -35,6 +35,6 @@ public class LightFlash : MonoBehaviour
 			yield return new WaitForSeconds(m_CurrentFlashInterval);
 			m_Light.enabled = !m_Light.enabled;
 		}
-		m_cLightFlash = null;
+		//m_cLightFlash = null;
 	}
 }
