@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +50,7 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float m_Gravity     = 10.0f;
 
     [SerializeField] private PlayerAnimationTriggers m_AnimationTriggers;
+    [SerializeField]private GameObject m_GameOverScreen;
 
     // ------------------------------------------------------------------ 
 
@@ -59,6 +61,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private Rigidbody m_RB;
     private Collider m_Coll;
+    
 
     // ------------------------------------------------------------------ 
 
@@ -108,6 +111,7 @@ public class PlayerCharacter : MonoBehaviour
         m_MovementKeysPressedConcurrently = 0;
 
         m_PlayerWeapons = GetComponent<GunControl>();
+        EventManager.GameOver += GameOver;
     }
 
     // ------------------------------------------------------------------
@@ -398,7 +402,7 @@ public class PlayerCharacter : MonoBehaviour
                     m_CurrentSpeed = 0.0f;
                     m_AnimState    = AnimState.IDLE;
                 }
-            break;
+                break;
         }
     }
 
@@ -433,4 +437,21 @@ public class PlayerCharacter : MonoBehaviour
     public bool      GetShooting()  { return m_bShooting; }
 
     // ------------------------------------------------------------------ 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Destination")) 
+        {
+            EventManager.OnGameOver(true);
+        }else if (collision.collider.CompareTag("DeathFloor"))
+        {
+            EventManager.OnGameOver(false);
+        }
+    }
+
+    void GameOver(bool victory)
+    {
+        m_GameOverScreen.gameObject.SetActive(true);
+    }
+    
 }

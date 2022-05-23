@@ -13,7 +13,9 @@ TagManager:
   - Area Bomb
   - Walking Bomb
   - Enemy
+  - Destination
   - Explosive
+  - DeathFloor
   layers:
   - Default
   - TransparentFX
