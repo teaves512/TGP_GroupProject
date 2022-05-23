@@ -40,6 +40,8 @@ public class PatrolState : FSMBaseState
     private GameObject mPlayer;
     private Vector3    m_PlayerEyePosition;
 
+    private float m_checkDistance = 0.5f;
+
     public PatrolState()
     {
         m_DecisionTimer = Random.Range(0.5f, m_DecisionTimerMax);
@@ -78,7 +80,7 @@ public class PatrolState : FSMBaseState
         double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;
 
         // If hit the waypoint
-        if (length < 0.2f)
+        if (length < m_checkDistance)
         {
             // Take time off the delay
             m_DecisionTimer -= Time.deltaTime;
@@ -105,7 +107,7 @@ public class PatrolState : FSMBaseState
                 {
                     player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
                     player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[0]);
-                    player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
+                    player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform.position);
                     return;
                 }
 
@@ -131,7 +133,7 @@ public class PatrolState : FSMBaseState
                 player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
                 player.GetComponent<AIPatrol>().SetCurrentWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ConnectedWaypoints[chosenID]);
 
-                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform);
+                player.GetComponent<AIPatrolMovement>().SetTargetPosition(player.GetComponent<AIPatrol>().GetCurrentWaypoint().transform.position);
             }
             else
             {
@@ -153,9 +155,10 @@ public class PatrolState : FSMBaseState
             if (pointOfInterest != Vector3.zero)
             {
                 mPlayer.GetComponent<AIPatrol>().SetCurrentWaypoint((thisObject.GetComponent<AIPatrol>().GetWaypointAtPosition(pointOfInterest)));
+                mPlayer.GetComponent<AIPatrolMovement>().SetTargetPosition(pointOfInterest);
             }
             
-            Vector3 position = mPlayer.transform.position;
+            Vector3 position         = mPlayer.transform.position;
             Vector3 waypointPosition = mPlayer.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position;
 
             double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;
@@ -168,6 +171,7 @@ public class PatrolState : FSMBaseState
             }
 
             thisObject.GetComponent<AIPatrolMovement>().enabled = true;
+            thisObject.GetComponent<AIPatrolMovement>().SetTargetPosition(mPlayer.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position);
         }
         else
             animationState = AnimState.IDLE;
@@ -263,10 +267,14 @@ public class InvestigateState : FSMBaseState
 
 
         // If we have finished moving back to the patrol path then swap back to the patrol path
-        if( m_MovingBackToWaypoint && 
-           (m_AgentTransform.position - m_PositionToInvestigate).magnitude < m_waypointCheckDistance)
+        if(m_MovingBackToWaypoint)
         {
-            return PatrolFSMState.PATROL;
+            Vector3 offset = new Vector3(m_AgentTransform.position.x - m_PositionToInvestigate.x, 0.0f, m_AgentTransform.position.z - m_PositionToInvestigate.z);
+
+            if (offset.magnitude < m_waypointCheckDistance)
+            {
+                return PatrolFSMState.PATROL;
+            }
         }
 
         return PatrolFSMState.SAME;
@@ -275,24 +283,30 @@ public class InvestigateState : FSMBaseState
     public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
     {
         // If gone to the point of interest and not seen the player along the way
-        if (!m_MovingBackToWaypoint && 
-            (m_AgentTransform.position - m_PositionToInvestigate).magnitude < m_waypointCheckDistance)
+        if (!m_MovingBackToWaypoint)
         {
-            // Set moving back to the patrol path
-            m_MovingBackToWaypoint = true;
+            Vector3 offset = new Vector3(m_AgentTransform.position.x - m_PositionToInvestigate.x, 0.0f, m_AgentTransform.position.z - m_PositionToInvestigate.z);
 
-            // Get the closest waypoint in the path to where the AI currently is
-            PatrolWaypoint closestWaypoint         = player.GetComponent<AIPatrol>().GetClosestWaypoint();
-                           m_PositionToInvestigate = closestWaypoint.m_ThisPosition.position;
+            if (offset.magnitude < m_waypointCheckDistance)
+            {
+                // Set moving back to the patrol path
+                m_MovingBackToWaypoint = true;
 
-            player.GetComponent<AIPatrol>().SetCurrentWaypoint(closestWaypoint);
-            player.GetComponent<AIPatrol>().SetPriorWaypoint(closestWaypoint);
+                // Get the closest waypoint in the path to where the AI currently is
+                PatrolWaypoint closestWaypoint         = player.GetComponent<AIPatrol>().GetClosestWaypoint();
+                                m_PositionToInvestigate = closestWaypoint.m_ThisPosition.position;
 
-            // Set that this is now the point of interest
-            player.GetComponent<AIPatrol>().SetPointOfInterest(m_PositionToInvestigate);
+                player.GetComponent<AIPatrol>().SetCurrentWaypoint(closestWaypoint);
+                player.GetComponent<AIPatrol>().SetPriorWaypoint(closestWaypoint);
 
-            // Set to pathfind to there
-            m_NavmeshAgent.destination = m_PositionToInvestigate;
+                player.GetComponent<AIPatrolMovement>().SetTargetPosition(m_PositionToInvestigate);
+
+                // Set that this is now the point of interest
+                player.GetComponent<AIPatrol>().SetPointOfInterest(m_PositionToInvestigate);
+
+                // Set to pathfind to there
+                m_NavmeshAgent.destination = m_PositionToInvestigate;
+            }
         }
         else
         {
@@ -457,9 +471,9 @@ public class AIPatrol : MonoBehaviour
         {
             PatrolState state = (PatrolState)m_PatrolFSM.m_FSMState;
             state.SetHeardBomb(true);
-        }
 
-        m_PointOfInterest = position;
+            m_PointOfInterest = position;
+        }
     }
 
     // ---------------------------------------------------------------------------
@@ -471,7 +485,6 @@ public class AIPatrol : MonoBehaviour
 
         foreach (PatrolWaypoint waypoint in m_AllWaypoints)
         {
-
             Vector3 offset = m_ThisObject.GetComponent<Transform>().position - waypoint.m_ThisPosition.position;
 
             if (offset.magnitude < closestDistance)

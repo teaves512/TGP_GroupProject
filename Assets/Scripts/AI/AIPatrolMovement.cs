@@ -7,7 +7,7 @@ public class AIPatrolMovement : MonoBehaviour
     [SerializeField]
     private GameObject m_ThisGameObject;
 
-    private Transform m_TargetPosition;
+    private Vector3 m_TargetPosition;
 
     [SerializeField]
     private float c_MovementSpeed;
@@ -16,10 +16,10 @@ public class AIPatrolMovement : MonoBehaviour
 
     private void Start()
     {
-        m_TargetPosition = m_ThisGameObject.transform;
+        m_TargetPosition = m_ThisGameObject.transform.position;
     }
 
-    public void SetTargetPosition(Transform position)
+    public void SetTargetPosition(Vector3 position)
     {
         m_TargetPosition = position;
     }
@@ -29,16 +29,16 @@ public class AIPatrolMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = (m_TargetPosition.position - m_ThisGameObject.transform.position).magnitude;
+        float distance = (m_TargetPosition - m_ThisGameObject.transform.position).magnitude;
 
         if (distance < 0.1f)
             return;
 
-        Vector3 moveDirection               = (m_TargetPosition.position - m_ThisGameObject.transform.position).normalized;
+        Vector3 moveDirection               = (m_TargetPosition - m_ThisGameObject.transform.position).normalized;
 
         m_ThisGameObject.transform.position += moveDirection * Time.deltaTime * c_MovementSpeed;
 
-        m_ThisGameObject.transform.LookAt(new Vector3(m_TargetPosition.position.x, m_ThisGameObject.transform.position.y, m_TargetPosition.position.z), Vector3.up);
+        m_ThisGameObject.transform.LookAt(new Vector3(m_TargetPosition.x, m_ThisGameObject.transform.position.y, m_TargetPosition.z), Vector3.up);
     }
 
     // -----------------------------------------------------------------

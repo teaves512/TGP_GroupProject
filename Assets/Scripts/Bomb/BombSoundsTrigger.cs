@@ -13,7 +13,7 @@ public class BombSoundsTrigger : MonoBehaviour
         if (!patrol)
             return;
 
-        if(other.tag == "BombAudio")
+        if(other.tag == "BombAudio" && Mathf.Abs(this.gameObject.transform.position.y - other.transform.position.y) < 1.5f)
         {
             patrol.SetHeardBomb(other.GetComponentInParent<Transform>().position);
         }
