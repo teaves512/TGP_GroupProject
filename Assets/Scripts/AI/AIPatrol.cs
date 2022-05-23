@@ -11,8 +11,7 @@ public enum PatrolFSMState
     ATTACK_PLAYER = 1,
     INVESTIGATE   = 2,
 
-    SAME,
-    Exit
+    SAME
 }
 
 // ----------------------------------------------------------------------
@@ -244,6 +243,8 @@ public class InvestigateState : FSMBaseState
 
     private bool m_MovingBackToWaypoint = false;
 
+    private float m_waypointCheckDistance = 0.5f;
+
     public InvestigateState()
     {
         m_InternalState = PatrolFSMState.INVESTIGATE;
@@ -261,9 +262,9 @@ public class InvestigateState : FSMBaseState
         // Check to see if we can see the player
 
 
-        // Check to see if we are at the destination point, if so then just go back to the patrol state
+        // If we have finished moving back to the patrol path then swap back to the patrol path
         if( m_MovingBackToWaypoint && 
-           (m_AgentTransform.position - m_PositionToInvestigate).magnitude < 0.5f)
+           (m_AgentTransform.position - m_PositionToInvestigate).magnitude < m_waypointCheckDistance)
         {
             return PatrolFSMState.PATROL;
         }
@@ -273,13 +274,24 @@ public class InvestigateState : FSMBaseState
 
     public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
     {
-        if (!m_MovingBackToWaypoint && (m_AgentTransform.position - m_PositionToInvestigate).magnitude < 0.5f)
+        // If gone to the point of interest and not seen the player along the way
+        if (!m_MovingBackToWaypoint && 
+            (m_AgentTransform.position - m_PositionToInvestigate).magnitude < m_waypointCheckDistance)
         {
+            // Set moving back to the patrol path
             m_MovingBackToWaypoint = true;
 
-            m_PositionToInvestigate = player.GetComponent<AIPatrol>().GetClosestWaypoint().m_ThisPosition.position;
+            // Get the closest waypoint in the path to where the AI currently is
+            PatrolWaypoint closestWaypoint         = player.GetComponent<AIPatrol>().GetClosestWaypoint();
+                           m_PositionToInvestigate = closestWaypoint.m_ThisPosition.position;
+
+            player.GetComponent<AIPatrol>().SetCurrentWaypoint(closestWaypoint);
+            player.GetComponent<AIPatrol>().SetPriorWaypoint(closestWaypoint);
+
+            // Set that this is now the point of interest
             player.GetComponent<AIPatrol>().SetPointOfInterest(m_PositionToInvestigate);
 
+            // Set to pathfind to there
             m_NavmeshAgent.destination = m_PositionToInvestigate;
         }
         else
@@ -295,7 +307,7 @@ public class InvestigateState : FSMBaseState
     {
         animationState             = AnimState.WALKING;
 
-        m_MovingBackToWaypoint = false;
+        m_MovingBackToWaypoint     = false;
 
         m_NavmeshAgent             = thisObject.GetComponent<NavMeshAgent>();
         m_AgentTransform           = thisObject.GetComponent<Transform>();
@@ -331,10 +343,10 @@ public class PatrolFSM
 {
     public PatrolFSM()
     {
-        m_FSMStack = new Stack<FSMBaseState>();
+        m_FSMState = new PatrolState();
     }
 
-    public Stack<FSMBaseState> m_FSMStack; 
+    public FSMBaseState m_FSMState; 
 }
 
 // ----------------------------------------------------------------------
@@ -385,9 +397,9 @@ public class AIPatrol : MonoBehaviour
 
         m_PatrolFSM        = new PatrolFSM();
 
-        m_PatrolFSM.m_FSMStack.Push(new PatrolState());
+        m_PatrolFSM.m_FSMState = new PatrolState();
 
-        m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, this.gameObject);
+        m_PatrolFSM.m_FSMState.OnEnter(ref m_CurrentState, this.gameObject);
     }
 
     // ----------------------------------------------------------------------------
@@ -395,27 +407,27 @@ public class AIPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject, ref m_CurrentState, m_PointOfInterest);
+        m_PatrolFSM.m_FSMState.Update(Time.deltaTime, this.gameObject, ref m_CurrentState, m_PointOfInterest);
 
-        switch ((m_PatrolFSM.m_FSMStack.Peek().HandleTransition()))
+        switch ((m_PatrolFSM.m_FSMState.HandleTransition()))
         {
             case PatrolFSMState.PATROL:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnExit(ref m_CurrentState, gameObject);
 
-                    m_PatrolFSM.m_FSMStack.Push(new PatrolState());
+                    m_PatrolFSM.m_FSMState = new PatrolState();
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
             case PatrolFSMState.INVESTIGATE:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnExit(ref m_CurrentState, gameObject);
 
-                    m_PatrolFSM.m_FSMStack.Push(new InvestigateState(m_PointOfInterest));
+                    m_PatrolFSM.m_FSMState = new InvestigateState(m_PointOfInterest);
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
@@ -423,21 +435,11 @@ public class AIPatrol : MonoBehaviour
             {
                 m_CurrentState = AnimState.SHOOT;
 
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnExit(ref m_CurrentState, gameObject);
 
-                    m_PatrolFSM.m_FSMStack.Push(new AttackPlayerState());
+                    m_PatrolFSM.m_FSMState = new AttackPlayerState();
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
-            }
-            break;
-
-            case PatrolFSMState.Exit:
-            {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
-
-                    m_PatrolFSM.m_FSMStack.Pop();
-
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
+                m_PatrolFSM.m_FSMState.OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
@@ -451,9 +453,9 @@ public class AIPatrol : MonoBehaviour
     public void SetHeardBomb(Vector3 position)
     {
         // In here if a bomb goes off in range of the enemy
-        if(m_PatrolFSM.m_FSMStack.Peek().m_InternalState == PatrolFSMState.PATROL)
+        if(m_PatrolFSM.m_FSMState.m_InternalState == PatrolFSMState.PATROL)
         {
-            PatrolState state = (PatrolState)m_PatrolFSM.m_FSMStack.Peek();
+            PatrolState state = (PatrolState)m_PatrolFSM.m_FSMState;
             state.SetHeardBomb(true);
         }
 
@@ -469,7 +471,8 @@ public class AIPatrol : MonoBehaviour
 
         foreach (PatrolWaypoint waypoint in m_AllWaypoints)
         {
-            Vector3 offset = waypoint.m_ThisPosition.position - waypoint.m_ThisPosition.position;
+
+            Vector3 offset = m_ThisObject.GetComponent<Transform>().position - waypoint.m_ThisPosition.position;
 
             if (offset.magnitude < closestDistance)
             {
@@ -489,10 +492,14 @@ public class AIPatrol : MonoBehaviour
         m_PointOfInterest = position;
     }
 
+    // ---------------------------------------------------------------------------
+
     public Vector3 GetPointOfInterest()
     {
         return m_PointOfInterest;
     }
+
+    // ---------------------------------------------------------------------------
 
     public PatrolWaypoint GetWaypointAtPosition(Vector3 position)
     {
@@ -504,6 +511,8 @@ public class AIPatrol : MonoBehaviour
 
         return m_AllWaypoints[0];
     }
+
+    // ---------------------------------------------------------------------------
 }
 
 // ----------------------------------------------------------------------
