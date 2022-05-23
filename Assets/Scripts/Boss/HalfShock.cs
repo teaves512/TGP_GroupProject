@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HalfShock : MonoBehaviour
 {
+	// NOTE : OnTriggerEnter is on the shockTriggers script not here
+
 	[SerializeField] private float m_InitialScale = 1.0f;
 	[SerializeField] private float m_FinalScale = 3.0f;
 	private float m_CurrentScale = 0.0f;
@@ -41,7 +43,7 @@ public class HalfShock : MonoBehaviour
 		SetScale(m_FinalScale);
 
 		gameObject.SetActive(false);
-
+		Destroy(gameObject);
 		m_cScale = null;
 	}
 
@@ -52,4 +54,5 @@ public class HalfShock : MonoBehaviour
 		scale.z = _scale;
 		transform.localScale = scale;
 	}
+
 }

@@ -120,6 +120,7 @@ MonoBehaviour:
   m_DeathEffect: {fileID: 1459216630}
   m_Explosive: 1
   m_Damage: 600
+  m_ColliderScale: 2
 --- !u!1001 &1473713162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +131,10 @@ PrefabInstance:
     - target: {fileID: 163066, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
       propertyPath: m_Name
       value: Explosion_Smoke_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 163066, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 480312, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
       propertyPath: m_RootOrder

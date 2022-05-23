@@ -11,9 +11,11 @@ public class Destructable : MonoBehaviour
     [SerializeField] private float m_RegenRate = 0.01f;
     [SerializeField] private Material m_Material;
     [SerializeField] private ParticleSystem m_DeathEffect;
+	[Header("Explosive")]
     [SerializeField] private bool m_Explosive;
 	[HideInInspector] private bool m_Exploded = false;
 	[SerializeField] private float m_Damage;
+	[SerializeField] private int m_ColliderScale;
 
 	//check here later -> https://thomasmountainborn.com/2016/05/25/materialpropertyblocks/
 
@@ -76,7 +78,7 @@ public class Destructable : MonoBehaviour
 	private void Explode() //same as area effect
 	{
 		m_Exploded = true;
-		Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 2, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z * 2), transform.localRotation);
+		Collider[] hitColliders = Physics.OverlapBox(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * m_ColliderScale, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z * m_ColliderScale), transform.localRotation);
 
 		foreach (Collider nearbyOject in hitColliders)
 		{

@@ -13,6 +13,7 @@ TagManager:
   - Area Bomb
   - Walking Bomb
   - Enemy
+  - Explosive
   layers:
   - Default
   - TransparentFX

@@ -8,6 +8,7 @@ enum State
     SEARCHING,
     PLAYER_IN_SIGHT,
     FIRING,
+    BOMBDROPATTACK,
 
     REPAIRING
 }
@@ -17,10 +18,11 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
     [SerializeField] private float m_RotationSpeed;
-    [SerializeField] private Vector3 m_TargetDirection;
-    [SerializeField] private Quaternion m_LookRot;
-	[SerializeField] private float m_T = 0;
-	[HideInInspector] private bool m_CanSee;
+    [HideInInspector] private Vector3 m_TargetDirection;
+    [HideInInspector] private Quaternion m_LookRot;
+    [HideInInspector] private float m_T = 0;
+    [HideInInspector] private bool m_CanSee;
+    [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
     [Header("Bullet Stats")]
     [SerializeField] private Transform m_BulletSpawn;
     [SerializeField] private GameObject m_Bullet;
@@ -34,21 +36,28 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
-	[Header("Shock Waves")]
-	[SerializeField] private GameObject m_FullShock;
-	[SerializeField] private GameObject m_HalfShock;
-	[SerializeField] private float m_ShockwaveInterval = 3.0f;
-	private bool m_bFullShock = true;
+    [Header("Shock Waves")]
+    [SerializeField] private GameObject m_FullShock;
+    [SerializeField] private GameObject m_HalfShock;
+    [SerializeField] private float m_ShockwaveInterval = 3.0f;
+    private bool m_bFullShock = true;
+    [Header("Bomb Drop")]
+    [SerializeField] private int m_NumOfBombs;
+    [SerializeField] private float m_DropInterval = 10.0f;
+    [SerializeField] private float m_ShockAttackInterval = 5.0f;
+    [SerializeField] public bool m_CycleComplete = false;
 
-	private Coroutine m_cShockwaves = null;
+    private Coroutine m_cShockwaves = null;
+    private Coroutine m_cBombDrop = null;
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
-
+        m_BombDropBehaviourScript = GetComponent<BombDropBehaviour>();
 		m_cShockwaves = null;
-		StartShockwaves();
+		//StartShockwaves();
+        StartBombDrop();
     }
 
 	private void StartShockwaves()
@@ -56,7 +65,6 @@ public class BossBehaviour : MonoBehaviour
 		if (m_cShockwaves != null) { StopCoroutine(m_cShockwaves); }
 		m_cShockwaves = StartCoroutine(C_Shockwaves());
 	}
-
 	private IEnumerator C_Shockwaves()
 	{
 		m_bFullShock = true;
@@ -73,12 +81,41 @@ public class BossBehaviour : MonoBehaviour
 
 		m_cShockwaves = null;
 	}
+    private void StartBombDrop()
+    {
+        if (m_cBombDrop != null) { StopCoroutine(m_cBombDrop); }
+        m_cBombDrop = StartCoroutine(C_BombDrop());
+    }
+    private IEnumerator C_BombDrop()
+    {
 
-    // Update is called once per frame
+        while (true)
+        {
+            yield return new WaitForSeconds(m_DropInterval); //timer between attacks
+            m_CurrentState = State.BOMBDROPATTACK;
+
+            yield return new WaitForSeconds(m_ShockAttackInterval);
+            StartCoroutine(C_ShockwaveAttack());
+        }
+
+        m_cBombDrop = null;
+    }
+    private IEnumerator C_ShockwaveAttack()
+    {
+        yield return new WaitForSeconds(m_ShockwaveInterval);
+
+        Vector3 rot = (m_Player.transform.position - transform.position).normalized;
+        Quaternion qRot = Quaternion.LookRotation(rot, Vector3.up);
+
+        Instantiate((m_CycleComplete)?m_FullShock: m_HalfShock, transform.position, qRot);
+        m_CycleComplete = false;
+    }
+
     void Update()
     {
 		m_CanSee = RaycastCheck();
 		m_AimDirection = m_Turret.transform.forward;
+
        switch (m_CurrentState)
        {
             case State.IDLE:
@@ -97,22 +134,19 @@ public class BossBehaviour : MonoBehaviour
             }
             case State.FIRING:
             {
+                
                 Attack();
                 break;
+            }
+            case State.BOMBDROPATTACK:
+            {
+                    BombDropAttack();
+                    break;
             }
        }
     }
     private void SearchForPlayer()
     {
-		//picking random angle
-		//if (!m_Rotating)
-		//{
-		//	m_TargetDirection = (new Vector3(0.0f, Random.Range(-180.0f, 180.0f), 0.0f));
-		//}
-		//m_Rotating = true;
-		//m_Turret.transform.Rotate(Vector3.up, m_RotationSpeed * Time.deltaTime, Space.Self);
-
-		//picking random angle
 		if(m_CanSee)
 		{
 			m_TargetDirection = (m_Player.transform.position - m_Turret.transform.position).normalized;
@@ -166,6 +200,11 @@ public class BossBehaviour : MonoBehaviour
         m_CurrentState = State.SEARCHING;
     }
 
+    private void BombDropAttack()
+    {
+        m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
+        m_CurrentState = State.SEARCHING;
+    }
 	private bool RaycastCheck()
 	{
 		bool canSee = false;
