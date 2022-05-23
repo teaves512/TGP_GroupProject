@@ -5,8 +5,7 @@ using UnityEngine;
 public class BombDropBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject m_BombPara;
-	[SerializeField] private List<GameObject> m_TotalBombDropLocations = new List<GameObject>();
-    [HideInInspector] private List<GameObject> m_CopyBombDropLocations;
+	[SerializeField] private List<GameObject> m_BombDropLocations = new List<GameObject>();
     [SerializeField] private int m_LastBombIndex;
 
     private void Start()
@@ -15,18 +14,15 @@ public class BombDropBehaviour : MonoBehaviour
     }
     public void GenerateRandomLocations(int numOfBombs)
     {
-        m_CopyBombDropLocations = new List<GameObject>(m_TotalBombDropLocations);
-
         int UpperIndexOfBombs = numOfBombs + m_LastBombIndex;
-        for (int i = m_LastBombIndex; i< numOfBombs+m_LastBombIndex; i++)
+        for (int i = m_LastBombIndex; i< UpperIndexOfBombs; i++)
         {
             //int rand = Random.Range(0, m_CopyBombDropLocations.Count);
-            Instantiate(m_BombPara, m_CopyBombDropLocations[i].transform.position, m_CopyBombDropLocations[i].transform.rotation);
-            m_CopyBombDropLocations.RemoveAt(i);
+			if (i >= m_BombDropLocations.Count) { break; }
+            Instantiate(m_BombPara, m_BombDropLocations[i].transform.position, m_BombDropLocations[i].transform.rotation);
         }
         m_LastBombIndex += numOfBombs;
-
-		if (UpperIndexOfBombs >= m_CopyBombDropLocations.Count)
+		if (UpperIndexOfBombs >= m_BombDropLocations.Count)
 		{
 			m_LastBombIndex = 0;
 			// once cycle is complete fire full ring

@@ -136,6 +136,8 @@ public class BossBehaviour : MonoBehaviour
 	}
 	private void ChangeBarrelVisability(bool active)
 	{
+		//regen bomb
+
 		m_ActiveBarrel.SetActive(!active);
 		m_ImmuneBarrel.SetActive(active);
 	}
@@ -148,7 +150,7 @@ public class BossBehaviour : MonoBehaviour
 		m_CanSee = RaycastCheck();
 		m_AimDirection = m_Turret.transform.forward;
 
-       switch (m_CurrentState)
+       switch (m_CurrentState) 
        {
             case State.IDLE:
             {
@@ -172,8 +174,8 @@ public class BossBehaviour : MonoBehaviour
             }
             case State.BOMBDROPATTACK:
             {
-                    BombDropAttack();
-                    break;
+                BombDropAttack();
+                break;
             }
        }
     }
