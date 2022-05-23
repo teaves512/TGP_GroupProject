@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // ----------------------------------------------------------------------
 
@@ -22,9 +23,9 @@ public class FSMBaseState
 
     public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState) { }
 
-    public virtual void OnEnter(ref AnimState animationState) { }
+    public virtual void OnEnter(ref AnimState animationState, GameObject thisObject) { }
 
-    public virtual void OnExit(ref AnimState animationState) { }
+    public virtual void OnExit(ref AnimState animationState, GameObject thisObject) { }
 
     public PatrolFSMState m_InternalState;
 }
@@ -69,10 +70,13 @@ public class PatrolState : FSMBaseState
     public override void Update(float deltaTime, GameObject player, ref AnimState animationState) 
     {
         // See if we are at the next waypoint position, if so choose a direction to go from here
-        double length = (player.transform.position - player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position).magnitude;
+        Vector3 position         = player.transform.position;
+        Vector3 waypointPosition  = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position;
+
+        double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;
 
         // If hit the waypoint
-        if (length < 0.1f)
+        if (length < 0.2f)
         {
             // Take time off the delay
             m_DecisionTimer -= Time.deltaTime;
@@ -134,7 +138,7 @@ public class PatrolState : FSMBaseState
         }
     }
 
-    public override void OnEnter(ref AnimState animationState) 
+    public override void OnEnter(ref AnimState animationState, GameObject thisObject) 
     {
         m_HeardBomb     = false;
         m_DecisionTimer = 1.0f;
@@ -142,7 +146,7 @@ public class PatrolState : FSMBaseState
         animationState = AnimState.IDLE;
     }
 
-    public override void OnExit(ref AnimState animationState) 
+    public override void OnExit(ref AnimState animationState, GameObject thisObject) 
     {
         m_HeardBomb     = false;
         m_DecisionTimer = 1.0f;
@@ -189,12 +193,12 @@ public class AttackPlayerState : FSMBaseState
         // Walk towards the position we want to investigate
     }
 
-    public override void OnEnter(ref AnimState animationState)
+    public override void OnEnter(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.SHOOT;
     }
 
-    public override void OnExit(ref AnimState animationState)
+    public override void OnExit(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.SHOOT;
     }
@@ -204,6 +208,12 @@ public class AttackPlayerState : FSMBaseState
 
 public class InvestigateState : FSMBaseState
 {
+    private NavMeshAgent m_NavmeshAgent;
+
+    private Vector3 m_PositionToInvestigate;
+
+    private Transform m_AgentTransform;
+
     public InvestigateState()
     {
         m_InternalState = PatrolFSMState.INVESTIGATE;
@@ -211,6 +221,15 @@ public class InvestigateState : FSMBaseState
 
     public override PatrolFSMState HandleTransition()
     {
+        // Check to see if we can see the player
+
+
+        // Check to see if we are at the destination point, if so then just go back to the patrol state
+        if((m_AgentTransform.position - m_PositionToInvestigate).magnitude < 1.0f)
+        {
+            return PatrolFSMState.PATROL;
+        }
+
         return PatrolFSMState.SAME;
     }
 
@@ -219,14 +238,26 @@ public class InvestigateState : FSMBaseState
 
     }
 
-    public override void OnEnter(ref AnimState animationState)
+    public override void OnEnter(ref AnimState animationState, GameObject thisObject)
     {
-        animationState = AnimState.IDLE;
+        animationState             = AnimState.IDLE;
+
+        m_NavmeshAgent             = thisObject.GetComponent<NavMeshAgent>();
+        m_AgentTransform           = thisObject.GetComponent<Transform>();
+
+
+        if (m_NavmeshAgent)
+        {
+            m_NavmeshAgent.enabled = true;
+            m_NavmeshAgent.destination = m_PositionToInvestigate;
+        }
     }
 
-    public override void OnExit(ref AnimState animationState)
+    public override void OnExit(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.IDLE;
+
+        m_PositionToInvestigate = new Vector3(0.0f, 0.0f, 0.0f);
     }
 }
 
@@ -287,7 +318,7 @@ public class AIPatrol : MonoBehaviour
 
         m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-        m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
+        m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, this.gameObject);
     }
 
     // ----------------------------------------------------------------------------
@@ -301,21 +332,21 @@ public class AIPatrol : MonoBehaviour
         {
             case PatrolFSMState.PATROL:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
 
                     m_PatrolFSM.m_FSMStack.Push(new PatrolState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
             case PatrolFSMState.INVESTIGATE:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
 
                     m_PatrolFSM.m_FSMStack.Push(new InvestigateState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
@@ -323,21 +354,21 @@ public class AIPatrol : MonoBehaviour
             {
                 m_CurrentState = AnimState.SHOOT;
 
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
 
                     m_PatrolFSM.m_FSMStack.Push(new AttackPlayerState());
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
             case PatrolFSMState.Exit:
             {
-                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
 
                     m_PatrolFSM.m_FSMStack.Pop();
 
-                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState);
+                m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
             }
             break;
 
