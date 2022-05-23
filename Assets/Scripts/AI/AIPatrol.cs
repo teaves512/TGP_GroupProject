@@ -167,6 +167,8 @@ public class PatrolState : FSMBaseState
             {
                 animationState = AnimState.WALKING;
             }
+
+            thisObject.GetComponent<AIPatrolMovement>().enabled = true;
         }
         else
             animationState = AnimState.IDLE;
@@ -275,7 +277,7 @@ public class InvestigateState : FSMBaseState
         {
             m_MovingBackToWaypoint = true;
 
-            m_PositionToInvestigate = player.GetComponent<AIPatrol>().GetRandomWaypoint().m_ThisPosition.position;
+            m_PositionToInvestigate = player.GetComponent<AIPatrol>().GetClosestWaypoint().m_ThisPosition.position;
             player.GetComponent<AIPatrol>().SetPointOfInterest(m_PositionToInvestigate);
 
             m_NavmeshAgent.destination = m_PositionToInvestigate;
@@ -440,7 +442,6 @@ public class AIPatrol : MonoBehaviour
             break;
 
             default:
-                m_PointOfInterest = Vector3.zero;
             return;
         }
     }
