@@ -17,11 +17,14 @@ public class BossBehaviour : MonoBehaviour
     [Header("Boss Self Stats")]
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
-    [SerializeField] private float m_RotationSpeed;
+	[SerializeField] private GameObject m_TurretBarrel;
+	[SerializeField] private Transform m_BombDropPos;
+	[SerializeField] private float m_RotationSpeed;
     [HideInInspector] private Vector3 m_TargetDirection;
     [HideInInspector] private Quaternion m_LookRot;
     [HideInInspector] private float m_T = 0;
-    [HideInInspector] private bool m_CanSee;
+	[HideInInspector] private float m_BombT = 0;
+	[HideInInspector] private bool m_CanSee;
     [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
     [Header("Bullet Stats")]
     [SerializeField] private Transform m_BulletSpawn;
@@ -38,7 +41,12 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirection;
 	[SerializeField] private LayerMask m_IgnoreLayer;
-    [Header("Shock Waves")]
+	[Header("Health")]
+	[SerializeField] private int m_Health;
+	[SerializeField] private float m_ImmunityInterval;
+	[SerializeField] private GameObject m_ActiveBarrel;
+	[SerializeField] private GameObject m_ImmuneBarrel;
+	[Header("Shock Waves")]
     [SerializeField] private GameObject m_FullShock;
     [SerializeField] private GameObject m_HalfShock;
     [SerializeField] private float m_ShockwaveInterval = 3.0f;
@@ -90,7 +98,6 @@ public class BossBehaviour : MonoBehaviour
     }
     private IEnumerator C_BombDrop()
     {
-
         while (true)
         {
             yield return new WaitForSeconds(m_DropInterval); //timer between attacks
@@ -111,8 +118,33 @@ public class BossBehaviour : MonoBehaviour
         m_CycleComplete = false;
     }
 
-    void Update()
+	private IEnumerator TakeDamage()
+	{
+
+		// apply damage
+		m_Health -= 1;
+		if (m_Health <= 0)
+		{
+			// do the death
+		}
+		// change barrel
+		ChangeBarrelVisability(true);
+		yield return new WaitForSeconds(m_ImmunityInterval);
+		// change barrel back
+		ChangeBarrelVisability(false);
+		yield return null;
+	}
+	private void ChangeBarrelVisability(bool active)
+	{
+		m_ActiveBarrel.SetActive(!active);
+		m_ImmuneBarrel.SetActive(active);
+	}
+	void Update()
     {
+		if(Input.GetKeyDown("space"))
+		{
+			StartCoroutine(TakeDamage());
+		}
 		m_CanSee = RaycastCheck();
 		m_AimDirection = m_Turret.transform.forward;
 
@@ -202,9 +234,23 @@ public class BossBehaviour : MonoBehaviour
 
     private void BombDropAttack()
     {
-        m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
-        m_CurrentState = State.SEARCHING;
-    }
+		// fire upwards
+		//m_TargetDirection = ((m_BombDropPos.position - m_Turret.transform.position)).normalized;
+		//Vector3 angle = Quaternion.LookRotation(m_TargetDirection).eulerAngles;
+		//m_LookRot = Quaternion.Euler(angle);
+		//m_BombT += Time.deltaTime;
+		//m_TurretBarrel.transform.rotation = Quaternion.Lerp(m_TurretBarrel.transform.rotation, m_LookRot, m_BombT * m_RotationSpeed);
+
+		//if (m_BombT > 1.0f)
+		//{
+		//	m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
+		//	m_CurrentState = State.SEARCHING;
+		//}
+		m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
+		m_CurrentState = State.SEARCHING;
+	}
+
+
 	private bool RaycastCheck()
 	{
 		bool canSee = false;
