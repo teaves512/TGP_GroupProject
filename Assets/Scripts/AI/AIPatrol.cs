@@ -21,7 +21,7 @@ public class FSMBaseState
 {
     public virtual PatrolFSMState HandleTransition() { return PatrolFSMState.SAME; }
 
-    public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState) { }
+    public virtual void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest) { }
 
     public virtual void OnEnter(ref AnimState animationState, GameObject thisObject) { }
 
@@ -36,10 +36,10 @@ public class PatrolState : FSMBaseState
 {
     private float m_DecisionTimer;
     private float m_DecisionTimerMax = 3.0f;
-    private bool  m_HeardBomb     = false;
+    private bool  m_HeardBomb        = false;
 
     private GameObject mPlayer;
-    private Vector3 m_PlayerEyePosition;
+    private Vector3    m_PlayerEyePosition;
 
     public PatrolState()
     {
@@ -67,10 +67,13 @@ public class PatrolState : FSMBaseState
         return PatrolFSMState.SAME; 
     }
 
-    public override void Update(float deltaTime, GameObject player, ref AnimState animationState) 
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest) 
     {
+        if (!mPlayer)
+            mPlayer = player;
+
         // See if we are at the next waypoint position, if so choose a direction to go from here
-        Vector3 position         = player.transform.position;
+        Vector3 position          = player.transform.position;
         Vector3 waypointPosition  = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position;
 
         double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;
@@ -143,7 +146,30 @@ public class PatrolState : FSMBaseState
         m_HeardBomb     = false;
         m_DecisionTimer = 1.0f;
 
-        animationState = AnimState.IDLE;
+        if (thisObject)
+        {
+            mPlayer = thisObject;
+
+            Vector3 pointOfInterest = thisObject.GetComponent<AIPatrol>().GetPointOfInterest();
+            if (pointOfInterest != Vector3.zero)
+            {
+                mPlayer.GetComponent<AIPatrol>().SetCurrentWaypoint((thisObject.GetComponent<AIPatrol>().GetWaypointAtPosition(pointOfInterest)));
+            }
+            
+            Vector3 position = mPlayer.transform.position;
+            Vector3 waypointPosition = mPlayer.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position;
+
+            double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;
+
+            if (length <= 0.1f)
+                animationState = AnimState.IDLE;
+            else
+            {
+                animationState = AnimState.WALKING;
+            }
+        }
+        else
+            animationState = AnimState.IDLE;
     }
 
     public override void OnExit(ref AnimState animationState, GameObject thisObject) 
@@ -188,7 +214,7 @@ public class AttackPlayerState : FSMBaseState
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
     {
         // Walk towards the position we want to investigate
     }
@@ -214,9 +240,18 @@ public class InvestigateState : FSMBaseState
 
     private Transform m_AgentTransform;
 
+    private bool m_MovingBackToWaypoint = false;
+
     public InvestigateState()
     {
         m_InternalState = PatrolFSMState.INVESTIGATE;
+    }
+
+    public InvestigateState(Vector3 pointOfInterest)
+    {
+        m_InternalState = PatrolFSMState.INVESTIGATE;
+
+        m_PositionToInvestigate = pointOfInterest;
     }
 
     public override PatrolFSMState HandleTransition()
@@ -225,7 +260,8 @@ public class InvestigateState : FSMBaseState
 
 
         // Check to see if we are at the destination point, if so then just go back to the patrol state
-        if((m_AgentTransform.position - m_PositionToInvestigate).magnitude < 1.0f)
+        if( m_MovingBackToWaypoint && 
+           (m_AgentTransform.position - m_PositionToInvestigate).magnitude < 0.5f)
         {
             return PatrolFSMState.PATROL;
         }
@@ -233,14 +269,31 @@ public class InvestigateState : FSMBaseState
         return PatrolFSMState.SAME;
     }
 
-    public override void Update(float deltaTime, GameObject player, ref AnimState animationState)
+    public override void Update(float deltaTime, GameObject player, ref AnimState animationState, Vector3 pointOfInterest)
     {
+        if (!m_MovingBackToWaypoint && (m_AgentTransform.position - m_PositionToInvestigate).magnitude < 0.5f)
+        {
+            m_MovingBackToWaypoint = true;
 
+            m_PositionToInvestigate = player.GetComponent<AIPatrol>().GetRandomWaypoint().m_ThisPosition.position;
+            player.GetComponent<AIPatrol>().SetPointOfInterest(m_PositionToInvestigate);
+
+            m_NavmeshAgent.destination = m_PositionToInvestigate;
+        }
+        else
+        {
+            if (pointOfInterest != Vector3.zero)
+            {
+                m_PositionToInvestigate = pointOfInterest;
+            }
+        }
     }
 
     public override void OnEnter(ref AnimState animationState, GameObject thisObject)
     {
-        animationState             = AnimState.IDLE;
+        animationState             = AnimState.WALKING;
+
+        m_MovingBackToWaypoint = false;
 
         m_NavmeshAgent             = thisObject.GetComponent<NavMeshAgent>();
         m_AgentTransform           = thisObject.GetComponent<Transform>();
@@ -248,16 +301,25 @@ public class InvestigateState : FSMBaseState
 
         if (m_NavmeshAgent)
         {
-            m_NavmeshAgent.enabled = true;
+            m_NavmeshAgent.enabled     = true;
             m_NavmeshAgent.destination = m_PositionToInvestigate;
         }
+
+        thisObject.GetComponent<AIPatrolMovement>().enabled = false;
     }
 
     public override void OnExit(ref AnimState animationState, GameObject thisObject)
     {
         animationState = AnimState.IDLE;
 
-        m_PositionToInvestigate = new Vector3(0.0f, 0.0f, 0.0f);
+        m_MovingBackToWaypoint = false;
+
+        if (m_NavmeshAgent)
+        {
+            m_NavmeshAgent.enabled = false;
+        }
+
+        thisObject.GetComponent<AIPatrolMovement>().enabled = true;
     }
 }
 
@@ -282,6 +344,9 @@ public class AIPatrol : MonoBehaviour
     [SerializeField]
     private PatrolWaypoint m_StartWaypoint;
 
+    [SerializeField]
+    private PatrolWaypoint[] m_AllWaypoints;
+
     private PatrolWaypoint m_CurrentWaypoint;
     private PatrolWaypoint m_PriorWaypoint;
 
@@ -294,13 +359,15 @@ public class AIPatrol : MonoBehaviour
 
     public AnimState GetCurrentAnimationState() { return m_CurrentState; }
 
+    private Vector3 m_PointOfInterest = Vector3.zero;
+
     // ----------------------------------------------------------------------------
 
     public PatrolWaypoint GetCurrentWaypoint()                           { return m_CurrentWaypoint; }
     public void           SetCurrentWaypoint(PatrolWaypoint newWaypoint) { m_CurrentWaypoint = newWaypoint; }
 
     public PatrolWaypoint GetPriorWaypoint()                 { return m_PriorWaypoint; }
-    public void SetPriorWaypoint(PatrolWaypoint newWaypoint) { m_PriorWaypoint = newWaypoint; }
+    public void           SetPriorWaypoint(PatrolWaypoint newWaypoint) { m_PriorWaypoint = newWaypoint; }
 
     // ----------------------------------------------------------------------------
 
@@ -326,7 +393,7 @@ public class AIPatrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject, ref m_CurrentState);
+        m_PatrolFSM.m_FSMStack.Peek().Update(Time.deltaTime, this.gameObject, ref m_CurrentState, m_PointOfInterest);
 
         switch ((m_PatrolFSM.m_FSMStack.Peek().HandleTransition()))
         {
@@ -344,7 +411,7 @@ public class AIPatrol : MonoBehaviour
             {
                 m_PatrolFSM.m_FSMStack.Peek().OnExit(ref m_CurrentState, gameObject);
 
-                    m_PatrolFSM.m_FSMStack.Push(new InvestigateState());
+                    m_PatrolFSM.m_FSMStack.Push(new InvestigateState(m_PointOfInterest));
 
                 m_PatrolFSM.m_FSMStack.Peek().OnEnter(ref m_CurrentState, gameObject);
             }
@@ -373,6 +440,7 @@ public class AIPatrol : MonoBehaviour
             break;
 
             default:
+                m_PointOfInterest = Vector3.zero;
             return;
         }
     }
@@ -387,9 +455,54 @@ public class AIPatrol : MonoBehaviour
             PatrolState state = (PatrolState)m_PatrolFSM.m_FSMStack.Peek();
             state.SetHeardBomb(true);
         }
+
+        m_PointOfInterest = position;
     }
 
     // ---------------------------------------------------------------------------
+
+    public PatrolWaypoint GetClosestWaypoint()
+    {
+        float          closestDistance  = 40000000.0f;
+        PatrolWaypoint closestWaypoint  = m_AllWaypoints[0];
+
+        foreach (PatrolWaypoint waypoint in m_AllWaypoints)
+        {
+            Vector3 offset = waypoint.m_ThisPosition.position - waypoint.m_ThisPosition.position;
+
+            if (offset.magnitude < closestDistance)
+            {
+                closestWaypoint = waypoint;
+                closestDistance = offset.magnitude;
+                continue;
+            }
+        }
+
+        return closestWaypoint;
+    }
+
+    // ---------------------------------------------------------------------------
+
+    public void SetPointOfInterest(Vector3 position)
+    {
+        m_PointOfInterest = position;
+    }
+
+    public Vector3 GetPointOfInterest()
+    {
+        return m_PointOfInterest;
+    }
+
+    public PatrolWaypoint GetWaypointAtPosition(Vector3 position)
+    {
+        foreach(PatrolWaypoint waypoint in m_AllWaypoints)
+        {
+            if (waypoint.m_ThisPosition.position == position)
+                return waypoint;
+        }
+
+        return m_AllWaypoints[0];
+    }
 }
 
 // ----------------------------------------------------------------------
