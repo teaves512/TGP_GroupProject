@@ -10,6 +10,7 @@ public class TankSpikeDrop : MonoBehaviour
 
 	[SerializeField] private float m_DestroyDelay = 2.0f;
 	[SerializeField] private float m_DistanceToGround;
+	public bool m_IsGrounded = false;
 
 	private Animator m_Animator;
 
@@ -33,14 +34,15 @@ public class TankSpikeDrop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CheckGround())
+		CheckGround();
+        if(m_IsGrounded)
 		{
 			PlayParachute();
 		}
     }
-	private bool CheckGround()
+	public void CheckGround()
 	{
-		return Physics.Raycast(transform.position, -Vector3.up, m_DistanceToGround);
+		m_IsGrounded = Physics.Raycast(transform.position, -Vector3.up, m_DistanceToGround);
 	}	
 
 	private void PlayParachute()

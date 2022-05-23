@@ -14,6 +14,7 @@ TagManager:
   - Walking Bomb
   - Enemy
   - Destination
+  - Explosive
   layers:
   - Default
   - TransparentFX

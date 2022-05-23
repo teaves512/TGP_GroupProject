@@ -91,6 +91,8 @@ public class MainBombBehaviour : MonoBehaviour
 		if(m_BombSoundRadius)
 			m_BombSoundRadius.SetActive(true);
 
+		AudioManager.Play("Boom");
+
 		m_ExplosionParticleEffect.Play();
         m_BombVisual.SetActive(false);
 		if(m_ClusterEnabled)

@@ -85,7 +85,10 @@ public class GunControl : MonoBehaviour
         if (!m_BulletParent || !m_BulletPrefab)
             return;
 
+        AudioManager.Play("Pew");
+
         GameObject newBullet = Instantiate(m_BulletPrefab, m_PositionToSpawn, Quaternion.Euler(m_DirectionToSpawn), m_BulletParent.transform);
+        newBullet.transform.forward = gameObject.transform.forward;
 
         m_Bullets.Add(newBullet);
     }

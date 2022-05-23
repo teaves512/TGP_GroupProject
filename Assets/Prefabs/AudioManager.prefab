@@ -48,7 +48,7 @@ MonoBehaviour:
     m_Clip: {fileID: 8300000, guid: 9fc73f22471661647b535cef3a434117, type: 3}
     m_Source: {fileID: 0}
     m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
-    m_Volume: 1
+    m_Volume: 0.01
     m_Pitch: 1
     m_bLoop: 0
     m_bPlayOnAwake: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Clip: {fileID: 8300000, guid: edb33a5bb86aa9243a459884cada02a6, type: 3}
     m_Source: {fileID: 0}
     m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
-    m_Volume: 1
+    m_Volume: 0.05
     m_Pitch: 1
     m_bLoop: 0
     m_bPlayOnAwake: 0
