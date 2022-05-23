@@ -67,6 +67,8 @@ public class Destructable : MonoBehaviour
         {
 			if(!m_Exploded)
 				Explode();
+			if (gameObject.name == "SM_Veh_Truck_01" || gameObject.name == "SM_Veh_Tank_Russia_01")
+				gameObject.SetActive(false);
         }
 		if (m_DeathEffect != null)
 			m_DeathEffect.Play();
