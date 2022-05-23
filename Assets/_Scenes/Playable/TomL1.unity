@@ -52785,6 +52785,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 250647435, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
+      propertyPath: m_Health
+      value: 100.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 250647435, guid: e38dc93a3a7cd1e4f95efe21682fa0d8, type: 3}
       propertyPath: m_HealthUIImage
       value: 
       objectReference: {fileID: 302775992}
@@ -89078,6 +89082,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 53985084}
     m_Modifications:
+    - target: {fileID: 49374785319070074, guid: 997c24c777f6d7447b3ab1aff7781bac, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 49374786076515452, guid: 997c24c777f6d7447b3ab1aff7781bac, type: 3}
       propertyPath: m_Name
       value: HealthCanvas
