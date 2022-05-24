@@ -6,23 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Titlescreen.unity
-    guid: 1c1da25590f95b44f9475035516568d0
+    path: Assets/_Scenes/Main Menu.unity
+    guid: a2234d2dd23b4ff4fa0acef7a597f6ad
   - enabled: 1
-    path: Assets/_Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
-    path: Assets/Scripts/SceneChanger/PersistentScene.unity
-    guid: 2ed071fd14586084787c16554b972401
-  - enabled: 1
-    path: Assets/_Scenes/BombFunctionalityTestScene.unity
-    guid: 1c4376df1e801c448b12be928ebbbcc3
-    path: Assets/Scripts/SceneChanger/TitleScene.unity
-    guid: 4a835495dd531e5478b201044c1096af
-  - enabled: 1
-    path: Assets/_Scenes/Achievements/Scene1.unity
-    guid: ee6186ce32b8f0c4e9ca78e9886983e8
-  - enabled: 1
-    path: Assets/_Scenes/Achievements/Scene2.unity
-    guid: 6d54239bfc3ee4b4e88ad48b0f11c457
+    path: Assets/_Scenes/PersistentScene.unity
+    guid: 59a1e4762542b7d4986efaa19d8dc725
   m_configObjects: {}

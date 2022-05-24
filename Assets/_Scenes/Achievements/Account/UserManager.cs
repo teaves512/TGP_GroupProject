@@ -18,6 +18,8 @@ public class UserManager : MonoBehaviour
     {
         file = "RegisteredUser";
         m_Path = Application.persistentDataPath + "/" + file;
+
+        Load();
     }
 
     public void CreateUser()
@@ -48,9 +50,18 @@ public class UserManager : MonoBehaviour
     {
         m_User = new AccountDetails();
         string json = ReadFromFile();
-        JsonUtility.FromJsonOverwrite(json, m_User);
-        Debug.Log("Loaded  (PM) , " + m_User.Name + m_User.HasRegistered);
-        //return m_Player;
+
+        if (json != null)
+        {
+            JsonUtility.FromJsonOverwrite(json, m_User);
+            Debug.Log("Loaded  (PM) , " + m_User.Name + m_User.HasRegistered);
+        }
+        else
+        {
+            m_User.Initialize();
+            m_User.Name = System.Environment.UserName;
+            Save();
+        }
     }
     
     

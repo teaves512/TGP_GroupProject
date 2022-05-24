@@ -11,11 +11,14 @@ public class ChangeSceneButton : ButtonTemplate
     [SerializeField] Image image;
     [SerializeField] Level level;
 
-    void Start()
+    void Awake()
     {
         if (!SceneLoaded(c_PersistentSceneName))
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
+    }
 
+    void Start()
+    {
         if (text != null && image != null)
         {
             text.text = level.levelName;
