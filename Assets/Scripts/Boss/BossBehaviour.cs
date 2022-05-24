@@ -18,35 +18,50 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
 	[SerializeField] private GameObject m_TurretBarrel;
+
 	[SerializeField] private Transform m_BombDropPos;
 	[SerializeField] private float m_RotationSpeed;
     [HideInInspector] private Vector3 m_TargetDirection;
     [HideInInspector] private Quaternion m_LookRot;
     [HideInInspector] private float m_T = 0;
 	[HideInInspector] private float m_BombT = 0;
-	[HideInInspector] private bool m_CanSee;
+	[SerializeField] private bool m_CanSee;
     [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
-    [Header("Bullet Stats")]
-    [SerializeField] private Transform m_BulletSpawn;
-    [SerializeField] private GameObject m_Bullet;
-    [SerializeField] private float m_BulletDamage;
-    [SerializeField] private float m_BulletForce;
+
     [Header("State")]
     [SerializeField] private State m_CurrentState;
-    [SerializeField] private bool m_Rotating = false;
+    [SerializeField] public bool m_FiringSentry = false;
+
     [Header("Game Knowledge")]
     [HideInInspector] private GameObject m_Player;
 	[HideInInspector] private Vector3 m_PlayerLastKnownPos;
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
-    [HideInInspector] private Vector3 m_AimDirection;
-	[SerializeField] private LayerMask m_IgnoreLayer;
+    [HideInInspector] private Vector3 m_AimDirectionTurret;
+    [HideInInspector] private Vector3 m_AimDirectionGun;
+    [SerializeField] private LayerMask m_IgnoreLayer;
+
 	[Header("Health")]
 	[SerializeField] private int m_Health;
 	[SerializeField] private float m_ImmunityInterval;
 	[SerializeField] private GameObject m_ActiveBarrel;
 	[SerializeField] private GameObject m_ImmuneBarrel;
-	[Header("Shock Waves")]
+    [Header("Main Gun")]
+    [SerializeField] private int m_NumOfBullets;
+    [SerializeField] private Transform m_BulletSpawn;
+    [SerializeField] private GameObject m_Bullet;
+    [SerializeField] private float m_BulletDamage;
+    [SerializeField] private float m_BulletForce;
+    [Header("Sentry Gun")]
+    [SerializeField] private GameObject m_SentryGun;
+    [SerializeField] private GameObject m_SentryBullet;
+    [SerializeField] private Transform m_SentryBulletSpawn;
+    [SerializeField] private float m_BulletInterval;
+    [SerializeField] private int m_NumOfSentryBullets;
+    [SerializeField] private float m_SentryBulletForce;
+    [SerializeField] private float m_SentryHeightOffset;
+
+    [Header("Shock Waves")]
     [SerializeField] private GameObject m_FullShock;
     [SerializeField] private GameObject m_HalfShock;
     [SerializeField] private float m_ShockwaveInterval = 3.0f;
@@ -59,6 +74,7 @@ public class BossBehaviour : MonoBehaviour
 
     private Coroutine m_cShockwaves = null;
     private Coroutine m_cBombDrop = null;
+    private Coroutine m_cFireGun = null;
 
     // Start is called before the first frame update
     void Start()
@@ -69,12 +85,6 @@ public class BossBehaviour : MonoBehaviour
 		//StartShockwaves();
         StartBombDrop();
     }
-
-	private void StartShockwaves()
-	{
-		if (m_cShockwaves != null) { StopCoroutine(m_cShockwaves); }
-		m_cShockwaves = StartCoroutine(C_Shockwaves());
-	}
 	private IEnumerator C_Shockwaves()
 	{
 		m_bFullShock = true;
@@ -148,7 +158,7 @@ public class BossBehaviour : MonoBehaviour
 			StartCoroutine(TakeDamage());
 		}
 		m_CanSee = RaycastCheck();
-		m_AimDirection = m_Turret.transform.forward;
+        m_AimDirectionGun = m_SentryGun.transform.forward;
 
        switch (m_CurrentState) 
        {
@@ -163,13 +173,15 @@ public class BossBehaviour : MonoBehaviour
             }
             case State.PLAYER_IN_SIGHT:
             {
-                CheckForPlayer();
+                IsPlayerInSight();
                 break;
             }
             case State.FIRING:
             {
-                
-                Attack();
+
+                StartGunFire();
+
+                m_CurrentState = State.SEARCHING;
                 break;
             }
             case State.BOMBDROPATTACK:
@@ -181,51 +193,65 @@ public class BossBehaviour : MonoBehaviour
     }
     private void SearchForPlayer()
     {
-		//if(m_CanSee)
-		//{
-			m_TargetDirection = (m_PlayerLastKnownPos - m_Turret.transform.position).normalized;
+			m_TargetDirection = (m_PlayerLastKnownPos - new Vector3(m_SentryGun.transform.position.x, m_SentryGun.transform.position.y+ m_SentryHeightOffset, m_SentryGun.transform.position.z)).normalized;
 			Vector3 angle = Quaternion.LookRotation(m_TargetDirection).eulerAngles;
-			angle.x = 0;
+			//angle.x = 0;
 			m_LookRot = Quaternion.Euler(angle);
 			m_T += Time.deltaTime;
-			m_Turret.transform.rotation = Quaternion.Lerp(m_Turret.transform.rotation, m_LookRot, m_T * m_RotationSpeed);
+            m_SentryGun.transform.rotation = Quaternion.Lerp(m_SentryGun.transform.rotation, m_LookRot, m_T * m_RotationSpeed);
 
 			if (m_T > 1.0f)
 			{
-				//m_Rotating = false;
 				m_CurrentState = State.PLAYER_IN_SIGHT;
 				m_T = 0;
 			}
-		//}
-
-
 	}
-    private void CheckForPlayer()
+    private void IsPlayerInSight()
     {
-
-        if (Vector3.Distance(transform.position, m_Player.transform.position) < m_ViewDistance)
+        m_CurrentState = State.SEARCHING;
+        if (Vector3.Distance(transform.position, m_Player.transform.position) <= m_ViewDistance)
         {
             //check direction and angle 
             Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
-            if (Vector3.Angle(m_AimDirection, playerDirection) < m_FOV / 2) // Vector3.Angle uses the middle so FOV/2 each side
+            if (Vector3.Angle(m_AimDirectionGun, playerDirection) < m_FOV / 2) // Vector3.Angle uses the middle so FOV/2 each side
             {
 
                 if (m_CanSee)
                 {
                     Debug.DrawRay(transform.position, playerDirection, Color.green);
-                    m_CurrentState = State.FIRING;
+                    if(!m_FiringSentry)
+                        m_CurrentState = State.FIRING;
                 }
                 else
                 {
                     //Debug.Log("Player not visable");
                     Debug.DrawRay(transform.position, playerDirection, Color.red);
-                    m_CurrentState = State.SEARCHING;
                 }
-
             }
-
         }
+
     }
+
+    private void StartGunFire()
+    {
+        if (m_cFireGun != null) { StopCoroutine(m_cFireGun); }
+        m_cFireGun = StartCoroutine(FireGun());
+    }
+    private IEnumerator FireGun()
+    {
+        m_CurrentState = State.SEARCHING;
+        m_FiringSentry = true;
+        for (int i = 0; i < m_NumOfSentryBullets; i++)
+        {
+            if(!m_FiringSentry){break;}    
+            GameObject bullet = Instantiate(m_SentryBullet, m_SentryBulletSpawn.position, m_SentryBulletSpawn.rotation);
+            bullet.GetComponent<Rigidbody>().AddForce(m_SentryBulletSpawn.forward * m_SentryBulletForce, ForceMode.Impulse) ;
+            yield return new WaitForSeconds(m_BulletInterval);
+        }
+        m_FiringSentry = false;
+
+    }
+
     private void Attack()
     {
         GameObject bullet = Instantiate(m_Bullet, m_BulletSpawn.position, m_BulletSpawn.rotation);
@@ -248,7 +274,7 @@ public class BossBehaviour : MonoBehaviour
 		//	m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
 		//	m_CurrentState = State.SEARCHING;
 		//}
-		m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
+		//m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
 		m_CurrentState = State.SEARCHING;
 	}
 
@@ -268,8 +294,10 @@ public class BossBehaviour : MonoBehaviour
 			else
 			{
 				canSee = false;
+                //m_FiringSentry = false;
 			}
 		}
 		return canSee;
 	}
+
 }
