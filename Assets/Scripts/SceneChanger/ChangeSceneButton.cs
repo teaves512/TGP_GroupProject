@@ -1,28 +1,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ChangeSceneButton : ButtonTemplate
 {
     private const string c_PersistentSceneName = "PersistentScene";
 
-    [SerializeField] Text text;
+    [SerializeField] TMP_Text text;
     [SerializeField] Image image;
     [SerializeField] Level level;
 
-    void Start()
+    void Awake()
     {
         if (!SceneLoaded(c_PersistentSceneName))
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
+    }
 
-        text.text = level.levelName;
-        image.sprite = level.previewImage;
+    void Start()
+    {
+        if (text != null && image != null)
+        {
+            text.text = level.levelName;
+            image.sprite = level.previewImage;
+        }
     }
 
     protected override void ButtonAction()
     {
+        LoadScene(level.scene);
+    }
+
+    protected void LoadScene(string newSceneName)
+    {
         SceneManager.UnloadSceneAsync(gameObject.scene);
-        SceneManager.LoadSceneAsync(level.scene, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
     }
 
     bool SceneLoaded(string sceneName)
