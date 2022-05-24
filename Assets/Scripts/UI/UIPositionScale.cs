@@ -8,10 +8,17 @@ public class UIPositionScale : MonoBehaviour
 {
     [SerializeField] CanvasScaler m_canvasScaler;
     [SerializeField] Vector2 m_originalPosition;
+    [SerializeField] ScalingMode m_ScalingMode;
 
     Vector2 m_ScreenResolution;
     RectTransform m_rectTransform;
     RectTransform m_canvasRectTransform;
+
+    public enum ScalingMode
+    {
+        WIDTH,
+        HEIGHT
+    };
 
     void Start()
     {
@@ -31,6 +38,10 @@ public class UIPositionScale : MonoBehaviour
     {
         m_ScreenResolution = newResolution;
 
-        m_rectTransform.anchoredPosition = new Vector2(m_originalPosition.x * (m_canvasRectTransform.rect.width / m_canvasScaler.referenceResolution.x), m_rectTransform.anchoredPosition.y);
+        if(m_ScalingMode == ScalingMode.WIDTH)
+            m_rectTransform.anchoredPosition = new Vector2(m_originalPosition.x * (m_canvasRectTransform.rect.width / m_canvasScaler.referenceResolution.x), m_rectTransform.anchoredPosition.y);
+        else
+            m_rectTransform.anchoredPosition = new Vector2(m_rectTransform.anchoredPosition.x, m_originalPosition.y * (m_canvasRectTransform.rect.height / m_canvasScaler.referenceResolution.y));
+
     }
 }

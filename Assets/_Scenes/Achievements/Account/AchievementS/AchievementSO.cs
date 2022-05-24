@@ -32,5 +32,11 @@ public class AchievementSO : ScriptableObject
         }
     }
     
-
+    public void Lock()
+    {
+        if(unlocked)
+        {
+            unlocked = false;
+        }
+    }
 }

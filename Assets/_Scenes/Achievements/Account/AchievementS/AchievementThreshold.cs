@@ -16,6 +16,8 @@ public class AchievementThreshold
             {
                 achievement.Unlock();
             }
+            else
+                achievement.Lock();
         }
     }
     
