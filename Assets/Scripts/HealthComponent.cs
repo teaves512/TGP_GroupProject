@@ -76,12 +76,12 @@ public class HealthComponent : MonoBehaviour
         }
         if (m_Health <= 0)
         {
-            EventManager.OnGameOver();
+            EventManager.OnGameOver(false);
         }
         ActivateHealth();
     }
 
-    void GameOver()
+    void GameOver(bool victory)
     {
         gameObject.SetActive(gameObject);
     }

@@ -15,6 +15,7 @@ TagManager:
   - Enemy
   - Destination
   - Explosive
+  - DeathFloor
   layers:
   - Default
   - TransparentFX

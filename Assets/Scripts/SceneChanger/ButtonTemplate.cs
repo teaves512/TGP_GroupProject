@@ -17,4 +17,6 @@ public abstract class ButtonTemplate : MonoBehaviour
         else
             m_ButtonAction.onClick.AddListener(ButtonAction);
     }
+    
+    
 }

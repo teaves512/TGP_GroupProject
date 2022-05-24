@@ -5,6 +5,6 @@ using UnityEngine.Events;
 
 public static class EventManager 
 {
-    public static event UnityAction GameOver;
-    public static void OnGameOver() => GameOver?.Invoke();
+    public static event UnityAction<bool> GameOver;
+    public static void OnGameOver(bool victory) => GameOver?.Invoke(victory);
 }
