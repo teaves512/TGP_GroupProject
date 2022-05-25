@@ -234,7 +234,12 @@ public class AttackPlayerState : FSMBaseState
 
         if(agent.GetComponent<GunControl>() && m_PlayerTransform)
         {
-            agent.GetComponent<GunControl>().FireBullet(agent.transform.position, (m_PlayerTransform.position - agent.transform.position).normalized);
+            Vector3 m_offset = new Vector3();
+            m_offset.y = 1.34f;
+            m_offset.x = 0.82f * agent.transform.forward.x;
+            m_offset.z = 0.82f * agent.transform.forward.z;
+
+            agent.GetComponent<GunControl>().FireBullet(agent.transform.position + m_offset, (m_PlayerTransform.position - agent.transform.position).normalized);
         }
     }
 
