@@ -8,16 +8,27 @@ public class Destructable : MonoBehaviour
 	[SerializeField] private float m_Health;
 	[SerializeField] private float m_MaxRegenTimer = 5.0f;
 	[SerializeField] private float m_RegenTimer;
-    [SerializeField] private float m_RegenRate = 0.01f;
-    [SerializeField] private Material m_Material;
-    [SerializeField] private ParticleSystem m_DeathEffect;
+	[SerializeField] private float m_RegenRate = 0.01f;
+	[SerializeField] private Material m_Material;
+	[SerializeField] private ParticleSystem m_DeathEffect;
 	[Header("Explosive")]
-    [HideInInspector] private bool m_Explosive;
+	[HideInInspector] private bool m_Explosive;
 	[HideInInspector] private ExplosiveEnviro m_ExplosiveScript;
+	[Header("Regenable")]
+	[SerializeField] private bool m_CanRegen = false;
+	[SerializeField] private float m_DeathTime = 10.0f;
+	[SerializeField] private float m_WallMoveSpeed;
+	[SerializeField] private GameObject m_RiseParticle;
+	[HideInInspector] private Vector3 m_OriginalPos;
+	[HideInInspector] private Vector3 m_DeadPos;
+	[SerializeField] private bool m_MoveUp = false;
+	[HideInInspector] private float m_T;
 
 
 	private void Start()
 	{
+		m_OriginalPos = transform.position;
+		m_DeadPos = new Vector3(transform.position.x, transform.position.y -2.2f, transform.position.z);
 		m_Health = m_MaxHealth;
 		m_RegenTimer = m_MaxRegenTimer;
 		m_Material = GetComponent<Renderer>()?.material;
@@ -39,6 +50,17 @@ public class Destructable : MonoBehaviour
                 HealDamageToMat();
             }
         }
+		if(m_MoveUp)
+        {
+			m_T += Time.deltaTime;
+			transform.position = Vector3.Lerp(transform.position, m_OriginalPos, m_T * m_WallMoveSpeed);
+			if (m_T > 1.0f)
+			{
+				m_T = 0;
+				m_MoveUp = false;
+				m_RiseParticle.SetActive(m_MoveUp);
+			}
+		}
     }
 
     public void TakeDamage(float damage)
@@ -51,7 +73,6 @@ public class Destructable : MonoBehaviour
         }
 	
     }
-
 	private IEnumerator ApplyDamageToMat()
 	{
         m_RegenTimer = m_MaxRegenTimer;
@@ -76,7 +97,17 @@ public class Destructable : MonoBehaviour
 		if (m_DeathEffect != null)
 			m_DeathEffect.Play();
 		yield return new WaitForSeconds(0.3f);
-        Destroy(gameObject);
+		if(!m_CanRegen)
+			Destroy(gameObject);
+		else
+        {
+			m_Health = 0.0f;
+			transform.position = m_DeadPos;
+			yield return new WaitForSeconds(m_DeathTime);
+			m_MoveUp = true;
+			m_RiseParticle.SetActive(m_MoveUp);
+			//m_RiseParticle.Play();
+		}
         yield return null;
     }
 
