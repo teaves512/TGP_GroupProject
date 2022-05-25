@@ -24718,6 +24718,7 @@ Transform:
   - {fileID: 829358924}
   - {fileID: 1841233967}
   - {fileID: 66057239}
+  - {fileID: 900208797}
   - {fileID: 542840389}
   - {fileID: 1210552028}
   - {fileID: 1755854118}
@@ -24765,7 +24766,6 @@ Transform:
   - {fileID: 344963465}
   - {fileID: 244322006}
   - {fileID: 293569409}
-  - {fileID: 900208797}
   - {fileID: 1360155384}
   - {fileID: 1563070493}
   - {fileID: 61606299}
@@ -27903,7 +27903,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 808274875}
-  m_RootOrder: 67
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 5.79, y: 0, z: 0}
 --- !u!1001 &901445312
 PrefabInstance:
@@ -55382,22 +55382,6 @@ PrefabInstance:
       propertyPath: m_BulletParent
       value: 
       objectReference: {fileID: 1143694392}
-    - target: {fileID: 4041510644851167837, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_Speed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4041510644851167837, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_Radius
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4041510644851167837, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_Acceleration
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4041510644851167837, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_AngularSpeed
-      value: 360
-      objectReference: {fileID: 0}
     - target: {fileID: 5651263695024924360, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -55445,10 +55429,6 @@ PrefabInstance:
     - target: {fileID: 5713881872183009461, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
       propertyPath: m_Name
       value: PatrolingEnemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713881872183009461, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6044645000713171084, guid: 475784304de2ab14281f5b8501f94cb0, type: 3}
       propertyPath: c_MovementSpeed
