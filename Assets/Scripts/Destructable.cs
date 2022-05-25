@@ -21,7 +21,7 @@ public class Destructable : MonoBehaviour
 	[SerializeField] private GameObject m_RiseParticle;
 	[HideInInspector] private Vector3 m_OriginalPos;
 	[HideInInspector] private Vector3 m_DeadPos;
-	[SerializeField] private bool m_MoveUp = false;
+	[HideInInspector] private bool m_MoveUp = false;
 	[HideInInspector] private float m_T;
 
 
