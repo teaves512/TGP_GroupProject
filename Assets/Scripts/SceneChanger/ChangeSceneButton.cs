@@ -31,7 +31,7 @@ public class ChangeSceneButton : ButtonTemplate
         LoadScene(level.scene);
     }
 
-    protected void LoadScene(string newSceneName)
+    public void LoadScene(string newSceneName)
     {
         SceneManager.UnloadSceneAsync(gameObject.scene);
         SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);
