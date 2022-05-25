@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 5651263695024924360}
   - component: {fileID: 8752005653601954369}
   - component: {fileID: -7676239352383682122}
-  - component: {fileID: 2886058609553346342}
   - component: {fileID: 5188904874328559168}
   - component: {fileID: 6266575625468387803}
   - component: {fileID: 6044645000713171084}
   - component: {fileID: 4041510644851167837}
   - component: {fileID: 2788477307462096278}
+  - component: {fileID: 7025752246592879343}
   m_Layer: 8
   m_Name: PatrolingEnemy
   m_TagString: Untagged
@@ -68,19 +68,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7ed62792b947b4ea768da0ff7763c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &2886058609553346342
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713881872183009461}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5452719, y: 1.7510734, z: 0.37995148}
-  m_Center: {x: -0.012390614, y: 0.86573195, z: 0.001991272}
 --- !u!54 &5188904874328559168
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,6 +149,20 @@ MonoBehaviour:
   m_TimeDelayForBulletSpawn_FirstPress: 0.3
   m_BulletParent: {fileID: 0}
   m_TimeDelayForBulletSpawn_HeldDown: 1.2
+--- !u!136 &7025752246592879343
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713881872183009461}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8035801835352048015
 GameObject:
   m_ObjectHideFlags: 0

@@ -295,11 +295,6 @@ public class InvestigateState : FSMBaseState
 
     private float m_waypointCheckDistance = 0.5f;
 
-    public InvestigateState()
-    {
-        m_InternalState = PatrolFSMState.INVESTIGATE;
-    }
-
     public InvestigateState(Vector3 pointOfInterest)
     {
         m_InternalState = PatrolFSMState.INVESTIGATE;
@@ -341,11 +336,11 @@ public class InvestigateState : FSMBaseState
                 m_MovingBackToWaypoint = true;
 
                 // Get the closest waypoint in the path to where the AI currently is
-                PatrolWaypoint closestWaypoint         = player.GetComponent<AIPatrol>().GetClosestWaypoint();
+                PatrolWaypoint  closestWaypoint         = player.GetComponent<AIPatrol>().GetClosestWaypoint();
                                 m_PositionToInvestigate = closestWaypoint.m_ThisPosition.position;
 
+                player.GetComponent<AIPatrol>().SetPriorWaypoint(player.GetComponent<AIPatrol>().GetCurrentWaypoint());
                 player.GetComponent<AIPatrol>().SetCurrentWaypoint(closestWaypoint);
-                player.GetComponent<AIPatrol>().SetPriorWaypoint(closestWaypoint);
 
                 player.GetComponent<AIPatrolMovement>().SetTargetPosition(m_PositionToInvestigate);
 
@@ -392,7 +387,8 @@ public class InvestigateState : FSMBaseState
 
         if (m_NavmeshAgent)
         {
-            m_NavmeshAgent.enabled = false;
+            m_NavmeshAgent.destination = thisObject.transform.position;
+            m_NavmeshAgent.enabled     = false;
         }
 
         thisObject.GetComponent<AIPatrolMovement>().enabled = true;
