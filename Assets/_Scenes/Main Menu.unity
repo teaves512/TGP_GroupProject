@@ -2431,6 +2431,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &472485126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3576,6 +3588,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ChangeName
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &622170565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4232,6 +4256,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1445062306}
+        m_TargetAssemblyTypeName: MainMenuAnimations, Assembly-CSharp
+        m_MethodName: SetWalkingOff
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &742783215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4814,7 +4862,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1920.9694, y: 0}
+  m_AnchoredPosition: {x: -1920, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &793812825
@@ -7503,6 +7551,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1217439684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9279,7 +9339,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: fab1afc364bf28c4e899cad088f05da3, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9363,6 +9423,118 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1001 &1458943722
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[2].m_Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 71cf8ebfa8d22634fa7318408b8b1166, type: 3}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[2].m_Name
+      value: ButtonPress
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[3].m_Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b5df06e90279fc478dbde6fe972168d, type: 3}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[3].m_Name
+      value: ChangeName
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[2].m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[3].m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[2].m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[3].m_Volume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[2].m_MixerGroup
+      value: 
+      objectReference: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Sounds.Array.data[3].m_MixerGroup
+      value: 
+      objectReference: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747636956338614235, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+--- !u!114 &1458943723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+  m_PrefabInstance: {fileID: 1458943722}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f37336eff71e8c45a91529a51cc7d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1468498301
 GameObject:
   m_ObjectHideFlags: 0
@@ -9679,6 +9851,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1495110814
@@ -10210,7 +10394,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1920.9694, y: 0}
+  m_AnchoredPosition: {x: 1920, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1652173621
@@ -10965,6 +11149,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1808225091
@@ -11848,6 +12044,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1445062306}
+        m_TargetAssemblyTypeName: MainMenuAnimations, Assembly-CSharp
+        m_MethodName: SetWalkingOff
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1458943723}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ButtonPress
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1977649503
 MonoBehaviour:
