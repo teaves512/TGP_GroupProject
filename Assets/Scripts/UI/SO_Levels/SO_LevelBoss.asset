@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5b426db04455b4aa947e1939128524, type: 3}
   m_Name: SO_LevelBoss
   m_EditorClassIdentifier: 
-  scene: 
+  scene: Boss Fight
   levelName: Boss Level
   previewImage: {fileID: 0}
