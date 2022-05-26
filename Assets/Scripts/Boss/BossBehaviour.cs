@@ -9,8 +9,8 @@ enum State
     PLAYER_IN_SIGHT,
     FIRING,
     BOMBDROPATTACK,
-
-    REPAIRING
+	VULNERABLE,
+	NORMAL
 }
 public class BossBehaviour : MonoBehaviour
 {
@@ -41,10 +41,11 @@ public class BossBehaviour : MonoBehaviour
 
 	[Header("Health")]
 	[SerializeField] private int m_Health = 3;
-    [HideInInspector] private bool m_CanTakeDamage;
-	[SerializeField] private float m_ImmunityInterval;
-	[SerializeField] private GameObject m_ActiveBarrel;
-	[SerializeField] private GameObject m_ImmuneBarrel;
+    [HideInInspector] private bool m_CanTakeDamage = false;
+	[SerializeField] private float m_ImmunityInterval = 10.0f;
+	[SerializeField] private float m_ExposedInterval = 3.0f;
+	[SerializeField] private GameObject m_HeartBarrel;
+	[SerializeField] private GameObject m_CoverBarrel;
 
     [Header("Main Gun")]
     [SerializeField] private int m_NumOfBullets;
@@ -90,34 +91,29 @@ public class BossBehaviour : MonoBehaviour
     private Coroutine m_cBombDrop = null;
     private Coroutine m_cFireGun = null;
     private Coroutine m_cFireTurret = null;
+	private Coroutine m_cInvulnerableTimer = null;
 
-    // Start is called before the first frame update
-    void Start()
+	private void ChangeState(State wantedState)
+	{
+		m_CurrentState = wantedState;
+	}
+	// Start is called before the first frame update
+	void Start()
     {
         m_Player = GameObject.FindGameObjectWithTag("Player");
         m_BombDropBehaviourScript = GetComponent<BombDropBehaviour>();
 		m_cShockwaves = null;
         m_cFireTurret = null;
         m_cFireGun = null;
-        m_PlayerRB = m_Player.GetComponent<Rigidbody>();
+		m_cInvulnerableTimer = null;
+		m_PlayerRB = m_Player.GetComponent<Rigidbody>();
 		//StartShockwaves();
-        StartBombDrop();
     }
-	private IEnumerator C_Shockwaves()
+	public void Init()
 	{
-		m_bFullShock = true;
-		while (true)
-		{
-			yield return new WaitForSeconds(m_ShockwaveInterval);
+		//StartBombDrop();
+		StartInvulnerableTimer();
 
-			Vector3 rot = (m_Player.transform.position - transform.position).normalized;
-			Quaternion qRot = Quaternion.LookRotation(rot, Vector3.up);
-
-			Instantiate((m_bFullShock) ? m_FullShock : m_HalfShock, transform.position, qRot);
-			m_bFullShock = !m_bFullShock;
-		}
-
-		//m_cShockwaves = null;
 	}
     private void StartBombDrop()
     {
@@ -129,9 +125,8 @@ public class BossBehaviour : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(m_DropInterval); //timer between attacks
-            m_CurrentState = State.BOMBDROPATTACK;
-
-            yield return new WaitForSeconds(m_ShockAttackInterval);
+			ChangeState(State.BOMBDROPATTACK);
+			yield return new WaitForSeconds(m_ShockAttackInterval);
             StartCoroutine(C_ShockwaveAttack());
         }
     }
@@ -145,43 +140,64 @@ public class BossBehaviour : MonoBehaviour
         Instantiate((m_CycleComplete)?m_FullShock: m_HalfShock, transform.position, qRot);
         m_CycleComplete = false;
     }
-    public void TakeDamage()
+	private void StartInvulnerableTimer()
+	{
+		if (m_cInvulnerableTimer != null) { StopCoroutine(m_cInvulnerableTimer); }
+		m_cInvulnerableTimer = StartCoroutine(C_InvulnerableTimer());
+	}
+	private IEnumerator C_InvulnerableTimer()
+	{
+		while (true)
+		{
+			Debug.Log("cant take damage");
+			yield return new WaitForSeconds(m_ImmunityInterval); //timer between attacks
+			ChangeState(State.VULNERABLE);
+			Debug.Log("uh oh");
+			yield return new WaitForSeconds(m_ExposedInterval); //timer between attacks
+			ChangeState(State.NORMAL);
+
+		}
+	}
+	public void TakeDamage()
     {
         if(m_CanTakeDamage)
-            StartCoroutine(ApplyDamage());
+		{
+			StartCoroutine(ApplyDamage());
+		}
     }
 	private IEnumerator ApplyDamage()
 	{
-        m_CanTakeDamage = false;
-        // apply damage
-        m_Health -= 1;
-		if (m_Health <= 0)
+		m_CanTakeDamage = false;
+		m_Health -= 1;
+		m_HeartBarrel.GetComponentInChildren<ParticleSystem>().Play();
+		// cut  vulernable period short
+		ChangeState(State.NORMAL);
+		StopCoroutine(m_cInvulnerableTimer);
+		if(m_Health <1)
 		{
-            // do the death
-            gameObject.SetActive(false);
+			//Death;
+			Debug.Log("Death");
 		}
-        // change barrel
-        m_ActiveBarrel.GetComponentInChildren<ParticleSystem>().Play();
-        yield return new WaitForSeconds(1f);
-		ChangeBarrelVisability(true);
-		yield return new WaitForSeconds(m_ImmunityInterval);
-		// change barrel back
-		ChangeBarrelVisability(false);
-        m_CanTakeDamage = true;
-	}
-	private void ChangeBarrelVisability(bool active)
-	{
-		//regen bomb
 
-		m_ActiveBarrel.SetActive(!active);
-		m_ImmuneBarrel.SetActive(active);
+		// change barrel
+		yield return null;
+	}
+	private void UncoverHeart()
+	{
+		//play shrink anim
+		m_CoverBarrel.SetActive(false);
+		m_CanTakeDamage = true;
+		
+	}
+	private void CoverHeart()
+	{
+		//play unshrink anim
+		m_CoverBarrel.SetActive(true);
+		//m_CanTakeDamage = false;
+
 	}
 	void Update()
     {
-		if(Input.GetKeyDown("space"))
-		{
-            TakeDamage();
-		}
 		m_CanSee = RaycastCheck();
         m_AimDirectionGun = m_SentryGun.transform.forward;
         m_AimDirectionTurret = m_Turret.transform.forward;
@@ -189,7 +205,19 @@ public class BossBehaviour : MonoBehaviour
 
         switch (m_CurrentState) 
        {
-            case State.IDLE:
+			case State.VULNERABLE:
+			{
+					UncoverHeart();
+				break;
+			}
+			case State.NORMAL:
+			{
+				CoverHeart();
+				
+					ChangeState(State.SEARCHING);
+					break;
+			}
+			case State.IDLE:
             {
                 break;
             }
@@ -247,15 +275,15 @@ public class BossBehaviour : MonoBehaviour
 
         if (m_TurretT > 1.0f || m_SentryT > 1.0f)
 		{
-			m_CurrentState = State.PLAYER_IN_SIGHT;
-            m_TurretT = 0;
+			ChangeState(State.PLAYER_IN_SIGHT);
+			m_TurretT = 0;
             m_SentryT = 0;
 		}
 	}
     private void IsPlayerInSight()
     {
-        m_CurrentState = State.SEARCHING;
-        if (Vector3.Distance(transform.position, m_Player.transform.position) <= m_ViewDistance)
+		ChangeState(State.SEARCHING);
+		if (Vector3.Distance(transform.position, m_Player.transform.position) <= m_ViewDistance)
         {
             //check direction and angle 
             Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
@@ -266,8 +294,8 @@ public class BossBehaviour : MonoBehaviour
                 {
                     Debug.DrawRay(transform.position, playerDirection, Color.green);
                     if(!m_FiringSentry)
-                        m_CurrentState = State.FIRING;
-                }
+						ChangeState(State.FIRING);
+				}
                 else
                 {
                     //Debug.Log("Player not visable");
@@ -276,8 +304,8 @@ public class BossBehaviour : MonoBehaviour
             }
             if (Vector3.Angle(m_AimDirectionTurret, playerDirection) < m_FOV / 2)
             {
-                m_CurrentState = State.FIRING;
-            }
+				ChangeState(State.FIRING);
+			}
         }
 
     }
@@ -289,8 +317,8 @@ public class BossBehaviour : MonoBehaviour
     }
     private IEnumerator FireGun()
     {
-        m_CurrentState = State.SEARCHING;
-        m_FiringSentry = true;
+		ChangeState(State.SEARCHING);
+		m_FiringSentry = true;
         for (int i = 0; i < m_NumOfSentryBullets; i++)
         {
             if(!m_FiringSentry){break;}
@@ -335,8 +363,8 @@ public class BossBehaviour : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(m_BulletSpawn.forward * m_BulletForce, ForceMode.Impulse);
         yield return new WaitForSeconds(m_TurretInterval);
         m_ReadyToFireTurret = true;
-        m_CurrentState = State.SEARCHING;
-    }
+		ChangeState(State.SEARCHING);
+	}
 
     private void BombDropAttack()
     {
@@ -352,8 +380,10 @@ public class BossBehaviour : MonoBehaviour
 		//	m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
 		//	m_CurrentState = State.SEARCHING;
 		//}
+		
 		m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
-		m_CurrentState = State.SEARCHING;
+		ChangeState(State.SEARCHING);
+
 	}
 
 
