@@ -94,13 +94,16 @@ public class Destructable : MonoBehaviour
         }			
 		if (gameObject.name == "SM_Veh_Truck_01" || gameObject.name == "SM_Veh_Tank_Russia_01")
 			gameObject.SetActive(false);
+
 		if (m_DeathEffect != null)
 			m_DeathEffect.Play();
 		yield return new WaitForSeconds(0.3f);
-		if(!m_CanRegen)
+		if (!m_CanRegen)
+		{
 			Destroy(gameObject);
+		}
 		else
-        {
+		{
 			m_Health = 0.0f;
 			transform.position = m_DeadPos;
 			yield return new WaitForSeconds(m_DeathTime);
