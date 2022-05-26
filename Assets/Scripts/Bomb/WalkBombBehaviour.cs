@@ -60,7 +60,7 @@ public class WalkBombBehaviour : MainBombBehaviour
 			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
 			if (destructableScript != null)
 			{
-				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)), true);
 			}
 			else if (enemyHealthScript != null)
 			{

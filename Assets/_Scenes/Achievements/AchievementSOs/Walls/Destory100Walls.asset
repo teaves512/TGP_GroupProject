@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92019c34dd4a2b4c97c9277c713c968, type: 3}
   m_Name: Destory100Walls
   m_EditorClassIdentifier: 
-  AchievementName: Wall Of Jericho
-  AchievementDescription: Destroy and Take down 100 walls
+  AchievementName: Choatic
+  AchievementDescription: Destroy and Take down 100 Objects
   threshold: 100
   BadgeImage: {fileID: 21300000, guid: dbd9bafc303bb7d4782903463dee4100, type: 3}
   HiddenBadgeImage: {fileID: 21300000, guid: 145d5a5f819a42c4fa1c44a9ac3cae7c, type: 3}

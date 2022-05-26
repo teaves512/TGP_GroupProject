@@ -23,6 +23,8 @@ public class Destructable : MonoBehaviour
 	[HideInInspector] private Vector3 m_DeadPos;
 	[HideInInspector] private bool m_MoveUp = false;
 	[HideInInspector] private float m_T;
+	[SerializeField]private UserManager m_userManager;
+	
 
 
 	private void Start()
@@ -37,7 +39,7 @@ public class Destructable : MonoBehaviour
 			m_Explosive = true;
 			m_ExplosiveScript = GetComponent<ExplosiveEnviro>();
 		}
-
+		m_userManager = FindObjectOfType<UserManager>();
 	}
     private void Update()
     {
@@ -63,13 +65,19 @@ public class Destructable : MonoBehaviour
 		}
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool _isPlayer = default)
     {
+	    bool isPlayer = _isPlayer;
 		m_Health -= damage;
 		StartCoroutine(ApplyDamageToMat());
 		if (m_Health<=0)
         {
-            StartCoroutine(Death());
+	        if (isPlayer)
+	        {
+		        m_userManager.m_User.PlayersAchievements.AddObjectsDestroyed();
+		        m_userManager.Save();
+	        }
+	        StartCoroutine(Death());
         }
 	
     }
