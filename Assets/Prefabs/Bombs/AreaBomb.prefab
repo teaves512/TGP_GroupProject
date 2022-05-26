@@ -322,7 +322,7 @@ MonoBehaviour:
   m_DestroyDelay: 0.3
   m_SelfDestroyDelay: 0.6
   m_TimerEnabled: 1
-  m_ClusterEnabled: 1
+  m_ClusterEnabled: 0
   m_Damage: 30
   m_Timer: 3
   m_ClusterDamage: 1
