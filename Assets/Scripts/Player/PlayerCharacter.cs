@@ -70,6 +70,8 @@ public class PlayerCharacter : MonoBehaviour
 
     private bool      m_bCrouching;
 
+    [SerializeField] private CapsuleCollider m_CapsuleCollider;
+
     private bool      m_bClimbing;
     private bool      m_bShooting;
 
@@ -92,6 +94,8 @@ public class PlayerCharacter : MonoBehaviour
     private void Init()
     {
         m_RB         = GetComponent<Rigidbody>();
+
+        m_CapsuleCollider = GetComponent<CapsuleCollider>();
 
         m_Coll = GetComponent<Collider>();
 
@@ -120,6 +124,11 @@ public class PlayerCharacter : MonoBehaviour
     {
         Movement();
         Rotate();
+
+        m_CapsuleCollider.height = (m_bCrouching) ? 0.8f : 2.0f;
+        m_CapsuleCollider.center = (m_bCrouching)
+            ? new Vector3(0.0f, 0.4f, 0.0f)
+            : new Vector3(0.0f, 1.0f, 0.0f);
     }
 
     // ------------------------------------------------------------------ 
