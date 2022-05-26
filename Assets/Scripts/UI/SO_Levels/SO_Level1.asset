@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: Level Mockup
   levelName: Level 1
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 21300000, guid: 983c18f162042b14d9e09c70a338324a, type: 3}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: Boss Fight
   levelName: Boss Level
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 21300000, guid: 1d2fc1dadbcd2d74bbb326d8efc5f02f, type: 3}

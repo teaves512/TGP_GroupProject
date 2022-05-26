@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: TomL1
   levelName: Level 5
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 21300000, guid: de4329e307399be4ca8fd4c902c42275, type: 3}
