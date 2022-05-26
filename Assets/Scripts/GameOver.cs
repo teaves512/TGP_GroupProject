@@ -9,7 +9,7 @@ public class GameOver : MonoBehaviour
    public void Retry()
     {
         Time.timeScale = m_OldTimeScale;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(GetCurrentSceneName());
     }
 
     public void Exit()
@@ -23,5 +23,20 @@ public class GameOver : MonoBehaviour
         //This gameobject is disabled by default, so awake only gets called on game over
         m_OldTimeScale = Time.timeScale;
         Time.timeScale = 0;
+    }
+
+    private string GetCurrentSceneName()
+    {
+        int sceneCount = SceneManager.sceneCount;
+        string name = "";
+
+        for(int i = 0; i < sceneCount; i++)
+        {
+            string currentSceneName = SceneManager.GetSceneAt(i).name;
+            if (currentSceneName != "PersistentScene")
+                return currentSceneName;
+        }
+
+        return name;
     }
 }
