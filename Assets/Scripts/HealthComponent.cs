@@ -91,6 +91,8 @@ public class HealthComponent : MonoBehaviour
         //}
         if (m_Health <= 0 && isPlayer)
         {
+            GetComponent<PlayerAnimationTriggers>().SetDead();
+
             EventManager.OnGameOver(false);
         }
         else if (m_Health <= 0 && !isPlayer)
