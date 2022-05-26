@@ -15898,6 +15898,9 @@ MonoBehaviour:
   m_SentryInterval: 0.05
   m_NumOfSentryBullets: 10
   m_SentryBulletForce: 0.6
+  m_SentryOffsetFactor: 4
+  m_RBVelocityDeadzone: 0.5
+  m_SpreadAngle: 10
   m_NumOfBombs: 10
   m_DropInterval: 5
   m_ShockAttackInterval: 5
