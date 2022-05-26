@@ -12,6 +12,8 @@ public class AIPatrolMovement : MonoBehaviour
     [SerializeField]
     private float c_MovementSpeed;
 
+    private float m_DistanceCap = 0.5f;
+
     // -----------------------------------------------------------------
 
     private void Start()
@@ -31,7 +33,7 @@ public class AIPatrolMovement : MonoBehaviour
     {
         float distance = (m_TargetPosition - m_ThisGameObject.transform.position).magnitude;
 
-        if (distance < 0.1f)
+        if (distance < m_DistanceCap)
             return;
 
         Vector3 moveDirection               = (m_TargetPosition - m_ThisGameObject.transform.position).normalized;
