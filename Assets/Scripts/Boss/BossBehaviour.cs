@@ -327,6 +327,17 @@ public class BossBehaviour : MonoBehaviour
             rotOffset.y = Random.Range(-1.0f, 1.0f) * m_SpreadAngle;
             Vector3 bulletRot = m_SentryBulletSpawn.rotation.eulerAngles + rotOffset;
 
+            int rand = Random.Range(1, 2);
+            switch (rand)
+            {
+                case 1:
+                    AudioManager.Play("TankSentry2");
+                    break;
+                case 2:
+                    AudioManager.Play("TankSentry3");
+                    break;
+            }
+
             GameObject bullet = Instantiate(m_SentryBullet, m_SentryBulletSpawn.position, Quaternion.Euler(bulletRot));
 
             //Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
