@@ -262,6 +262,7 @@ public class PlayerCharacter : MonoBehaviour
                     distanceTravelled = 2;
                 }
                 m_userManager.m_User.PlayersAchievements.Distance = distanceTravelled;
+                m_userManager.Save();
                 break;
 
             //in any other state, reset to idle

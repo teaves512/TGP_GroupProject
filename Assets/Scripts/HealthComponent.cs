@@ -98,6 +98,7 @@ public class HealthComponent : MonoBehaviour
             AudioManager.Play("Death");
             gameObject.SetActive(false);
             m_userManager.m_User.PlayersAchievements.AddEnemiesSpliffed();
+            m_userManager.Save();
         }
         ActivateHealth();
     }

@@ -75,6 +75,7 @@ public class Destructable : MonoBehaviour
 	        if (isPlayer)
 	        {
 		        m_userManager.m_User.PlayersAchievements.AddObjectsDestroyed();
+		        m_userManager.Save();
 	        }
 	        StartCoroutine(Death());
         }

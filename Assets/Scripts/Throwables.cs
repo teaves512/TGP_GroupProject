@@ -39,6 +39,7 @@ public class Throwables : MonoBehaviour
 
             m_thrust = 0.0f;
             m_userManager.m_User.PlayersAchievements.AddBombsDropped();
+            m_userManager.Save();
         }
         
     }
