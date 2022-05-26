@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: Level 2 Mock
   levelName: Level 2
-  previewImage: {fileID: 0}
+  previewImage: {fileID: 21300000, guid: 79ac293565f09f64db102baf9dbd5223, type: 3}

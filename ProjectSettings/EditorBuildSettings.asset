@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/_Scenes/PersistentScene.unity
     guid: 59a1e4762542b7d4986efaa19d8dc725
   - enabled: 1
+    path: Assets/_Scenes/Tutorials/Tutorial2.unity
+    guid: 79b1e138b95f6bd49b25342aaca754b6
+  - enabled: 1
     path: Assets/_Scenes/Playable/Level Mockup.unity
     guid: b42c06bb4236c3f45ae65eb503289a0c
   - enabled: 1
