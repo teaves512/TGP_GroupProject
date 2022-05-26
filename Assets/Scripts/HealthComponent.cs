@@ -93,6 +93,7 @@ public class HealthComponent : MonoBehaviour
         }
         else if (m_Health <= 0 && !isPlayer)
         {
+            AudioManager.Play("Death");
             gameObject.SetActive(false);
         }
         ActivateHealth();
