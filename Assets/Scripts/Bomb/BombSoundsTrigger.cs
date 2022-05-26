@@ -10,9 +10,12 @@ public class BombSoundsTrigger : MonoBehaviour
     {
         AIPatrol patrol = GetComponent<AIPatrol>();
 
-        if(other.tag == "BombAudio")
+        if (!patrol)
+            return;
+
+        if(other.tag == "BombAudio" && Mathf.Abs(this.gameObject.transform.position.y - other.transform.position.y) < 3.5f)
         {
-            patrol.SetHeardBomb(other.transform.position);
+            patrol.SetHeardBomb(other.GetComponentInParent<Transform>().position);
         }
     }
 

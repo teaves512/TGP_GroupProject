@@ -27,6 +27,7 @@ TagManager:
   - Bomb
   - Enemy
   - CameraTrigger
+  - Player
   - SpikeLayer
   - BossAmmo
   - 
