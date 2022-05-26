@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 557195679744361931}
   - component: {fileID: 2108125746316347031}
   - component: {fileID: 186836962985333785}
+  - component: {fileID: 1961373259244215517}
   - component: {fileID: 250647435}
   m_Layer: 0
   m_Name: Player Final
@@ -1311,6 +1312,22 @@ MonoBehaviour:
   m_text: {fileID: 0}
   m_inventoryText: {fileID: 0}
   m_bombPointer: {fileID: 0}
+--- !u!114 &1961373259244215517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6039812660162372791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: affccea43747802429d48dabdb22f3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_throwable: {fileID: 5344994851480803743, guid: beead9b144da68249b7ad46c93729c50, type: 3}
+  m_player: {fileID: 0}
+  m_maxForce: 1
+  m_thrust: 0
 --- !u!114 &250647435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2582,11 +2599,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93b9dc0a1c67c0045957c0042f8d52eb, type: 3}
---- !u!1 &1168920072 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4922663249491171841, guid: 93b9dc0a1c67c0045957c0042f8d52eb, type: 3}
-  m_PrefabInstance: {fileID: 4922663248360559625}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1168920073 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4922663249491171840, guid: 93b9dc0a1c67c0045957c0042f8d52eb, type: 3}
@@ -2603,3 +2615,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1168920072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4922663249491171841, guid: 93b9dc0a1c67c0045957c0042f8d52eb, type: 3}
+  m_PrefabInstance: {fileID: 4922663248360559625}
+  m_PrefabAsset: {fileID: 0}
