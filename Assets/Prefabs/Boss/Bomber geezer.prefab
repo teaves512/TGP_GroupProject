@@ -15871,7 +15871,6 @@ MonoBehaviour:
   m_Turret: {fileID: 7088776900280540557}
   m_TurretBarrel: {fileID: 7088776899608144596}
   m_BombDropPos: {fileID: 0}
-  m_CanSee: 0
   m_CurrentState: 1
   m_FiringSentry: 0
   m_FOV: 50
@@ -15899,7 +15898,9 @@ MonoBehaviour:
   m_SentryInterval: 0.05
   m_NumOfSentryBullets: 15
   m_SentryBulletForce: 0.6
-  m_SentryHeightOffset: 0
+  m_SentryOffsetFactor: 4
+  m_RBVelocityDeadzone: 0.5
+  m_SpreadAngle: 10
   m_NumOfBombs: 10
   m_DropInterval: 5
   m_ShockAttackInterval: 5

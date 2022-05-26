@@ -17,12 +17,12 @@ public class BossBehaviour : MonoBehaviour
     [Header("Boss Self Stats")]
     [SerializeField] private GameObject m_MainBody;
     [SerializeField] private GameObject m_Turret;
-	[SerializeField] private GameObject m_TurretBarrel;
-	[SerializeField] private Transform m_BombDropPos;
+    [SerializeField] private GameObject m_TurretBarrel;
+    [SerializeField] private Transform m_BombDropPos;
 
     [HideInInspector] private float m_TurretT = 0;
-	[HideInInspector] private float m_SentryT = 0;
-	[HideInInspector] private bool m_CanSee;
+    [HideInInspector] private float m_SentryT = 0;
+    [HideInInspector] private bool m_CanSee;
     [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
 
     [Header("State")]
@@ -31,7 +31,8 @@ public class BossBehaviour : MonoBehaviour
 
     [Header("Game Knowledge")]
     [HideInInspector] private GameObject m_Player;
-	[HideInInspector] private Vector3 m_PlayerLastKnownPos;
+    [HideInInspector] private Vector3 m_PlayerLastKnownPos;
+    [HideInInspector] private Rigidbody m_PlayerRB;
     [SerializeField] private float m_FOV = 50.0f;
     [SerializeField] private float m_ViewDistance = 20.0f;
     [HideInInspector] private Vector3 m_AimDirectionTurret;
@@ -69,12 +70,16 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float m_SentryInterval;
     [SerializeField] private int m_NumOfSentryBullets;
     [SerializeField] private float m_SentryBulletForce;
+    [SerializeField] [Range(1f, 5f)]private float m_SentryOffsetFactor;
+    [SerializeField] private float m_RBVelocityDeadzone;
+    [SerializeField] private float m_SpreadAngle = 10.0f;
 
     [Header("Bomb Drop")]
     [SerializeField] private int m_NumOfBombs;
     [SerializeField] private float m_DropInterval = 10.0f;
     [SerializeField] private float m_ShockAttackInterval = 5.0f;
     [HideInInspector] public bool m_CycleComplete = false;
+
     [Header("Shock Waves")]
     [SerializeField] private GameObject m_FullShock;
     [SerializeField] private GameObject m_HalfShock;
@@ -94,6 +99,7 @@ public class BossBehaviour : MonoBehaviour
 		m_cShockwaves = null;
         m_cFireTurret = null;
         m_cFireGun = null;
+        m_PlayerRB = m_Player.GetComponent<Rigidbody>();
 		//StartShockwaves();
         StartBombDrop();
     }
@@ -228,7 +234,11 @@ public class BossBehaviour : MonoBehaviour
         m_Turret.transform.rotation = Quaternion.Lerp(m_Turret.transform.rotation, m_TurretLookRot, m_TurretT * m_TurretRotationSpeed);
 
         //sentry
-        m_SentryTargetDirection = (m_PlayerLastKnownPos - m_SentryGun.transform.position).normalized;
+        if (m_PlayerRB.velocity.magnitude > m_RBVelocityDeadzone)
+            m_SentryTargetDirection = (m_PlayerLastKnownPos + (m_Player.transform.forward * m_SentryOffsetFactor) - m_SentryGun.transform.position).normalized;
+        else
+            m_SentryTargetDirection = (m_PlayerLastKnownPos - m_SentryGun.transform.position).normalized;
+
 		Vector3 sentryAngle = Quaternion.LookRotation(m_SentryTargetDirection).eulerAngles;
 		//angle.x = 0;
 		m_SentryLookRot = Quaternion.Euler(sentryAngle);
@@ -283,8 +293,13 @@ public class BossBehaviour : MonoBehaviour
         m_FiringSentry = true;
         for (int i = 0; i < m_NumOfSentryBullets; i++)
         {
-            if(!m_FiringSentry){break;}    
-            GameObject bullet = Instantiate(m_SentryBullet, m_SentryBulletSpawn.position, m_SentryBulletSpawn.rotation);
+            if(!m_FiringSentry){break;}
+
+            Vector3 rotOffset = Vector3.zero;
+            rotOffset.y = Random.Range(-1.0f, 1.0f) * m_SpreadAngle;
+            Vector3 bulletRot = m_SentryBulletSpawn.rotation.eulerAngles + rotOffset;
+
+            GameObject bullet = Instantiate(m_SentryBullet, m_SentryBulletSpawn.position, Quaternion.Euler(bulletRot));
 
             //Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
             //float distance = Vector3.Distance( m_Player.transform.position , bullet.transform.position);
