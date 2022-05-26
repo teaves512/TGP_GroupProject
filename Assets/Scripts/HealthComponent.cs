@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [ExecuteInEditMode]
 public class HealthComponent : MonoBehaviour
 {
-    public bool isPlayer;
+    [SerializeField] private bool isPlayer;
     [Header("Health Info")]
     [SerializeField] private float m_MaxHealth;
     [SerializeField] private float m_Health;
@@ -26,7 +26,7 @@ public class HealthComponent : MonoBehaviour
     private void Start()
     {
         m_Health = m_MaxHealth;
-        //m_HealthUIImage.type = Image.Type.Filled;
+        m_HealthUIImage.type = Image.Type.Filled;
         isRegening = false;
         EventManager.GameOver += GameOver;
 		m_RegenTimer = m_MaxRegenTimer;
@@ -38,7 +38,7 @@ public class HealthComponent : MonoBehaviour
     {
         m_HealthSlider.value = m_Health / m_MaxHealth;
         
-        //m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
+        m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
 
 		if (m_Health < m_MaxHealth)
 		{
@@ -87,9 +87,14 @@ public class HealthComponent : MonoBehaviour
         //{
         //    StartCoroutine(RegenHealth());
         //}
-        if (m_Health <= 0)
+        if (m_Health <= 0 && isPlayer)
         {
             EventManager.OnGameOver(false);
+        }
+        else if (m_Health <= 0 && !isPlayer)
+        {
+            AudioManager.Play("Death");
+            gameObject.SetActive(false);
         }
         ActivateHealth();
     }

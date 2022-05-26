@@ -23,6 +23,19 @@ public class MachineGun : MonoBehaviour
     {
         for (int i = 0; i < numOfBullets; i++)
         {
+            int rand = Random.Range(1, 3);
+            switch(rand)
+            {
+                case 1:
+                    AudioManager.Play("TankSentry");
+                    break;
+                case 2:
+                    AudioManager.Play("TankSentry2");
+                    break;
+                case 3:
+                    AudioManager.Play("TankSentry3");
+                    break;
+            }
             GameObject bullet = Instantiate(m_Bullet, m_BulletSpawn.position, m_BulletSpawn.rotation);
             bullet.GetComponent<Rigidbody>().AddForce(m_BulletSpawn.forward * 20, ForceMode.Impulse);
             yield return new WaitForSeconds(m_BulletInterval);
