@@ -19,7 +19,7 @@ public class AreaBombBehaviour : MainBombBehaviour
     // Update is called once per frame
     protected override void Update()
     {
-        if(Input.GetKeyDown("l"))
+        if(Input.GetKeyDown("l") && !m_Exploded)
 		{
 			StartCoroutine(Explode());
 		}
@@ -39,16 +39,23 @@ public class AreaBombBehaviour : MainBombBehaviour
 		foreach (Collider nearbyOject in m_HitColliders)
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
-			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			HealthComponent healthScript = nearbyOject.GetComponent<HealthComponent>();
+			BossBehaviour bossBehaviourScript = nearbyOject.GetComponentInParent<BossBehaviour>();
+
 			if (destructableScript!=null)
             {
 				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
 				nearbyOject.tag = "Placeable";
 			}
-			else if(enemyHealthScript!=null)
+			else if(healthScript!=null)
 			{
 				
-				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				healthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				//Debug.Log("Hit for = "+ GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+            }
+			else if(bossBehaviourScript)
+            {
+				bossBehaviourScript.TakeDamage();
             }
 		}
 		//yield return new WaitForSeconds(m_DestroyDelay);

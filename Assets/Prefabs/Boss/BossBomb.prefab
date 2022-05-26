@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3900522409441784014}
   - component: {fileID: 3916044428471980612}
   - component: {fileID: 3926739823310238532}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Boss Ammo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 91253113760087998}
   - component: {fileID: 5485280905225784170}
   - component: {fileID: 6164305833120157764}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BossBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,6 +186,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7593936186827442629}
     m_Modifications:
+    - target: {fileID: 1215674975388074, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1222100866993886, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549373087677006, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807180175690766, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4800574201007112, guid: 2b79ec10654f26344816627d7515c1df, type: 3}
       propertyPath: m_RootOrder
       value: 0

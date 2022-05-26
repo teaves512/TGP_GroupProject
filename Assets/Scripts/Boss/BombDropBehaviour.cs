@@ -7,6 +7,7 @@ public class BombDropBehaviour : MonoBehaviour
     [SerializeField] private GameObject m_BombPara;
 	[SerializeField] private List<GameObject> m_BombDropLocations = new List<GameObject>();
     [SerializeField] private int m_LastBombIndex;
+    [SerializeField] private Transform m_BombHolder;
 
     private void Start()
     {
@@ -19,7 +20,7 @@ public class BombDropBehaviour : MonoBehaviour
         {
             //int rand = Random.Range(0, m_CopyBombDropLocations.Count);
 			if (i >= m_BombDropLocations.Count) { break; }
-            Instantiate(m_BombPara, m_BombDropLocations[i].transform.position, m_BombDropLocations[i].transform.rotation);
+            Instantiate(m_BombPara, m_BombDropLocations[i].transform.position, m_BombDropLocations[i].transform.rotation, m_BombHolder);
         }
         m_LastBombIndex += numOfBombs;
 		if (UpperIndexOfBombs >= m_BombDropLocations.Count)
