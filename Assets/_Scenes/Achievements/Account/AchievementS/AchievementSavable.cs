@@ -6,14 +6,14 @@ using UnityEngine;
 public class AchievementSavable
 {
 
-    [SerializeField] private int Walls;
-    public int WallsDestroyed => Walls;
-    public void AddWallsDestroyed ()=> Walls += 1;
+    [SerializeField] private int Objects;
+    public int ObjectsDestroyed => Objects;
+    public void AddObjectsDestroyed ()=> Objects += 1;
     
 
-    [SerializeField] private int PlayersKilled;
-    public int PlayersSpliffed => PlayersKilled;
-    public void AddPlayersSpliffed ()=> PlayersKilled += 1;
+    [SerializeField] private int EnemiesKilled;
+    public int EnemiesSpliffed => EnemiesKilled;
+    public void AddEnemiesSpliffed ()=> EnemiesKilled += 1;
     
     
     [SerializeField] private float DistanceWalked;
@@ -30,8 +30,8 @@ public class AchievementSavable
 
     public AchievementSavable()
     {
-        Walls = 0;
-        PlayersKilled = 0;
+        Objects = 0;
+        EnemiesKilled = 0;
         DistanceWalked = 0;
         BombsDropped = 0;
     }

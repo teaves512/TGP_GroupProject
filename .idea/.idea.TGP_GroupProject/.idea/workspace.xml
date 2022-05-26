@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49251a15-8231-4c63-921e-2d64b232e2e7" name="Default Changelist" comment="" />
+    <list default="true" id="49251a15-8231-4c63-921e-2d64b232e2e7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop25Bombs.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop25Bombs.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop50Bombs.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop50Bombs.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Distance/Walk1000Miles.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Distance/Walk1000Miles.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Distance/Walk500Miles.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Distance/Walk500Miles.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill10Enemies.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill10Enemies.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill35Enemies.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill35Enemies.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destroy25Objects.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destroy25Objects.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destroy800bjects.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destroy800bjects.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TGP_GroupProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TGP_GroupProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bomb/AreaBombBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bomb/AreaBombBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bomb/BasicBombBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bomb/BasicBombBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Bomb/WalkBombBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Bomb/WalkBombBehaviour.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/BombPlacement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/BombPlacement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Destructable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Destructable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HealthComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HealthComponent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCharacter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerCharacter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Throwables.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Throwables.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Achievements/Account/AchievementS/AchievementSavable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/Account/AchievementS/AchievementSavable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Achievements/Account/AchievementS/AchievementsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/Account/AchievementS/AchievementsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop10Bombs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Bombs/Drop10Bombs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill5Players.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Players/Kill5Players.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destory100Walls.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Achievements/AchievementSOs/Walls/Destory100Walls.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scenes/Main Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scenes/Main Menu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -9,11 +43,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/GameScenButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/StartGameButton.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/SceneChanger/MainMenuButton.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -80,6 +109,7 @@
       <workItem from="1652910481241" duration="14900000" />
       <workItem from="1652957684762" duration="1225000" />
       <workItem from="1652958981863" duration="2710000" />
+      <workItem from="1653572718031" duration="6981000" />
     </task>
     <servers />
   </component>

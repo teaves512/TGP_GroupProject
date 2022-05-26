@@ -1,5 +1,6 @@
 
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +10,14 @@ public class AreaBombBehaviour : MainBombBehaviour
 	[Header("Damage")]
 	[SerializeField] private Collider[] m_HitColliders ;
 	private bool m_Started;
+	private bool m_isPlayer;
+	
 	// Start is called before the first frame update
 	protected override void Start()
     {
 		m_Started = true;
+		m_isPlayer = false;
+		EventManager.PlayerDroppedBomb += PlayerDroppedBomb;
 		base.Start();
     }
 
@@ -44,7 +49,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 
 			if (destructableScript!=null)
             {
-				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)), m_isPlayer);
 				nearbyOject.tag = "Placeable";
 			}
 			else if(healthScript!=null)
@@ -76,5 +81,15 @@ public class AreaBombBehaviour : MainBombBehaviour
 		{
 			Gizmos.DrawWireCube(transform.position, new Vector3(gameObject.GetComponent<Collider>().transform.localScale.x * 4, gameObject.GetComponent<Collider>().transform.localScale.y, gameObject.GetComponent<Collider>().transform.localScale.z));
 		}
+    }
+
+    public void PlayerDroppedBomb()
+    {
+	    m_isPlayer = true;
+    }
+
+    private void OnDisable()
+    {
+	    EventManager.PlayerDroppedBomb -= PlayerDroppedBomb;
     }
 }

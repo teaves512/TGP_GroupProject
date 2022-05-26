@@ -51,6 +51,7 @@ public class PlayerCharacter : MonoBehaviour
 
     [SerializeField] private PlayerAnimationTriggers m_AnimationTriggers;
     [SerializeField]private GameObject m_GameOverScreen;
+    [SerializeField]private UserManager m_userManager;
 
     // ------------------------------------------------------------------ 
 
@@ -115,6 +116,7 @@ public class PlayerCharacter : MonoBehaviour
         m_MovementKeysPressedConcurrently = 0;
 
         m_PlayerWeapons = GetComponent<GunControl>();
+        m_userManager = FindObjectOfType<UserManager>();
         EventManager.GameOver += GameOver;
     }
 
@@ -167,6 +169,7 @@ public class PlayerCharacter : MonoBehaviour
 
         //interpolate towards the target velocity, from the current velocity
         m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
+        
     }
 
     private void Rotate()
@@ -227,7 +230,7 @@ public class PlayerCharacter : MonoBehaviour
 
             //ONLY if the analogue stick is being used, get its input
             case InputActionPhase.Performed:
-
+                float distanceTravelled = 0;
                 if (m_MovementKeysPressedConcurrently > 1)
                     return;
 
@@ -243,20 +246,23 @@ public class PlayerCharacter : MonoBehaviour
                     m_AnimState    = AnimState.CROUCHING;
                     m_CurrentSpeed = m_CrouchSpeed;
                     m_bWalking     = true;
+                    distanceTravelled = 1;
                 }
                 else if (m_bSprinting) 
                 { 
                     m_AnimState    = AnimState.SPRINTING;
                     m_CurrentSpeed = m_SprintSpeed;
+                    distanceTravelled = 3;
                 }
                 else 
                 { 
                     m_AnimState    = AnimState.WALKING;
                     m_CurrentSpeed = m_WalkSpeed;
                     m_bWalking     = true;
+                    distanceTravelled = 2;
                 }
-
-            break;
+                m_userManager.m_User.PlayersAchievements.Distance = distanceTravelled;
+                break;
 
             //in any other state, reset to idle
             case InputActionPhase.Canceled:

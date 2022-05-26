@@ -9,6 +9,7 @@ public class Throwables : MonoBehaviour
     [SerializeField] private GameObject m_player;
     [SerializeField] [Range(0.0f, 1.0f)] private float m_maxForce;
     [SerializeField] private float m_thrust = 0.0f;
+    [SerializeField]private UserManager m_userManager;
 
     private bool m_thrown;
 
@@ -16,6 +17,7 @@ public class Throwables : MonoBehaviour
     void Start()
     {
         m_player = gameObject;
+        m_userManager = FindObjectOfType<UserManager>();
     }
 
     void Update()
@@ -36,6 +38,8 @@ public class Throwables : MonoBehaviour
             newObject.GetComponent<Rigidbody>().AddForce(transform.forward * m_thrust, ForceMode.Impulse);
 
             m_thrust = 0.0f;
+            m_userManager.m_User.PlayersAchievements.AddBombsDropped();
         }
+        
     }
 }
