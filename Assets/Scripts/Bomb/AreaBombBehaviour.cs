@@ -40,7 +40,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			HealthComponent healthScript = nearbyOject.GetComponent<HealthComponent>();
-			BossBehaviour bossBehaviourScript = nearbyOject.GetComponentInParent<BossBehaviour>();
+			BossBehaviour bossBehaviourScript = nearbyOject.GetComponent<BossBehaviour>();
 
 			if (destructableScript!=null)
             {
@@ -56,6 +56,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 			else if(bossBehaviourScript)
             {
 				bossBehaviourScript.TakeDamage();
+				nearbyOject.tag = "Placeable";
             }
 		}
 		//yield return new WaitForSeconds(m_DestroyDelay);

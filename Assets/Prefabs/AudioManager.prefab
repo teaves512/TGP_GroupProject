@@ -45,10 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Sounds:
   - m_Name: Pew
-    m_Clip: {fileID: 8300000, guid: 9fc73f22471661647b535cef3a434117, type: 3}
+    m_Clip: {fileID: 8300000, guid: 804e90243da98d4408dec7e1684f1f74, type: 3}
     m_Source: {fileID: 0}
     m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
-    m_Volume: 0.01
+    m_Volume: 0.1
     m_Pitch: 1
     m_bLoop: 0
     m_bPlayOnAwake: 0
@@ -56,7 +56,63 @@ MonoBehaviour:
     m_Clip: {fileID: 8300000, guid: edb33a5bb86aa9243a459884cada02a6, type: 3}
     m_Source: {fileID: 0}
     m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
-    m_Volume: 0.05
+    m_Volume: 0.2
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: Death
+    m_Clip: {fileID: 8300000, guid: 7c3718d9ef0d9a44a8d8df57c99d072d, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.2
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: Pew2
+    m_Clip: {fileID: 8300000, guid: eaafe844a6ae1d34f89654c1d1070959, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: Pew3
+    m_Clip: {fileID: 8300000, guid: 158e2160044c0e7429e5c4b92b2dfd78, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: TankBullet
+    m_Clip: {fileID: 8300000, guid: e6469cf3a093022478deef0bad2eef00, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: TankTurret
+    m_Clip: {fileID: 8300000, guid: ebc283f5c8c2e61459c9e6c8f1675fc5, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.1
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: TankSentry2
+    m_Clip: {fileID: 8300000, guid: ebc283f5c8c2e61459c9e6c8f1675fc5, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.25
+    m_Pitch: 1
+    m_bLoop: 0
+    m_bPlayOnAwake: 0
+  - m_Name: TankSentry3
+    m_Clip: {fileID: 8300000, guid: 5710652a3d8b1bf4aadeecccc99fdc94, type: 3}
+    m_Source: {fileID: 0}
+    m_MixerGroup: {fileID: -2643387392186985529, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+    m_Volume: 0.25
     m_Pitch: 1
     m_bLoop: 0
     m_bPlayOnAwake: 0

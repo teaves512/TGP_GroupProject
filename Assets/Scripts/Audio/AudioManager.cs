@@ -59,6 +59,6 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Cannot find sound with name: " + _name);
             return;
         }
-        soundToPlay.m_Source.Play();
+        soundToPlay.m_Source.PlayOneShot(soundToPlay.m_Clip);
     }
 }
