@@ -31,9 +31,12 @@ public class HealthComponent : MonoBehaviour
         EventManager.GameOver += GameOver;
 		m_RegenTimer = m_MaxRegenTimer;
 	}
-    
-    
-    
+
+    private void OnDestroy()
+    {
+        EventManager.GameOver -= GameOver;
+    }
+
     void Update()
     {
         m_HealthSlider.value = m_Health / m_MaxHealth;

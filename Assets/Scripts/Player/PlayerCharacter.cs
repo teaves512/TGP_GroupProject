@@ -118,6 +118,11 @@ public class PlayerCharacter : MonoBehaviour
         EventManager.GameOver += GameOver;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.GameOver -= GameOver;
+    }
+
     // ------------------------------------------------------------------
 
     private void FixedUpdate()
