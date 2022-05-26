@@ -51,6 +51,7 @@ public class PlayerCharacter : MonoBehaviour
 
     [SerializeField] private PlayerAnimationTriggers m_AnimationTriggers;
     [SerializeField]private GameObject m_GameOverScreen;
+    [SerializeField]private UserManager m_userManager;
 
     // ------------------------------------------------------------------ 
 
@@ -73,7 +74,7 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private CapsuleCollider m_CapsuleCollider;
 
     private bool      m_bClimbing;
-    private bool      m_bShooting;
+    //private bool      m_bShooting;
 
     private bool      m_bPlacingBombOnWall;
     private bool      m_bPlacingBombOnFloor;
@@ -104,7 +105,7 @@ public class PlayerCharacter : MonoBehaviour
         m_bSprinting = false;
         m_bCrouching = false;
         m_bClimbing  = false;
-        m_bShooting  = false;
+       // m_bShooting  = false;
         m_bWalking   = false;
         m_bDead      = false;
         m_bPlacingBombOnFloor = false;
@@ -115,7 +116,13 @@ public class PlayerCharacter : MonoBehaviour
         m_MovementKeysPressedConcurrently = 0;
 
         m_PlayerWeapons = GetComponent<GunControl>();
+        m_userManager = FindObjectOfType<UserManager>();
         EventManager.GameOver += GameOver;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.GameOver -= GameOver;
     }
 
     // ------------------------------------------------------------------
@@ -135,7 +142,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 velocity = Vector3.zero;
+        Vector3 velocity;
 
         if (m_bClimbing)
         {
@@ -162,6 +169,7 @@ public class PlayerCharacter : MonoBehaviour
 
         //interpolate towards the target velocity, from the current velocity
         m_RB.velocity = Vector3.Lerp(m_RB.velocity, velocity, m_Dampening * Time.fixedDeltaTime);
+        
     }
 
     private void Rotate()
@@ -201,10 +209,10 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        if(m_bShooting)
-        {
-            m_PlayerWeapons.StopSpawningBullets();
-        }
+       // if(m_bShooting)
+       // {
+        //    m_PlayerWeapons.StopSpawningBullets();
+       // }
 
         switch (context.phase)
         {
@@ -222,7 +230,7 @@ public class PlayerCharacter : MonoBehaviour
 
             //ONLY if the analogue stick is being used, get its input
             case InputActionPhase.Performed:
-
+                float distanceTravelled = 0;
                 if (m_MovementKeysPressedConcurrently > 1)
                     return;
 
@@ -238,20 +246,24 @@ public class PlayerCharacter : MonoBehaviour
                     m_AnimState    = AnimState.CROUCHING;
                     m_CurrentSpeed = m_CrouchSpeed;
                     m_bWalking     = true;
+                    distanceTravelled = 1;
                 }
                 else if (m_bSprinting) 
                 { 
                     m_AnimState    = AnimState.SPRINTING;
                     m_CurrentSpeed = m_SprintSpeed;
+                    distanceTravelled = 3;
                 }
                 else 
                 { 
                     m_AnimState    = AnimState.WALKING;
                     m_CurrentSpeed = m_WalkSpeed;
                     m_bWalking     = true;
+                    distanceTravelled = 2;
                 }
-
-            break;
+                m_userManager.m_User.PlayersAchievements.Distance = distanceTravelled;
+                m_userManager.Save();
+                break;
 
             //in any other state, reset to idle
             case InputActionPhase.Canceled:
@@ -279,67 +291,67 @@ public class PlayerCharacter : MonoBehaviour
 
     // ------------------------------------------------------------------ 
 
-    public void Shoot(InputAction.CallbackContext context)
-    {
-        if (m_bClimbing || m_bWalking || m_bSprinting || m_bCrouching) 
-            return; 
+    //public void Shoot(InputAction.CallbackContext context)
+    //{
+    //    if (m_bClimbing || m_bWalking || m_bSprinting || m_bCrouching) 
+    //        return; 
 
-        switch (context.phase)
-        {
-            case InputActionPhase.Started:
-                Vector3 m_offset = new Vector3();
-                m_offset.y = 1.34f;
-                m_offset.x = 0.82f * transform.forward.x;
-                m_offset.z = 0.82f * transform.forward.z;
-                m_PlayerWeapons.FireBullet(this.transform.position + m_offset, transform.forward);
-            break;
+    //    switch (context.phase)
+    //    {
+    //        case InputActionPhase.Started:
+    //            Vector3 m_offset = new Vector3();
+    //            m_offset.y = 1.34f;
+    //            m_offset.x = 0.82f * transform.forward.x;
+    //            m_offset.z = 0.82f * transform.forward.z;
+    //            m_PlayerWeapons.FireBullet(this.transform.position + m_offset, transform.forward);
+    //        break;
 
-            case InputActionPhase.Performed:
+    //        case InputActionPhase.Performed:
 
-                if (m_bSprinting)
-                    return;
+    //            if (m_bSprinting)
+    //                return;
 
-                m_bShooting    = true;
-                m_bWalking     = false;
-                m_bCrouching   = false;
+    //            m_bShooting    = true;
+    //            m_bWalking     = false;
+    //            m_bCrouching   = false;
 
-                m_AnimState = AnimState.SHOOT;
+    //            m_AnimState = AnimState.SHOOT;
 
-                m_CurrentSpeed = 0.0f;
-            break;
+    //            m_CurrentSpeed = 0.0f;
+    //        break;
 
-            case InputActionPhase.Canceled:
-                m_bShooting = false;
+    //        case InputActionPhase.Canceled:
+    //            m_bShooting = false;
 
-                if (m_bSprinting)
-                {
-                    m_CurrentSpeed = m_SprintSpeed;
-                    m_AnimState    = AnimState.SPRINTING;
-                }
-                else if (m_bWalking)
-                {
-                    m_CurrentSpeed = m_WalkSpeed;
-                    m_AnimState    = AnimState.WALKING;
-                }
-                else
-                {
-                    m_CurrentSpeed = 0.0f;
-                    m_AnimState    = AnimState.IDLE;
-                }
+    //            if (m_bSprinting)
+    //            {
+    //                m_CurrentSpeed = m_SprintSpeed;
+    //                m_AnimState    = AnimState.SPRINTING;
+    //            }
+    //            else if (m_bWalking)
+    //            {
+    //                m_CurrentSpeed = m_WalkSpeed;
+    //                m_AnimState    = AnimState.WALKING;
+    //            }
+    //            else
+    //            {
+    //                m_CurrentSpeed = 0.0f;
+    //                m_AnimState    = AnimState.IDLE;
+    //            }
 
-                m_PlayerWeapons.StopSpawningBullets();
-            break;
-        }
-    }
+    //            m_PlayerWeapons.StopSpawningBullets();
+    //        break;
+    //    }
+    //}
 
     // ------------------------------------------------------------------ 
 
     public void Sprint(InputAction.CallbackContext context)
     {
-        if (m_bShooting)
-        {
-            m_PlayerWeapons.StopSpawningBullets();
-        }
+      //  if (m_bShooting)
+      //  {
+       //     m_PlayerWeapons.StopSpawningBullets();
+       // }
 
         if (m_bClimbing) 
             return; 
@@ -377,10 +389,10 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context)
     {
-        if (m_bShooting)
-        {
-            m_PlayerWeapons.StopSpawningBullets();
-        }
+       // if (m_bShooting)
+       // {
+       //     m_PlayerWeapons.StopSpawningBullets();
+       // }
 
         if (m_bClimbing) 
             return; 
@@ -417,10 +429,10 @@ public class PlayerCharacter : MonoBehaviour
 
     public void AttachToLadder(Ladder ladder)
     {
-        if (m_bShooting)
-        {
-            m_PlayerWeapons.StopSpawningBullets();
-        }
+      //  if (m_bShooting)
+      //  {
+      //      m_PlayerWeapons.StopSpawningBullets();
+       // }
 
         m_Ladder         = ladder;
         m_ClimbDirection = m_Ladder.GetClimbDirection();
@@ -443,7 +455,7 @@ public class PlayerCharacter : MonoBehaviour
     // ------------------------------------------------------------------ 
 
     public AnimState GetAnimState() { return m_AnimState; }
-    public bool      GetShooting()  { return m_bShooting; }
+   // public bool      GetShooting()  { return m_bShooting; }
 
     // ------------------------------------------------------------------ 
 

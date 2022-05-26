@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BulletPrefab: {fileID: 3174522518588142183, guid: 31ccac811b9a22b4c900c45ab16352f8, type: 3}
-  m_TimeDelayForBulletSpawn_FirstPress: 0.3
+  m_TimeDelayForBulletSpawn_FirstPress: 0.5
   m_BulletParent: {fileID: 0}
   m_TimeDelayForBulletSpawn_HeldDown: 1.2
 --- !u!136 &7025752246592879343

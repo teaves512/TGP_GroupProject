@@ -20,6 +20,7 @@ public class BombPlacement : MonoBehaviour
     [SerializeField] private GameObject m_canvas;
     [SerializeField] private Text m_pointer;
     private Inventory m_inventory;
+    [SerializeField]private UserManager m_userManager;
 
     public void SetCurrentBomb(string m_newBomb)
     {
@@ -35,6 +36,7 @@ public class BombPlacement : MonoBehaviour
 
         if(m_canvas && m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>())
             m_pointer = m_canvas.transform.Find("Bomb Pointer").GetComponent<Text>();
+        m_userManager = FindObjectOfType<UserManager>();
     }
 
     // Update is called once per frame
@@ -129,6 +131,7 @@ public class BombPlacement : MonoBehaviour
                         if (m_hit.collider.gameObject.tag == "Placeable")
                         {
                             PlaceBomb(m_hit, m_areaBomb);
+                            EventManager.OnPlayerDroppedBomb();
                             m_inventory.ReduceAreaBombCount();
                             Debug.Log("Bomb Placed on Wall");
                         }
@@ -232,6 +235,8 @@ public class BombPlacement : MonoBehaviour
         newPos.z = transform.forward.z * 0.4f + transform.position.z;
         newPos.y = transform.position.y;
         Object.Instantiate(m_bomb, newPos, Quaternion.Euler(new Vector3(90.0f, transform.eulerAngles.y, 0.0f)));
+        m_userManager.m_User.PlayersAchievements.AddBombsDropped();
+        m_userManager.Save();
     }
 
     private void PlaceBomb(RaycastHit hit, GameObject m_bomb)
@@ -260,5 +265,7 @@ public class BombPlacement : MonoBehaviour
             m_newPos.z = hit.point.z;
 
         Object.Instantiate(m_bomb, m_newPos, transform.rotation);
+        m_userManager.m_User.PlayersAchievements.AddBombsDropped();
+        m_userManager.Save();
     }
 }

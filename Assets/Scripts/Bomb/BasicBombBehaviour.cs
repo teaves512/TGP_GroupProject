@@ -32,7 +32,7 @@ public class BasicBombBehaviour : MainBombBehaviour
 			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
 			if (destructableScript != null)
 			{
-				destructableScript?.TakeDamage(m_Damage);
+				destructableScript?.TakeDamage(m_Damage,true);
 				nearbyOject.tag = "Placeable";
 			}
 			else if (enemyHealthScript != null)

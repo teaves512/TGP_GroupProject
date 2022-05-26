@@ -218,10 +218,13 @@ public class AttackPlayerState : FSMBaseState
             return PatrolFSMState.SAME;
         }
 
-        m_Agent.GetComponent<GunControl>().StopSpawningBullets();
+        if(m_Agent.GetComponent<GunControl>())
+            m_Agent.GetComponent<GunControl>().StopSpawningBullets();
 
         if (m_NavmeshWasEnabled)
+        {
             return PatrolFSMState.INVESTIGATE;
+        }
         else
             return PatrolFSMState.PATROL;
     }
@@ -232,14 +235,17 @@ public class AttackPlayerState : FSMBaseState
         if (!m_Agent)
             m_Agent = agent;
 
-        if(agent.GetComponent<GunControl>() && m_PlayerTransform)
+        if (m_Agent.GetComponent<GunControl>())
         {
-            Vector3 m_offset = new Vector3();
-            m_offset.y = 1.34f;
-            m_offset.x = 0.82f * agent.transform.forward.x;
-            m_offset.z = 0.82f * agent.transform.forward.z;
+            if (agent.GetComponent<GunControl>() && m_PlayerTransform)
+            {
+                Vector3 m_offset = new Vector3();
+                m_offset.y = 1.34f;
+                m_offset.x = 0.82f * agent.transform.forward.x;
+                m_offset.z = 0.82f * agent.transform.forward.z;
 
-            agent.GetComponent<GunControl>().FireBullet(agent.transform.position + m_offset, (m_PlayerTransform.position - agent.transform.position).normalized);
+                agent.GetComponent<GunControl>().FireBullet(agent.transform.position + m_offset, (m_PlayerTransform.position - (agent.transform.position + m_offset)).normalized);
+            }
         }
     }
 
@@ -253,10 +259,13 @@ public class AttackPlayerState : FSMBaseState
         {
             m_Agent.GetComponent<AIPatrolMovement>().enabled = false;
 
-            if (m_Agent.GetComponent<NavMeshAgent>().enabled)
-                m_NavmeshWasEnabled = true;
+            if (m_Agent.GetComponent<NavMeshAgent>())
+            {
+                if (m_Agent.GetComponent<NavMeshAgent>().enabled)
+                    m_NavmeshWasEnabled = true;
 
-            m_Agent.GetComponent<NavMeshAgent>().enabled = false;
+                m_Agent.GetComponent<NavMeshAgent>().enabled = false;
+            }
         }
     }
 
@@ -270,7 +279,8 @@ public class AttackPlayerState : FSMBaseState
         {
             m_Agent.GetComponent<AIPatrolMovement>().enabled = true;
 
-            m_Agent.GetComponent<NavMeshAgent>().enabled = m_NavmeshWasEnabled;
+            if(m_Agent.GetComponent<NavMeshAgent>())
+                m_Agent.GetComponent<NavMeshAgent>().enabled = m_NavmeshWasEnabled;
         }
     }
 
@@ -366,7 +376,9 @@ public class InvestigateState : FSMBaseState
 
         m_MovingBackToWaypoint     = false;
 
-        m_NavmeshAgent             = thisObject.GetComponent<NavMeshAgent>();
+        if(thisObject.GetComponent<NavMeshAgent>())
+            m_NavmeshAgent             = thisObject.GetComponent<NavMeshAgent>();
+
         m_AgentTransform           = thisObject.GetComponent<Transform>();
 
 
@@ -566,7 +578,10 @@ public class AIPatrol : MonoBehaviour
                 return waypoint;
         }
 
-        return m_AllWaypoints[0];
+        if (m_AllWaypoints.Length >= 1)
+            return m_AllWaypoints[0];
+        else
+            return new PatrolWaypoint();
     }
 
     // ---------------------------------------------------------------------------

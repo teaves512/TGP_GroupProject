@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Kill5Players
   m_EditorClassIdentifier: 
   AchievementName: Penta Kill
-  AchievementDescription: Kill 5 Players
+  AchievementDescription: Kill 5 Enemies
   threshold: 5
   BadgeImage: {fileID: 21300000, guid: 79fb9d17f161ead428928f55bb9558d3, type: 3}
   HiddenBadgeImage: {fileID: 21300000, guid: 145d5a5f819a42c4fa1c44a9ac3cae7c, type: 3}

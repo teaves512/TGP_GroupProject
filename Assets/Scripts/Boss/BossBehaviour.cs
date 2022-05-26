@@ -8,7 +8,6 @@ enum State
     SEARCHING,
     PLAYER_IN_SIGHT,
     FIRING,
-    BOMBDROPATTACK,
 	VULNERABLE,
 	NORMAL
 }
@@ -24,6 +23,7 @@ public class BossBehaviour : MonoBehaviour
     [HideInInspector] private float m_SentryT = 0;
     [HideInInspector] private bool m_CanSee;
     [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
+	[SerializeField] private GameObject m_DeadSelf;
 
     [Header("State")]
     [SerializeField] private State m_CurrentState;
@@ -63,6 +63,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private GameObject m_SentryGun;
     [SerializeField] private GameObject m_SentryBullet;
     [SerializeField] private Transform m_SentryBulletSpawn;
+	[SerializeField] private GameObject m_AmmoSpew;
     [SerializeField] private float m_SentryRotationSpeed;
     [SerializeField] private GameObject m_RedLight;
     [SerializeField] private GameObject m_GreenLight;
@@ -105,15 +106,18 @@ public class BossBehaviour : MonoBehaviour
 		m_cShockwaves = null;
         m_cFireTurret = null;
         m_cFireGun = null;
+		m_cBombDrop = null;
 		m_cInvulnerableTimer = null;
 		m_PlayerRB = m_Player.GetComponent<Rigidbody>();
 		//StartShockwaves();
+		EventManager.GameOver += BossGameOver;
+		ChangeState(State.IDLE);
     }
 	public void Init()
 	{
-		//StartBombDrop();
+		StartBombDrop();
 		StartInvulnerableTimer();
-
+		ChangeState(State.SEARCHING);
 	}
     private void StartBombDrop()
     {
@@ -124,8 +128,10 @@ public class BossBehaviour : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(m_DropInterval); //timer between attacks
-			ChangeState(State.BOMBDROPATTACK);
+
+            yield return new WaitForSeconds(m_DropInterval); //timer between attack
+	
+			BombDropAttack();
 			yield return new WaitForSeconds(m_ShockAttackInterval);
             StartCoroutine(C_ShockwaveAttack());
         }
@@ -149,10 +155,8 @@ public class BossBehaviour : MonoBehaviour
 	{
 		while (true)
 		{
-			Debug.Log("cant take damage");
 			yield return new WaitForSeconds(m_ImmunityInterval); //timer between attacks
 			ChangeState(State.VULNERABLE);
-			Debug.Log("uh oh");
 			yield return new WaitForSeconds(m_ExposedInterval); //timer between attacks
 			ChangeState(State.NORMAL);
 
@@ -172,11 +176,14 @@ public class BossBehaviour : MonoBehaviour
 		m_HeartBarrel.GetComponentInChildren<ParticleSystem>().Play();
 		// cut  vulernable period short
 		ChangeState(State.NORMAL);
-		StopCoroutine(m_cInvulnerableTimer);
+		//StopCoroutine(m_cInvulnerableTimer);
 		if(m_Health <1)
 		{
 			//Death;
+			//EventManager.OnGameOver(true);
 			Debug.Log("Death");
+			m_DeadSelf.SetActive(true);
+			gameObject.SetActive(false);
 		}
 
 		// change barrel
@@ -193,11 +200,12 @@ public class BossBehaviour : MonoBehaviour
 	{
 		//play unshrink anim
 		m_CoverBarrel.SetActive(true);
-		//m_CanTakeDamage = false;
+		m_CanTakeDamage = false;
 
 	}
 	void Update()
     {
+
 		m_CanSee = RaycastCheck();
         m_AimDirectionGun = m_SentryGun.transform.forward;
         m_AimDirectionTurret = m_Turret.transform.forward;
@@ -242,11 +250,6 @@ public class BossBehaviour : MonoBehaviour
                     {
                         StartFireTurret();
                     }
-                break;
-            }
-            case State.BOMBDROPATTACK:
-            {
-                BombDropAttack();
                 break;
             }
        }
@@ -317,6 +320,7 @@ public class BossBehaviour : MonoBehaviour
     }
     private IEnumerator FireGun()
     {
+		m_AmmoSpew.SetActive(true);
 		ChangeState(State.SEARCHING);
 		m_FiringSentry = true;
         for (int i = 0; i < m_NumOfSentryBullets; i++)
@@ -353,8 +357,9 @@ public class BossBehaviour : MonoBehaviour
             yield return new WaitForSeconds(m_SentryInterval);
         }
         m_FiringSentry = false;
+		m_AmmoSpew.SetActive(false);
 
-    }
+	}
     private void SwitchLights(bool active)
     {
         m_RedLight.SetActive(!active);
@@ -392,10 +397,7 @@ public class BossBehaviour : MonoBehaviour
 		//	m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
 		//	m_CurrentState = State.SEARCHING;
 		//}
-		
 		m_BombDropBehaviourScript.GenerateRandomLocations(m_NumOfBombs);
-		ChangeState(State.SEARCHING);
-
 	}
 
 
@@ -419,6 +421,11 @@ public class BossBehaviour : MonoBehaviour
 
         }
 		return canSee;
+	}
+
+	void BossGameOver(bool victory)
+	{
+
 	}
 
 }
