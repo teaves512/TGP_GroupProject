@@ -369,6 +369,7 @@ public class BossBehaviour : MonoBehaviour
     private IEnumerator FireTurret()
     {
         m_ReadyToFireTurret = false;
+        AudioManager.Play("TankTurret");
         GameObject bullet = Instantiate(m_Bullet, m_BulletSpawn.position, m_BulletSpawn.rotation);
         bullet.GetComponent<BossBulletBehaviour>().m_DamagePass = m_BulletDamage;
         bullet.GetComponent<Rigidbody>().AddForce(m_BulletSpawn.forward * m_BulletForce, ForceMode.Impulse);
