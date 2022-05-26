@@ -2974,7 +2974,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh628770
+  m_Name: pb_Mesh742608
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -12376,6 +12376,30 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.249
+      objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.249
+      objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.249
+      objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.12679
+      objectReference: {fileID: 0}
+    - target: {fileID: 2022254531842940616, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.24
+      objectReference: {fileID: 0}
     - target: {fileID: 7088776899134288065, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
       propertyPath: m_BombDropLocations.Array.data[0]
       value: 
@@ -12546,7 +12570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088776899134288078, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
       propertyPath: m_Health
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7088776899134288078, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
       propertyPath: m_DeadSelf
@@ -12556,6 +12580,10 @@ PrefabInstance:
       propertyPath: m_BombDropPos
       value: 
       objectReference: {fileID: 533611461}
+    - target: {fileID: 7088776899134288078, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
+      propertyPath: m_ImmunityInterval
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7088776899134288079, guid: 446e4359632f7cc40a4c622cbe1e5c9c, type: 3}
       propertyPath: m_Name
       value: Bomber geezer

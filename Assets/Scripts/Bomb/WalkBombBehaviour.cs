@@ -58,14 +58,19 @@ public class WalkBombBehaviour : MainBombBehaviour
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			BossBehaviour bossBehaviourScript = nearbyOject.GetComponent<BossBehaviour>();
 			if (destructableScript != null)
 			{
 				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)), true);
 			}
 			else if (enemyHealthScript != null)
 			{
-
 				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+			}
+			else if (bossBehaviourScript)
+			{
+				bossBehaviourScript.TakeDamage();
+				nearbyOject.tag = "Placeable";
 			}
 		}
 		//yield return new WaitForSeconds(m_DestroyDelay);

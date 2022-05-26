@@ -30,6 +30,7 @@ public class BasicBombBehaviour : MainBombBehaviour
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
 			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			BossBehaviour bossBehaviourScript = nearbyOject.GetComponent<BossBehaviour>();
 			if (destructableScript != null)
 			{
 				destructableScript?.TakeDamage(m_Damage,true);
@@ -38,6 +39,11 @@ public class BasicBombBehaviour : MainBombBehaviour
 			else if (enemyHealthScript != null)
 			{
 				enemyHealthScript.TakeDamage(m_Damage);
+			}
+			else if (bossBehaviourScript)
+			{
+				bossBehaviourScript.TakeDamage();
+				nearbyOject.tag = "Placeable";
 			}
 		}
 
