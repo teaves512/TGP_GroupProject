@@ -29,16 +29,17 @@ public class ExplosiveEnviro : MonoBehaviour
 		foreach (Collider nearbyOject in hitColliders)
 		{
 			Destructable destructableScript = nearbyOject.GetComponent<Destructable>();
-			HealthComponent enemyHealthScript = nearbyOject.GetComponent<HealthComponent>();
+			HealthComponent healthScript = nearbyOject.GetComponent<HealthComponent>();
 			if (destructableScript != null)
 			{
 				destructableScript?.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
 				nearbyOject.tag = "Placeable";
 			}
-			else if (enemyHealthScript != null)
+			else if (healthScript != null)
 			{
 
-				enemyHealthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				healthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				Debug.Log("Hit for = " + GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
 			}
 		}
 	}
