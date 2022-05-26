@@ -116,7 +116,7 @@ public class PlayerCharacter : MonoBehaviour
         m_MovementKeysPressedConcurrently = 0;
 
         m_PlayerWeapons = GetComponent<GunControl>();
-        m_userManager = FindObjectOfType<UserManager>();
+        m_userManager   = FindObjectOfType<UserManager>();
         EventManager.GameOver += GameOver;
     }
 
@@ -261,8 +261,12 @@ public class PlayerCharacter : MonoBehaviour
                     m_bWalking     = true;
                     distanceTravelled = 2;
                 }
-                m_userManager.m_User.PlayersAchievements.Distance = distanceTravelled;
-                m_userManager.Save();
+
+                if (m_userManager)
+                {
+                    m_userManager.m_User.PlayersAchievements.Distance = distanceTravelled;
+                    m_userManager.Save();
+                }
                 break;
 
             //in any other state, reset to idle

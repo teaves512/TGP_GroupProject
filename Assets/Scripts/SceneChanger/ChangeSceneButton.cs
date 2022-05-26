@@ -28,7 +28,7 @@ public class ChangeSceneButton : ButtonTemplate
     {
         if (text != null && image != null)
         {
-            text.text = level.levelName;
+            text.text    = level.levelName;
             image.sprite = level.previewImage;
         }
     }

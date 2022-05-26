@@ -1197,6 +1197,7 @@ MonoBehaviour:
   m_currentBomb: 
   m_canvas: {fileID: 0}
   m_pointer: {fileID: 0}
+  m_userManager: {fileID: 0}
 --- !u!114 &191838068892218035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1218,7 +1219,8 @@ MonoBehaviour:
   m_Gravity: 80
   m_AnimationTriggers: {fileID: 1780213636}
   m_GameOverScreen: {fileID: 0}
-  m_CapsuleCollider: {fileID: 0}
+  m_userManager: {fileID: 0}
+  m_CapsuleCollider: {fileID: 557195679744361931}
 --- !u!114 &1780213636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1300,6 +1302,7 @@ MonoBehaviour:
   m_player: {fileID: 0}
   m_maxForce: 1
   m_thrust: 0
+  m_userManager: {fileID: 0}
 --- !u!114 &250647435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1321,7 +1324,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 0}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &6039815946147368087
 GameObject:
