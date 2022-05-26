@@ -14706,7 +14706,7 @@ Transform:
   m_GameObject: {fileID: 6712671861709479557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.40800002, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.58879054, y: 0.58879054, z: 0.58879054}
   m_Children:
   - {fileID: 6712671861698301463}
   - {fileID: 6712671861177140856}
@@ -14917,6 +14917,10 @@ MonoBehaviour:
   m_RegenRate: 2.5
   m_Material: {fileID: 0}
   m_DeathEffect: {fileID: 121100089419691590}
+  m_CanRegen: 0
+  m_DeathTime: 10
+  m_WallMoveSpeed: 0
+  m_RiseParticle: {fileID: 0}
 --- !u!114 &3075187571936249562
 MonoBehaviour:
   m_ObjectHideFlags: 0
