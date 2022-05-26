@@ -108,6 +108,7 @@ public class BossBehaviour : MonoBehaviour
 		m_cInvulnerableTimer = null;
 		m_PlayerRB = m_Player.GetComponent<Rigidbody>();
 		//StartShockwaves();
+		EventManager.GameOver += BossGameOver;
     }
 	public void Init()
 	{
@@ -176,6 +177,7 @@ public class BossBehaviour : MonoBehaviour
 		if(m_Health <1)
 		{
 			//Death;
+			EventManager.OnGameOver(true);
 			Debug.Log("Death");
 		}
 
@@ -198,6 +200,10 @@ public class BossBehaviour : MonoBehaviour
 	}
 	void Update()
     {
+		if(Input.GetKeyDown("space"))
+		{
+			TakeDamage();
+		}
 		m_CanSee = RaycastCheck();
         m_AimDirectionGun = m_SentryGun.transform.forward;
         m_AimDirectionTurret = m_Turret.transform.forward;
@@ -418,6 +424,11 @@ public class BossBehaviour : MonoBehaviour
 
         }
 		return canSee;
+	}
+
+	void BossGameOver(bool victory)
+	{
+
 	}
 
 }

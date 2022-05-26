@@ -17,7 +17,7 @@ public class HealthComponent : MonoBehaviour
 	[SerializeField] private float m_MaxRegenTimer = 5.0f;
 	[SerializeField] private float m_RegenTimer;
 	[Header("Health non dietetic ui")] 
-    [SerializeField] private Image m_HealthUIImage;
+    //[SerializeField] private Image m_HealthUIImage;
 
     
     [SerializeField]private bool isRegening;
@@ -26,7 +26,7 @@ public class HealthComponent : MonoBehaviour
     private void Start()
     {
         m_Health = m_MaxHealth;
-        m_HealthUIImage.type = Image.Type.Filled;
+        //m_HealthUIImage.type = Image.Type.Filled;
         isRegening = false;
         EventManager.GameOver += GameOver;
 		m_RegenTimer = m_MaxRegenTimer;
@@ -38,7 +38,7 @@ public class HealthComponent : MonoBehaviour
     {
         m_HealthSlider.value = m_Health / m_MaxHealth;
         
-        m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
+        //m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
 
 		if (m_Health < m_MaxHealth)
 		{
@@ -105,7 +105,7 @@ public class HealthComponent : MonoBehaviour
     }
 	private void Regen()
 	{
-		Debug.Log("heal");
+		//Debug.Log("heal");
 		m_Health += m_RegenRate;
 	}
     private IEnumerator RegenHealth()
