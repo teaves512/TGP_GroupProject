@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 5fbaf20ae9c129e43b7b73572db23588, type: 2}
 --- !u!1001 &741585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &200496416
 GameObject:
@@ -9166,6 +9166,7 @@ MonoBehaviour:
   m_DeathTime: 10
   m_WallMoveSpeed: 0
   m_RiseParticle: {fileID: 0}
+  m_userManager: {fileID: 0}
 --- !u!1001 &712869044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12919,7 +12920,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1001 &1012240768
 PrefabInstance:
@@ -13371,7 +13372,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &1042325671
 GameObject:
@@ -14829,7 +14830,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1001 &1173004086
 PrefabInstance:
@@ -15973,7 +15974,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &1300323241
 GameObject:
@@ -18928,7 +18929,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1001 &1487820734
 PrefabInstance:
@@ -23050,7 +23051,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!114 &1718317181 stripped
 MonoBehaviour:
@@ -23343,6 +23344,7 @@ MonoBehaviour:
   m_DeathTime: 10
   m_WallMoveSpeed: 0
   m_RiseParticle: {fileID: 0}
+  m_userManager: {fileID: 0}
 --- !u!1001 &1730925454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24324,7 +24326,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &1759311135 stripped
 GameObject:
@@ -24352,7 +24354,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1001 &1788250452
 PrefabInstance:
@@ -26000,7 +26002,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &1924427684 stripped
 GameObject:
@@ -26028,7 +26030,7 @@ MonoBehaviour:
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
   m_RegenTimer: 5
-  m_HealthUIImage: {fileID: 1712108474}
+  m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!4 &1925473906 stripped
 Transform:

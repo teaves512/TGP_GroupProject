@@ -78,6 +78,10 @@ public class PatrolState : FSMBaseState
 
         // See if we are at the next waypoint position, if so choose a direction to go from here
         Vector3 position          = player.transform.position;
+
+        if (!player.GetComponent<AIPatrol>().GetCurrentWaypoint())
+            return;
+
         Vector3 waypointPosition  = player.GetComponent<AIPatrol>().GetCurrentWaypoint().m_ThisPosition.position;
 
         double length = new Vector3(position.x - waypointPosition.x, 0.0f, position.z - waypointPosition.z).magnitude;

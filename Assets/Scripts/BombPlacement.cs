@@ -235,8 +235,11 @@ public class BombPlacement : MonoBehaviour
         newPos.z = transform.forward.z * 0.4f + transform.position.z;
         newPos.y = transform.position.y;
         Object.Instantiate(m_bomb, newPos, Quaternion.Euler(new Vector3(90.0f, transform.eulerAngles.y, 0.0f)));
-        m_userManager.m_User.PlayersAchievements.AddBombsDropped();
-        m_userManager.Save();
+        if (m_userManager)
+        {
+            m_userManager.m_User.PlayersAchievements.AddBombsDropped();
+            m_userManager.Save();
+        }
     }
 
     private void PlaceBomb(RaycastHit hit, GameObject m_bomb)

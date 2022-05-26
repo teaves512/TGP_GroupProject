@@ -50,21 +50,10 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //Initialise bomb count 
-        if (PlayerPrefs.GetString("Data Saved") == "false")
-        {
-            m_basicBombHeld   = 0;
-            m_fireBombHeld    = 0;
-            m_areaBombHeld    = 0;
-            m_walkingBombHeld = 0;
-        }
-        else
-        {
-            m_basicBombHeld   = PlayerPrefs.GetInt("Basic Bomb Held");
-            m_fireBombHeld    = PlayerPrefs.GetInt("Fire Bomb Held");
-            m_areaBombHeld    = PlayerPrefs.GetInt("Area Bomb Held");
-            m_walkingBombHeld = PlayerPrefs.GetInt("Walking Bomb Held");
-        }
+        m_basicBombHeld   = 0;
+        m_fireBombHeld    = 0;
+        m_areaBombHeld    = 0;
+        m_walkingBombHeld = 0;
     }
 
     public void BasicBombPickup()
