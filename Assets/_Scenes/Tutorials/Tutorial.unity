@@ -720,7 +720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &45028652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,7 +891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &51893733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1830,7 +1830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &164057753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4633,7 +4633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &342455385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6181,8 +6181,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1147874112}
+  m_inventoryText: {fileID: 0}
+  m_bombPointer: {fileID: 0}
 --- !u!1001 &503748051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9965,7 +9966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &784744639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12686,8 +12687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1147874112}
+  m_inventoryText: {fileID: 0}
+  m_bombPointer: {fileID: 0}
 --- !u!1001 &1063659158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17071,7 +17073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1380338456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21465,7 +21467,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1817509991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23014,8 +23016,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1147874112}
+  m_inventoryText: {fileID: 0}
+  m_bombPointer: {fileID: 0}
 --- !u!1001 &1966712913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23875,8 +23878,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0f486f630f5824ea84d009190d6740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_collectable: {fileID: 0}
   m_text: {fileID: 1147874112}
+  m_inventoryText: {fileID: 0}
+  m_bombPointer: {fileID: 0}
 --- !u!1001 &2050637292
 PrefabInstance:
   m_ObjectHideFlags: 0

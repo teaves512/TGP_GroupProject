@@ -11,9 +11,11 @@ public class ChangeSceneButton : ButtonTemplate
     [SerializeField] Image image;
     [SerializeField] Level level;
 
-    void Awake()
+    protected override void Awake()
     {
         CheckPersistentScene();
+        base.Awake();
+        
     }
 
     protected void CheckPersistentScene()
@@ -36,7 +38,7 @@ public class ChangeSceneButton : ButtonTemplate
         LoadScene(level.scene);
     }
 
-    protected void LoadScene(string newSceneName)
+    public void LoadScene(string newSceneName)
     {
         SceneManager.UnloadSceneAsync(gameObject.scene);
         SceneManager.LoadSceneAsync(newSceneName, LoadSceneMode.Additive);

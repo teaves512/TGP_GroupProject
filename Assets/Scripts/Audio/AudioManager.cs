@@ -8,6 +8,14 @@ public class AudioManager : MonoBehaviour
     public static AudioManager s_Instance;
 
     [SerializeField] private List<Sound> m_Sounds = new List<Sound>();
+    [SerializeField] private List<SoundTrack> m_MusicTracks = new List<SoundTrack>();
+    [SerializeField] private List<SoundTrack> m_AmbienceTracks = new List<SoundTrack>();
+
+    private AudioSource m_Music;
+    private AudioSource m_Ambience;
+
+    [SerializeField] private AudioMixerGroup m_MusicMixerGroup;
+    [SerializeField] private AudioMixerGroup m_AmbienceMixerGroup;
 
     private void Awake()
     {
@@ -35,6 +43,16 @@ public class AudioManager : MonoBehaviour
 
             if (sound.m_bPlayOnAwake) { source.Play(); }
         }
+
+        m_Music = gameObject.AddComponent<AudioSource>();
+        m_Music.loop = true;
+        m_Music.playOnAwake = false;
+        m_Music.outputAudioMixerGroup = m_MusicMixerGroup;
+
+        m_Ambience = gameObject.AddComponent<AudioSource>();
+        m_Ambience.loop = true;
+        m_Ambience.playOnAwake = false;
+        m_Ambience.outputAudioMixerGroup = m_AmbienceMixerGroup;
     }
 
     public static void Play(string _name)
@@ -60,5 +78,79 @@ public class AudioManager : MonoBehaviour
             return;
         }
         soundToPlay.m_Source.PlayOneShot(soundToPlay.m_Clip);
+    }
+
+    public static void SetMusic(string _name)
+    {
+        if (s_Instance != null) { s_Instance.Instance_SetMusic(_name); }
+        else { Debug.LogWarning("No instance of the AudioManager class exists."); }
+    }
+
+    private void Instance_SetMusic(string _name)
+    {
+        SoundTrack trackToPlay = null;
+        foreach (SoundTrack track in m_MusicTracks)
+        {
+            if (track.m_Name == _name)
+            {
+                trackToPlay = track;
+                break;
+            }
+        }
+        if (trackToPlay == null)
+        {
+            Debug.LogWarning("Cannot find music track with name: " + _name);
+            return;
+        }
+        m_Music.clip = trackToPlay.m_Clip;
+    }
+
+    public static void PlayMusic(bool _bPlay = true)
+    {
+        if (s_Instance != null) { s_Instance.Instance_PlayMusic(_bPlay); }
+        else { Debug.LogWarning("No instance of the AudioManager class exists."); }
+    }
+
+    private void Instance_PlayMusic(bool _bPlay = true)
+    {
+        if (_bPlay) { m_Music.Play(); }
+        else { m_Music.Stop(); }
+    }
+
+    public static void SetAmbience(string _name)
+    {
+        if (s_Instance != null) { s_Instance.Instance_SetAmbience(_name); }
+        else { Debug.LogWarning("No instance of the AudioManager class exists."); }
+    }
+
+    private void Instance_SetAmbience(string _name)
+    {
+        SoundTrack trackToPlay = null;
+        foreach (SoundTrack track in m_AmbienceTracks)
+        {
+            if (track.m_Name == _name)
+            {
+                trackToPlay = track;
+                break;
+            }
+        }
+        if (trackToPlay == null)
+        {
+            Debug.LogWarning("Cannot find ambience track with name: " + _name);
+            return;
+        }
+        m_Ambience.clip = trackToPlay.m_Clip;
+    }
+
+    public static void PlayAmbience(bool _bPlay = true)
+    {
+        if (s_Instance != null) { s_Instance.Instance_PlayMusic(_bPlay); }
+        else { Debug.LogWarning("No instance of the AudioManager class exists."); }
+    }
+
+    private void Instance_PlayAmbience(bool _bPlay = true)
+    {
+        if (_bPlay) { m_Ambience.Play(); }
+        else { m_Ambience.Stop(); }
     }
 }
