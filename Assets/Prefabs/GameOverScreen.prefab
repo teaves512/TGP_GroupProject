@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 0}
   image: {fileID: 0}
-  level: {fileID: 0}
+  level: {fileID: 11400000, guid: 6bba6083a8e21bd4f8e32a38cb4161c0, type: 2}
   m_ContinueButton: {fileID: 1646017050341687653}
   M_GameOverScreenButton: 2
 --- !u!1 &1646017049542047975

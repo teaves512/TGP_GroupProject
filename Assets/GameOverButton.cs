@@ -20,6 +20,7 @@ public class GameOverButton : ChangeSceneButton
         }
 
         EventManager.GameOver += GameOver;
+        CheckPersistentScene();
         base.Awake();
     }
 

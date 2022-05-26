@@ -13,6 +13,11 @@ public class ChangeSceneButton : ButtonTemplate
 
     void Awake()
     {
+        CheckPersistentScene();
+    }
+
+    protected void CheckPersistentScene()
+    {
         if (!SceneLoaded(c_PersistentSceneName))
             SceneManager.LoadScene(c_PersistentSceneName, LoadSceneMode.Additive);
     }
