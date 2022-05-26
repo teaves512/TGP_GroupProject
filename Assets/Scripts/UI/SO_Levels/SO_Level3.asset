@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db5b426db04455b4aa947e1939128524, type: 3}
   m_Name: SO_Level3
   m_EditorClassIdentifier: 
-  scene: 
+  scene: Level 3 Mock
   levelName: Level 3
   previewImage: {fileID: 0}

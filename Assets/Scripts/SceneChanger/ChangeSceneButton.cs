@@ -11,9 +11,11 @@ public class ChangeSceneButton : ButtonTemplate
     [SerializeField] Image image;
     [SerializeField] Level level;
 
-    void Awake()
+    protected override void Awake()
     {
         CheckPersistentScene();
+        base.Awake();
+        
     }
 
     protected void CheckPersistentScene()
