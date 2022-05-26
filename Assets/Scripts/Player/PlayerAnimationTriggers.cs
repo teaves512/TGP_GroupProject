@@ -91,13 +91,6 @@ public class PlayerAnimationTriggers : MonoBehaviour
                     m_PlayerAnimator.SetBool("Shooting",        false);
                 break;
 
-                case AnimState.SHOOT:
-                    m_PlayerAnimator.SetBool("Shooting",  true);
-                    m_PlayerAnimator.SetBool("Walking",   false);
-                    m_PlayerAnimator.SetBool("Running",   false);
-                    m_PlayerAnimator.SetBool("Crouching", false);
-                break;
-
                 default:
                 return;
             }
