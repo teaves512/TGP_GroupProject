@@ -51,7 +51,7 @@ public class AreaBombBehaviour : MainBombBehaviour
 			{
 				
 				healthScript.TakeDamage(GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
-				//Debug.Log("Hit for = "+ GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
+				Debug.Log("Hit for = "+ GetDamage(Vector3.Distance(nearbyOject.transform.position, transform.position)));
             }
 			else if(bossBehaviourScript)
             {
