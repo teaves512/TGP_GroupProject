@@ -29,7 +29,7 @@ public class WalkBombBehaviour : MainBombBehaviour
 	// Update is called once per framed
 	protected override void Update()
 	{
-		if (Input.GetKeyDown("l"))
+		if (Input.GetKeyDown("l") && !m_Exploded)
 		{
 			StartCoroutine(Explode());
 		}

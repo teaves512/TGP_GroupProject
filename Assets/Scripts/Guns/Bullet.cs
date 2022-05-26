@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour
     private Rigidbody m_ThisRigidbody;
 
     [SerializeField]
-    private float     m_MovementSpeed = 10.0f;
+    public float     m_MovementSpeed = 10.0f;
 
     // -----------
 
@@ -43,6 +43,7 @@ public class Bullet : MonoBehaviour
         if(collision.gameObject.GetComponent<HealthComponent>())
         {
             collision.gameObject.GetComponent<HealthComponent>().TakeDamage(0.5f);
+            Debug.Log("Hit");
         }
 
         Destroy(this.gameObject);

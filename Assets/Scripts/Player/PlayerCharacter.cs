@@ -42,7 +42,7 @@ public class PlayerCharacter : MonoBehaviour
 
     // ------------------------------------------------------------------ 
 
-    [SerializeField] private float m_WalkSpeed   = 10.0f;
+    [SerializeField] public float m_WalkSpeed   = 10.0f;
     [SerializeField] private float m_SprintSpeed = 15.0f;
     [SerializeField] private float m_CrouchSpeed = 5.0f;
     [SerializeField] private float m_ClimbSpeed  = 5.0f;

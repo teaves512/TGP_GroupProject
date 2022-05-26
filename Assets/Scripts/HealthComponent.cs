@@ -14,21 +14,23 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private GameObject m_HealthUI;
     [SerializeField] private Slider m_HealthSlider;
     [SerializeField] private bool m_HealthIsActive;
-
-    [Header("Health non dietetic ui")] 
+	[SerializeField] private float m_MaxRegenTimer = 5.0f;
+	[SerializeField] private float m_RegenTimer;
+	[Header("Health non dietetic ui")] 
     [SerializeField] private Image m_HealthUIImage;
 
     
     [SerializeField]private bool isRegening;
     // Start is called before the first frame update
     
-    void Start()
+    private void Start()
     {
         m_Health = m_MaxHealth;
-        m_HealthUIImage.type = Image.Type.Filled;
+        //m_HealthUIImage.type = Image.Type.Filled;
         isRegening = false;
         EventManager.GameOver += GameOver;
-    }
+		m_RegenTimer = m_MaxRegenTimer;
+	}
     
     
     
@@ -36,9 +38,19 @@ public class HealthComponent : MonoBehaviour
     {
         m_HealthSlider.value = m_Health / m_MaxHealth;
         
-        m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
-        
-        if (m_Health >= m_MaxHealth)
+        //m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
+
+		if (m_Health < m_MaxHealth)
+		{
+			if (m_RegenTimer > 0)
+				m_RegenTimer -= 1 * Time.deltaTime;
+			if (m_RegenTimer <= 0)
+			{
+				Regen();
+			}
+		}
+
+		if (m_Health >= m_MaxHealth)
         {
             m_Health = m_MaxHealth;
         }
@@ -54,26 +66,27 @@ public class HealthComponent : MonoBehaviour
         }
         m_HealthUI.SetActive(true);
         m_HealthIsActive = true;
-        print("health activated");
+        //print("health activated");
         StartCoroutine(StopShowingHealth());
     }
     
     IEnumerator StopShowingHealth()
     {
         yield return new WaitForSeconds(3);
-        print("health Deactivated");
+        //print("health Deactivated");
         m_HealthUI.SetActive(false);
         m_HealthIsActive = false;
     }
 
     public void TakeDamage(float damage)
     {
-        m_Health -= damage;
-        StopCoroutine(RegenHealth());
-        if (isPlayer)
-        {
-            StartCoroutine(RegenHealth());
-        }
+		m_RegenTimer = m_MaxRegenTimer;
+		m_Health -= damage;
+        //StopCoroutine(RegenHealth());
+        //if (isPlayer)
+        //{
+        //    StartCoroutine(RegenHealth());
+        //}
         if (m_Health <= 0)
         {
             EventManager.OnGameOver(false);
@@ -85,17 +98,22 @@ public class HealthComponent : MonoBehaviour
     {
         gameObject.SetActive(gameObject);
     }
-
+	private void Regen()
+	{
+		Debug.Log("heal");
+		m_Health += m_RegenRate;
+	}
     private IEnumerator RegenHealth()
     {
-        print("coroutine entered");
+        //print("coroutine entered");
         yield return new WaitForSeconds(2f);
         //isRegening = true;
         while (m_Health < m_MaxHealth)
         {
             m_Health += m_RegenRate;
             yield return new WaitForSeconds(1f);
+			Debug.Log("Heal");
         }
-        print("coroutine exited");
+        //print("coroutine exited");
     }
 }
