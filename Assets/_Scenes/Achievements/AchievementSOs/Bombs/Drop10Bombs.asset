@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Drop10Bombs
   m_EditorClassIdentifier: 
   AchievementName: Wont Stop Cant Stop
-  AchievementDescription: Drop 10 Bombs in a single game
+  AchievementDescription: 'Drop 10 Bombs '
   threshold: 10
   BadgeImage: {fileID: 21300000, guid: 572e483bca20c3548bec4409a19922d7, type: 3}
   HiddenBadgeImage: {fileID: 21300000, guid: 145d5a5f819a42c4fa1c44a9ac3cae7c, type: 3}

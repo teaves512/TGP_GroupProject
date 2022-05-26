@@ -49,13 +49,15 @@ public class Collectable : MonoBehaviour
                 m_text.text = c_fireBomb + " Collected";
                 gameObject.GetComponent<Inventory>().FireBombPickup();
                 other.transform.position = new Vector3(10000, 0, 10000);
-                yield return new WaitForSeconds(c_textDelay);
+				Destroy(other.gameObject);
+				yield return new WaitForSeconds(c_textDelay);
                 m_text.text = "";
                 break;
             case c_areaBomb:
                 m_text.text = c_areaBomb + " Collected";
                 gameObject.GetComponent<Inventory>().AreaBombPickup();
-                other.transform.position = new Vector3(10000, 0, 10000);
+				//other.transform.position = new Vector3(10000, 0, 10000);
+				Destroy(other.gameObject);
                 yield return new WaitForSeconds(c_textDelay);
                 m_text.text = "";
                 break;
@@ -63,7 +65,8 @@ public class Collectable : MonoBehaviour
                 m_text.text = c_walkingBomb + " Collected";
                 gameObject.GetComponent<Inventory>().WalkingBombPickup();
                 other.transform.position = new Vector3(10000, 0, 10000);
-                yield return new WaitForSeconds(c_textDelay);
+				Destroy(other.gameObject);
+				yield return new WaitForSeconds(c_textDelay);
                 m_text.text = "";
                 break;
             default:

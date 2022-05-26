@@ -57,12 +57,12 @@ public class AchievementsManager : MonoBehaviour
         AchievmentThresholds.Add(DistanceAchievements);
 
         WallDestroyedAchievements.currentAchievementValue =
-            userManager.m_User.PlayersAchievements.WallsDestroyed;
+            userManager.m_User.PlayersAchievements.ObjectsDestroyed;
         
         AchievmentThresholds.Add(WallDestroyedAchievements);
 
         PlayersKilledAchievements.currentAchievementValue =
-            userManager.m_User.PlayersAchievements.PlayersSpliffed;
+            userManager.m_User.PlayersAchievements.EnemiesSpliffed;
         
         AchievmentThresholds.Add(PlayersKilledAchievements);
     }
