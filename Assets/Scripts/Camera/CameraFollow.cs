@@ -10,11 +10,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float m_MaxXPos = 100.0f;
     private Vector3 m_InitialPosition;
 
-    private void Start()
-    {
-        m_InitialPosition = transform.position;
-    }
-
     private void FixedUpdate()
     {
         if (m_Target) { Follow(); }

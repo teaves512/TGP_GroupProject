@@ -60,3 +60,10 @@ MonoBehaviour:
     m_Pitch: 1
     m_bLoop: 0
     m_bPlayOnAwake: 0
+  m_MusicTracks:
+  - m_Name: Music
+    m_Clip: {fileID: 8300000, guid: d1fa1b18d69a6d66298d7de94d351827, type: 3}
+    m_Volume: 1
+  m_AmbienceTracks: []
+  m_MusicMixerGroup: {fileID: -6176810913756347577, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
+  m_AmbienceMixerGroup: {fileID: -6192730642936596909, guid: d3fa8effedffdab499b37614c7609c4e, type: 2}
