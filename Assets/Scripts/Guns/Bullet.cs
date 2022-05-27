@@ -48,7 +48,7 @@ public class Bullet : MonoBehaviour
             Debug.Log("Hit");
         }
 
-w        if(collision.gameObject.GetComponent<PlayerInput>())
+        if(collision.gameObject.GetComponent<PlayerInput>())
         {
             collision.gameObject.transform.forward = -transform.forward;
         }
