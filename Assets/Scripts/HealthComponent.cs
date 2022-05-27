@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 [ExecuteInEditMode]
 public class HealthComponent : MonoBehaviour
@@ -38,7 +39,8 @@ public class HealthComponent : MonoBehaviour
 
     void Update()
     {
-        m_HealthSlider.value = m_Health / m_MaxHealth;
+        if(m_HealthSlider)
+            m_HealthSlider.value = m_Health / m_MaxHealth;
 
         //m_HealthUIImage.fillAmount = m_Health / m_MaxHealth;
 
@@ -66,7 +68,9 @@ public class HealthComponent : MonoBehaviour
         {
             return;
         }
-        m_HealthUI.SetActive(true);
+        if(m_HealthUI)
+            m_HealthUI.SetActive(true);
+
         m_HealthIsActive = true;
         //print("health activated");
         StartCoroutine(StopShowingHealth());
@@ -76,7 +80,10 @@ public class HealthComponent : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         //print("health Deactivated");
-        m_HealthUI.SetActive(false);
+
+        if(m_HealthUI)
+            m_HealthUI.SetActive(false);
+
         m_HealthIsActive = false;
     }
 
@@ -91,21 +98,40 @@ public class HealthComponent : MonoBehaviour
         //}
         if (m_Health <= 0 && isPlayer)
         {
+            GetComponent<PlayerAnimationTriggers>().SetDead();
+
             EventManager.OnGameOver(false);
         }
         else if (m_Health <= 0 && !isPlayer)
         {
+            if(GetComponent<EnemyAnimationTriggers>())
+            {
+                GetComponent<EnemyAnimationTriggers>().SetDead();
+
+                GetComponent<AIPatrol>().enabled         = false;
+                GetComponent<AIPatrolMovement>().enabled = false;
+            }
+
             AudioManager.Play("Death");
-            gameObject.SetActive(false);
-            m_userManager.m_User.PlayersAchievements.AddEnemiesSpliffed();
-            m_userManager.Save();
+            //gameObject.SetActive(false);
+
+            if (m_userManager)
+            {
+                m_userManager.m_User.PlayersAchievements.AddEnemiesSpliffed();
+                m_userManager.Save();
+            }
         }
         ActivateHealth();
     }
 
     void GameOver(bool victory)
     {
-        gameObject.SetActive(gameObject);
+        if(!isPlayer)
+            gameObject.SetActive(gameObject);
+        else 
+        {
+            GetComponent<PlayerAnimationTriggers>().enabled = false;
+        }
     }
     private void Regen()
     {

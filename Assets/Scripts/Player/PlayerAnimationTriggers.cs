@@ -118,4 +118,18 @@ public class PlayerAnimationTriggers : MonoBehaviour
     }
 
     // ----------------------------------------------------------------------
+
+    public void SetDead()
+    {
+        m_CurrentState = AnimState.DEAD;
+
+        m_PlayerAnimator.SetBool("Walking", false);
+        m_PlayerAnimator.SetBool("Running", false);
+        m_PlayerAnimator.SetBool("Crouching", false);
+        m_PlayerAnimator.SetBool("Climbing Ladder", false);
+        m_PlayerAnimator.SetBool("Dead", true);
+        m_PlayerAnimator.SetBool("Shooting", false);
+    }
+
+    // ----------------------------------------------------------------------
 }

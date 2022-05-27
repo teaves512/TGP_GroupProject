@@ -103,6 +103,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         m_Music.clip = trackToPlay.m_Clip;
+        m_Music.volume = trackToPlay.m_Volume;
     }
 
     public static void PlayMusic(bool _bPlay = true)
@@ -140,6 +141,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         m_Ambience.clip = trackToPlay.m_Clip;
+        m_Ambience.volume = trackToPlay.m_Volume;
     }
 
     public static void PlayAmbience(bool _bPlay = true)
