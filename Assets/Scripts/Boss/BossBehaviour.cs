@@ -21,7 +21,7 @@ public class BossBehaviour : MonoBehaviour
 
     [HideInInspector] private float m_TurretT = 0;
     [HideInInspector] private float m_SentryT = 0;
-    [SerializeField] private bool m_CanSee;
+    [HideInInspector] private bool m_CanSee;
     [HideInInspector] private BombDropBehaviour m_BombDropBehaviourScript;
 	[SerializeField] private GameObject m_DeadSelf;
 
@@ -30,7 +30,7 @@ public class BossBehaviour : MonoBehaviour
     [HideInInspector] public bool m_FiringSentry = false;
 
     [Header("Game Knowledge")]
-    [SerializeField] private GameObject m_Player;
+    [HideInInspector] private GameObject m_Player;
     [HideInInspector] private Vector3 m_PlayerLastKnownPos;
     [HideInInspector] private Rigidbody m_PlayerRB;
     [SerializeField] private float m_FOV = 50.0f;
