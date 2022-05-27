@@ -92,6 +92,7 @@ public class MainBombBehaviour : MonoBehaviour
 			m_BombSoundRadius.SetActive(true);
 
 		AudioManager.Play("Boom");
+		Camera.main.GetComponent<LocalCameraShake>().Shake();
 
 		m_ExplosionParticleEffect.Play();
         m_BombVisual.SetActive(false);

@@ -15,15 +15,6 @@ public class LocalCameraShake : MonoBehaviour
         m_cShake = null;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Shake();
-            AudioManager.Play("Boom");
-        }
-    }
-
     public void Shake(float _amount = 0.5f)
     {
         if (m_cShake != null) { StopCoroutine(m_cShake); }
