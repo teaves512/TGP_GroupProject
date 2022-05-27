@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private float m_MovementSpeed = 10.0f;
     [SerializeField] private float m_damage = 100;
+    [SerializeField] private bool m_DoThisCode = true;
 
 
     // -----------
@@ -46,6 +47,15 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<HealthComponent>().TakeDamage(m_damage);
             Debug.Log("Hit");
         }
+
+        if (m_DoThisCode)
+        {
+            if (collision.gameObject.GetComponent<PlayerInput>())
+            {
+                collision.gameObject.transform.forward = -transform.forward;
+            }
+        }
+
 
         Destroy(this.gameObject);
     }

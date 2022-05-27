@@ -29,6 +29,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MovementSpeed: 10
+  m_damage: 100
+  m_DontDoThisCode: 0
 --- !u!1001 &3173583500083456091
 PrefabInstance:
   m_ObjectHideFlags: 0
