@@ -268,7 +268,11 @@ public class BombPlacement : MonoBehaviour
             m_newPos.z = hit.point.z;
 
         Object.Instantiate(m_bomb, m_newPos, transform.rotation);
-        m_userManager.m_User.PlayersAchievements.AddBombsDropped();
-        m_userManager.Save();
+
+        if (m_userManager)
+        {
+            m_userManager.m_User.PlayersAchievements.AddBombsDropped();
+            m_userManager.Save();
+        }
     }
 }

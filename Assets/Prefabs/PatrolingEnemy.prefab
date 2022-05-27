@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4041510644851167837}
   - component: {fileID: 2788477307462096278}
   - component: {fileID: 7025752246592879343}
-  - component: {fileID: 8913676841788107771}
+  - component: {fileID: 5322748593419821056}
   m_Layer: 8
   m_Name: PatrolingEnemy
   m_TagString: Enemy
@@ -55,7 +55,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_StartWaypoint: {fileID: 8818022835755350435}
-  m_AllWaypoints: []
+  m_AllWaypoints:
+  - {fileID: 8818022835755350435}
   m_ThisObject: {fileID: 5713881872183009461}
 --- !u!114 &-7676239352383682122
 MonoBehaviour:
@@ -164,7 +165,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8913676841788107771
+--- !u!114 &5322748593419821056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_HealthSlider: {fileID: 0}
   m_HealthIsActive: 0
   m_MaxRegenTimer: 5
-  m_RegenTimer: 0
+  m_RegenTimer: 5
   m_userManager: {fileID: 0}
   isRegening: 0
 --- !u!1 &8035801835352048015

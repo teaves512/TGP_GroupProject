@@ -94,6 +94,10 @@ public class BossBehaviour : MonoBehaviour
     private Coroutine m_cFireTurret = null;
 	private Coroutine m_cInvulnerableTimer = null;
 
+    [Header("Level End")]
+    [SerializeField] private Animator m_CrateAnimator;
+    [SerializeField] private string m_CrateAnimatorTriggerName;
+
 	private void ChangeState(State wantedState)
 	{
 		m_CurrentState = wantedState;
@@ -179,9 +183,10 @@ public class BossBehaviour : MonoBehaviour
 		//StopCoroutine(m_cInvulnerableTimer);
 		if(m_Health <1)
 		{
-			//Death;
-			//EventManager.OnGameOver(true);
-			Debug.Log("Death");
+            m_CrateAnimator.SetTrigger(m_CrateAnimatorTriggerName);
+            //Death;
+            //EventManager.OnGameOver(true);
+            Debug.Log("Death");
 			m_DeadSelf.SetActive(true);
 			gameObject.SetActive(false);
 		}
@@ -406,7 +411,7 @@ public class BossBehaviour : MonoBehaviour
 		bool canSee = false;
 		Vector3 playerDirection = (m_Player.transform.position - transform.position).normalized;
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity,~m_IgnoreLayer))
+		if (Physics.Raycast(transform.position, playerDirection, out hit, Mathf.Infinity, ~m_IgnoreLayer))
 		{
 			if (hit.collider.gameObject == m_Player)
 			{
@@ -425,7 +430,6 @@ public class BossBehaviour : MonoBehaviour
 
 	void BossGameOver(bool victory)
 	{
-
-	}
+    }
 
 }
