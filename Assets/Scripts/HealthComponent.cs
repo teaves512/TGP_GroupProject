@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 [ExecuteInEditMode]
 public class HealthComponent : MonoBehaviour
@@ -107,7 +108,12 @@ public class HealthComponent : MonoBehaviour
 
     void GameOver(bool victory)
     {
-        gameObject.SetActive(gameObject);
+        if(!isPlayer)
+            gameObject.SetActive(gameObject);
+        else 
+        {
+            GetComponent<PlayerAnimationTriggers>().enabled = false;
+        }
     }
     private void Regen()
     {
