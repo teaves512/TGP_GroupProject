@@ -6610,6 +6610,7 @@ MonoBehaviour:
   m_TriggerName: Fly
   m_ChuteHolder: {fileID: 0}
   m_BossBehaviourScript: {fileID: 0}
+  m_AmmoDropBehaviourScript: {fileID: 0}
 --- !u!1001 &152209147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19653,6 +19654,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5747636956338614233, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
+      propertyPath: m_MusicTracks.Array.data[5].m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5747636956338614234, guid: 23111283aa56d0b49b8a5b91470b6032, type: 3}
       propertyPath: m_RootOrder
       value: 0

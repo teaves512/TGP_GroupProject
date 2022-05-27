@@ -22,7 +22,7 @@ public class GameOver : MonoBehaviour
     {
         //This gameobject is disabled by default, so awake only gets called on game over
         m_OldTimeScale = Time.timeScale;
-        Time.timeScale = 0;
+        Time.timeScale = 0.1f;
     }
 
     private string GetCurrentSceneName()

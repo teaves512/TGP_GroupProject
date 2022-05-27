@@ -81,6 +81,17 @@ public class EnemyAnimationTriggers : MonoBehaviour
     }
 
     // ----------
+
+    public void SetDead()
+    {
+        m_EnemyAnimator.SetBool("Walking", false);
+        m_EnemyAnimator.SetBool("Running", false);
+        m_EnemyAnimator.SetBool("Crouching", false);
+        m_EnemyAnimator.SetBool("Dead", true);
+        m_EnemyAnimator.SetBool("Shooting", false);
+    }
+
+    // ----------
 }
 
 // -----------------------------------------------------------

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // --------------------------------------------------------------------
 
@@ -45,6 +46,11 @@ public class Bullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<HealthComponent>().TakeDamage(m_damage);
             Debug.Log("Hit");
+        }
+
+        if(collision.gameObject.GetComponent<PlayerInput>())
+        {
+            collision.gameObject.transform.forward = -transform.forward;
         }
 
         Destroy(this.gameObject);
