@@ -55,7 +55,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_StartWaypoint: {fileID: 8818022835755350435}
-  m_AllWaypoints: []
+  m_AllWaypoints:
+  - {fileID: 8818022835755350435}
   m_ThisObject: {fileID: 5713881872183009461}
 --- !u!114 &-7676239352383682122
 MonoBehaviour:
